@@ -1,0 +1,397 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+SC:wght@400;500&display=swap');
+
+@import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,300;0,400;1,400;1,700&display=swap');
+
+*
+{
+    margin: 0;
+    padding: 0;
+}
+
+html,
+body
+{
+    overflow: hidden;
+    font-family: Helvetica, Arial, sans-serif;
+    
+}
+
+.webgl
+{
+    position: fixed;
+    top: 0;
+    left: 0;
+    outline: none;
+}
+
+.section
+{
+    display: flex;
+    align-items: center;
+    height: 100vh;
+    position: relative;
+    font-family: 'Cabin', sans-serif;
+    color: #ffeded;
+    text-transform: uppercase;
+    font-size: 7vmin;
+    padding-left: 10%;
+    padding-right: 10%;
+}
+
+section:nth-child(odd)
+{
+    justify-content: flex-end;
+}
+
+/* title */
+.container{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    color: white;
+    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif
+}
+
+.scndTitle{ 
+    display: block;
+    margin: 3rem;
+    padding-top: 1rem;
+    letter-spacing: 0.3rem;
+    font-size: 2.2rem;
+    text-align: center;
+}
+
+.title{
+    display: block;
+    text-align: center;
+    letter-spacing: 0.5rem;
+    text-transform: uppercase;
+    margin: 1rem;
+    padding-top: 10rem;
+    font-size: 1.5rem;
+    font-weight: 300;
+    
+}
+
+.loading{
+    display: block;
+    padding-top: 15rem;
+    text-align: center;
+    margin: 1rem;
+}
+
+.container.ended{
+    display: none;
+    transition: display 1s ease-in-out;
+}
+
+/* navbar */
+
+.navbar{
+    position: absolute;
+    width: 100%;
+    height: 20%;
+    text-align: left;
+    color: white;
+    /* margin: 2rem; */
+}
+
+.left-nav{
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    margin: 2rem;
+    letter-spacing: 0.5rem;
+    line-height: 2px;
+    text-decoration: underline;
+    font-weight: 500;
+}
+
+/* Home Title */
+.container-title{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transform: scale(0);
+}
+
+.container-title.visible{
+    transform: scale(1,1);
+    transition: transform 0.3s ease-out;
+}
+
+.container-title .home-title{
+    position: absolute;
+    top: 5%;
+    width: 20%;
+    justify-content: flex-start;
+    text-align: center;
+    background: rgba(1, 1, 1, 0.05);
+    /* background: white */
+}
+
+.home-title .context-title{
+    letter-spacing: 0.1rem;
+    margin: 1rem;
+    /* color: black; */
+    color: white;
+    text-align: center;
+    font-size: 3.5rem;
+    font-family: 'Cormorant SC', serif;
+    font-weight: 500;
+}
+
+.btn-container{
+    position: absolute;
+    /* border: 2px solid white; */
+    top: 75%;
+    width: 70%;
+    display: flex;
+    justify-content:space-between;
+    font-size: 2rem;
+}
+
+.btn-container .btn-discover{
+    font-size: 1rem;
+    padding: 1rem 1.3rem;
+    /* border: 2px solid white; */
+    color: black;
+    margin-top: 2rem;
+    cursor: pointer;
+    background: white;
+    font-family: 'Lato', sans-serif;
+    font-weight: 700;
+}
+
+.btn-container .btn-discover:hover{
+    background: rgba(1, 1, 1, 0.2);
+    color: white;
+    transition: background 1s ease-in-out, color 1s ease-in-out;
+}
+
+.btn-kiri, .btn-kanan{
+    text-align: center;
+    background: rgba(0, 0, 0, 0.2);
+    border: 1px solid none;
+    padding: 1.5rem 2rem;
+    border-radius: 50%;
+    color: white;
+    cursor: pointer;
+}
+
+.btn-kiri:hover, .btn-kanan:hover{
+    background: rgb(255, 255, 255);
+    color: black;
+    transition: background 1s ease-in-out, color 1s ease-in-out;
+}
+
+/* Content Page */
+
+.content{
+
+}
+
+
+
+
+/* loading transition */
+.loading-bar{
+    position: absolute;
+    top: 70%;
+    width: 100%;
+    height: 4px;
+    background: #ffffff;
+    transform: scaleX(0);
+    transform-origin: top left;
+    transition: transform 0.8s;
+    will-change: transform;
+}
+
+.loading-bar.ended{
+    transform-origin: top right;
+    transition: transform 1.5s ease-in-out;
+}
+
+.text-label{
+    position: absolute;
+    width: 8rem;
+    height: 3rem;
+    padding-top: 5px;
+    border-radius: 10%;
+    background: #00000077; 
+    color: #ffffff;
+    font-family: Helvetica, Arial, sans-serif;
+    text-align: center;
+    line-height: 40px;
+    font-weight: 100;
+    font-size: 1rem;
+    cursor: pointer; 
+}
+
+.text-label-hide{
+    transform: scale(0,0);
+    transition: transform 0.5s ease-in-out;
+}
+
+.out-full-screen{
+    bottom: 20%;
+    right: 50%;
+    text-align: center;
+}
+
+
+/* Kembali */
+.back, .back-scene{
+    position: absolute;
+    bottom: 20%;
+    right: 95%;
+    text-align: center;
+}
+
+.back.visible .text-label-hide{
+    transform: scale(1,1);
+}
+
+.back-scene.visible .text-label-hide{
+    transform: scale(1,1);
+}
+
+
+/* Next */
+.next, .next-scene{
+    position: absolute;
+    bottom: 20%;
+    left: 87%;
+    text-align: center;
+}
+
+.next-scene.visible .text-label-hide{
+    transform: scale(1,1);
+}
+
+.next.visible .text-label-hide{
+    transform: scale(1,1);
+}
+
+
+.noClick {
+    pointer-events: none;
+}
+
+/* Poin Penunjuk */
+.point{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    text-align: center;
+}
+
+.point:hover .text{
+    opacity: 1;
+    transition: opacity 0.3s;
+}
+
+.point.visible .label{
+    transform: scale(1,1);
+}
+
+.point .label{
+    position: absolute;
+    top: -20px;
+    left: -10px;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: #00000077; /* 77 is changing the alpha*/
+    color: #ffffff;
+    font-family: Helvetica, Arial, sans-serif;
+    text-align: center;
+    line-height: 40px;
+    font-weight: 100;
+    font-size: 0.7rem;
+    cursor: pointer;
+    transform: scale(0,0);
+    transition: transform 0.5s ease-in-out;
+}
+
+.point .text{
+    position: absolute;
+    text-align: center;
+    top: 30px;
+    left: -40px;
+    width: 70px;
+    padding: 0.5rem;
+    color: #ffffff;
+    background: #00000077;
+    line-height: 1em;
+    font-weight: 100;
+    font-size: 0.7rem;
+    font-family: Helvetica, Arial, sans-serif;
+    opacity: 0;
+    transition: opacity 0.3s;
+    pointer-events: none;
+}
+
+
+@media (max-width: 900px){
+    .text-label{
+    width: 5rem;
+    height: 3rem;
+    font-size: 0.8rem;
+    font-weight: bold;
+    }
+    .next{
+        left: 85%;
+    }
+    .home-title .context-title{
+        font-size: 2rem;
+    }
+
+    .container-title .home-title{
+        width: 50%;
+    }
+    
+    .btn-container{
+        width: 90%;
+        font-size: 1rem;
+    }
+    
+    .btn-container .btn-discover{
+        font-size: 1rem;
+        /* padding: 0.8rem 1rem; */
+        /* margin-top: 2rem; */
+
+    }
+    
+    .btn-container .btn-discover:hover{
+        background: rgba(1, 1, 1, 0.2);
+        color: white;
+        transition: background 1s ease-in-out, color 1s ease-in-out;
+    }
+    
+    .btn-kiri, .btn-kanan{
+        text-align: center;
+        font-size: 1.5rem;
+        background: rgba(0, 0, 0, 0.2);
+        border: 1px solid none;
+        /* padding: 1rem 1.5rem; */
+        border-radius: 50%;
+        color: white;
+        cursor: pointer;
+    }
+}
+
+@media (max-width: 500px){
+    .text-label{
+    width: 5rem;
+    height: 3rem;
+    font-size: 0.8rem;
+    font-weight: bold;
+    }
+    .next{
+        left: 75%;
+    }
+}
+
+/* @media (max-height: ) */
