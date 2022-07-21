@@ -124,7 +124,7 @@ section:nth-child(odd)
 .container-title .home-title{
     position: absolute;
     top: 5%;
-    width: 20%;
+    /* width: 20%; */
     justify-content: flex-start;
     text-align: center;
     background: rgba(1, 1, 1, 0.05);
@@ -137,7 +137,7 @@ section:nth-child(odd)
     /* color: black; */
     color: white;
     text-align: center;
-    font-size: 3.5rem;
+    font-size: 3.1rem;
     font-family: 'Cormorant SC', serif;
     font-weight: 500;
 }
@@ -180,6 +180,15 @@ section:nth-child(odd)
     cursor: pointer;
 }
 
+.btn-kiri, .btn-kanan{
+    transform: scale(0);
+}
+
+.btn-kiri.visible, .btn-kanan.visible{
+    transform: scale(1,1);
+    transition: transform 0.1s ease-out;
+}
+
 .btn-kiri:hover, .btn-kanan:hover{
     background: rgb(255, 255, 255);
     color: black;
@@ -188,9 +197,9 @@ section:nth-child(odd)
 
 /* Content Page */
 
-.content{
+/* .content{
 
-}
+} */
 
 
 
@@ -344,12 +353,14 @@ section:nth-child(odd)
     .next{
         left: 85%;
     }
+
     .home-title .context-title{
-        font-size: 2rem;
+        font-size: 1.5rem;
     }
 
     .container-title .home-title{
         width: 50%;
+        top: 10%;
     }
     
     .btn-container{

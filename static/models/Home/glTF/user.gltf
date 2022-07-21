@@ -3,6 +3,12 @@
         "generator" : "Khronos glTF Blender I/O v3.2.40",
         "version" : "2.0"
     },
+    "extensionsUsed" : [
+        "KHR_draco_mesh_compression"
+    ],
+    "extensionsRequired" : [
+        "KHR_draco_mesh_compression"
+    ],
     "scene" : 0,
     "scenes" : [
         {
@@ -25,7 +31,7 @@
         },
         {
             "mesh" : 1,
-            "name" : "user",
+            "name" : "object",
             "rotation" : [
                 -0.14518283307552338,
                 0.14518281817436218,
@@ -91,8 +97,19 @@
                         "NORMAL" : 1,
                         "TEXCOORD_0" : 2
                     },
+                    "extensions" : {
+                        "KHR_draco_mesh_compression" : {
+                            "bufferView" : 0,
+                            "attributes" : {
+                                "POSITION" : 0,
+                                "NORMAL" : 1,
+                                "TEXCOORD_0" : 2
+                            }
+                        }
+                    },
                     "indices" : 3,
-                    "material" : 0
+                    "material" : 0,
+                    "mode" : 4
                 }
             ]
         },
@@ -105,8 +122,19 @@
                         "NORMAL" : 5,
                         "TEXCOORD_0" : 6
                     },
+                    "extensions" : {
+                        "KHR_draco_mesh_compression" : {
+                            "bufferView" : 1,
+                            "attributes" : {
+                                "POSITION" : 0,
+                                "NORMAL" : 1,
+                                "TEXCOORD_0" : 2
+                            }
+                        }
+                    },
                     "indices" : 7,
-                    "material" : 1
+                    "material" : 1,
+                    "mode" : 4
                 },
                 {
                     "attributes" : {
@@ -114,15 +142,25 @@
                         "NORMAL" : 9,
                         "TEXCOORD_0" : 10
                     },
+                    "extensions" : {
+                        "KHR_draco_mesh_compression" : {
+                            "bufferView" : 2,
+                            "attributes" : {
+                                "POSITION" : 0,
+                                "NORMAL" : 1,
+                                "TEXCOORD_0" : 2
+                            }
+                        }
+                    },
                     "indices" : 11,
-                    "material" : 2
+                    "material" : 2,
+                    "mode" : 4
                 }
             ]
         }
     ],
     "accessors" : [
         {
-            "bufferView" : 0,
             "componentType" : 5126,
             "count" : 8,
             "max" : [
@@ -138,25 +176,21 @@
             "type" : "VEC3"
         },
         {
-            "bufferView" : 1,
             "componentType" : 5126,
             "count" : 8,
             "type" : "VEC3"
         },
         {
-            "bufferView" : 2,
             "componentType" : 5126,
             "count" : 8,
             "type" : "VEC2"
         },
         {
-            "bufferView" : 3,
             "componentType" : 5123,
             "count" : 12,
             "type" : "SCALAR"
         },
         {
-            "bufferView" : 4,
             "componentType" : 5126,
             "count" : 168,
             "max" : [
@@ -172,25 +206,21 @@
             "type" : "VEC3"
         },
         {
-            "bufferView" : 5,
             "componentType" : 5126,
             "count" : 168,
             "type" : "VEC3"
         },
         {
-            "bufferView" : 6,
             "componentType" : 5126,
             "count" : 168,
             "type" : "VEC2"
         },
         {
-            "bufferView" : 7,
             "componentType" : 5123,
             "count" : 324,
             "type" : "SCALAR"
         },
         {
-            "bufferView" : 8,
             "componentType" : 5126,
             "count" : 192,
             "max" : [
@@ -206,19 +236,16 @@
             "type" : "VEC3"
         },
         {
-            "bufferView" : 9,
             "componentType" : 5126,
             "count" : 192,
             "type" : "VEC3"
         },
         {
-            "bufferView" : 10,
             "componentType" : 5126,
             "count" : 192,
             "type" : "VEC2"
         },
         {
-            "bufferView" : 11,
             "componentType" : 5123,
             "count" : 372,
             "type" : "SCALAR"
@@ -227,68 +254,23 @@
     "bufferViews" : [
         {
             "buffer" : 0,
-            "byteLength" : 96,
+            "byteLength" : 198,
             "byteOffset" : 0
         },
         {
             "buffer" : 0,
-            "byteLength" : 96,
-            "byteOffset" : 96
+            "byteLength" : 1481,
+            "byteOffset" : 200
         },
         {
             "buffer" : 0,
-            "byteLength" : 64,
-            "byteOffset" : 192
-        },
-        {
-            "buffer" : 0,
-            "byteLength" : 24,
-            "byteOffset" : 256
-        },
-        {
-            "buffer" : 0,
-            "byteLength" : 2016,
-            "byteOffset" : 280
-        },
-        {
-            "buffer" : 0,
-            "byteLength" : 2016,
-            "byteOffset" : 2296
-        },
-        {
-            "buffer" : 0,
-            "byteLength" : 1344,
-            "byteOffset" : 4312
-        },
-        {
-            "buffer" : 0,
-            "byteLength" : 648,
-            "byteOffset" : 5656
-        },
-        {
-            "buffer" : 0,
-            "byteLength" : 2304,
-            "byteOffset" : 6304
-        },
-        {
-            "buffer" : 0,
-            "byteLength" : 2304,
-            "byteOffset" : 8608
-        },
-        {
-            "buffer" : 0,
-            "byteLength" : 1536,
-            "byteOffset" : 10912
-        },
-        {
-            "buffer" : 0,
-            "byteLength" : 744,
-            "byteOffset" : 12448
+            "byteLength" : 1664,
+            "byteOffset" : 1684
         }
     ],
     "buffers" : [
         {
-            "byteLength" : 13192,
+            "byteLength" : 3348,
             "uri" : "user.bin"
         }
     ]

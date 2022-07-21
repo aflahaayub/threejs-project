@@ -3,30 +3,11 @@ import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader.js'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
-import * as dat from 'lil-gui'
 import gsap from 'gsap'
-
-import Experience from './Experience/Experience.js'
+import Stats from 'three/examples/jsm/libs/stats.module'
+import { Group, MeshBasicMaterial } from 'three'
 
 //HOME PAGE
-
-/**
- * Debug
- */
-// const gui = new dat.GUI()
-
-const parameters = {
-    materialColor: '#ffeded'
-}
-
-// gui
-//     .addColor(parameters, 'materialColor')
-//     .onChange(() =>
-//     {
-//         material.color.set(parameters.materialColor)
-//         particlesMaterial.color.set(parameters.materialColor)
-//     })
-
 /**
  * Base
  */
@@ -37,8 +18,6 @@ const canvas = document.querySelector('canvas.webgl')
 const scene = new THREE.Scene()
 
 // // LOADER
-
-
 const loadingBarElement = document.querySelector('.loading-bar')
 const titleElement = document.querySelector('.container')
 const loadingManager = new THREE.LoadingManager(
@@ -55,21 +34,21 @@ const loadingManager = new THREE.LoadingManager(
             loadingBarElement.classList.add('ended')
             titleElement.classList.add('ended')
             loadingBarElement.style.transform = ''
+
+            
             window.setTimeout(()=>{
                 document.querySelector('.container-title').classList.add('visible')
-            }, 600)
-            
-            
+            }, 1000)
         }, 500)
-        // document.querySelector('.container-title').classList.add('visible')
     },
 
     // Progress
     (itemUrl, itemsLoaded, itemsTotal) =>
     {
         // Calculate the progress and update the loadingBarElement
+        // modelTextures()
         const progressRatio = itemsLoaded / itemsTotal
-        console.log(progressRatio)
+        console.log(itemsLoaded)
         loadingBarElement.style.transform = `scaleX(${progressRatio})`
     }
 )
@@ -84,7 +63,6 @@ gltfLoader.setDRACOLoader(dracoLoader)
 //OVERLAY
 const overlayGeometry = new THREE.PlaneGeometry(2, 2, 1, 1)
 const overlayMaterial = new THREE.ShaderMaterial({
-    // wireframe: true,
     transparent: true,
     uniforms:
     {
@@ -109,164 +87,193 @@ const overlay = new THREE.Mesh(overlayGeometry, overlayMaterial)
 scene.add(overlay)
 
 
+//Models
+const titleModels = ['Petunjuk', 'Capaian Pembelajaran', 'History','Materi', 'Evaluasi'];
+let i = 0;
+let title = document.getElementsByClassName('context-title');
+
+let positionX = 0
+if(positionX === 0){
+    document.querySelector('.btn-kanan').classList.add('visible')
+}
+
+document.querySelector('.btn-kiri').onclick =()=>{
+    positionX-=12
+    i--
+    console.log(positionX + ' back')
+    title[0].innerHTML = `${titleModels[i]}`
+    gsap.to(camera.position, {duration: 3, x: positionX, y: 0, z: 3})
+    gsap.to(controls.target, {duration: 3, x: positionX, y: 0, z: 3})
+
+    if(positionX === 0){
+        document.querySelector('.btn-kiri').classList.remove('visible')
+
+        i = 0
+        console.log(positionX + ' mentok kiri')
+    }
+}
+
+document.querySelector('.btn-kanan').onclick =()=>{
+    positionX+=12
+    i++
+    console.log(positionX + ' continu')
+    title[0].innerHTML = `${titleModels[i]}`
+
+    gsap.to(camera.position, {duration: 3, x: positionX, y: 0, z: 3})
+    gsap.to(controls.target, {duration: 3, x: positionX, y: 0, z: 3})
+
+    document.querySelector('.btn-kiri').classList.add('visible')
+    if(positionX === 48){
+        document.querySelector('.btn-kanan').classList.remove('visible')
+
+        i = 48
+        console.log(positionX + ' mentok kanan')
+    }
+}
+console.log(positionX)
 
 /**
  * Objects
  */
 // Texture
-const textureLoader = new THREE.TextureLoader()
+const textureLoader = new THREE.TextureLoader(loadingManager)
+const petunjukTexture = textureLoader.load('textures/Home/petunjuk2.jpg')
+petunjukTexture.flipY = false
+petunjukTexture.encoding = THREE.sRGBEncoding
+const petunjuk = new THREE.MeshBasicMaterial({map: petunjukTexture})
+
+const capaianTexture = textureLoader.load('textures/Home/capaian.jpg')
+capaianTexture.flipY = false
+capaianTexture.encoding = THREE.sRGBEncoding
+const capaian = new THREE.MeshBasicMaterial({map: capaianTexture})
+
+const historyTexture = textureLoader.load('textures/Home/user.jpg')
+historyTexture.flipY = false
+historyTexture.encoding = THREE.sRGBEncoding
+const history = new THREE.MeshBasicMaterial({map: historyTexture})
+
 const materiTexture = textureLoader.load('textures/Home/materi.jpg')
 materiTexture.flipY = false
 materiTexture.encoding = THREE.sRGBEncoding
+const materi = new THREE.MeshBasicMaterial({map: materiTexture})
 
-const petunjukTexture = textureLoader.load('textures/Home/petunjuk.jpg')
-petunjukTexture.flipY = false
-petunjukTexture.encoding = THREE.sRGBEncoding
+const evaluasiTexture = textureLoader.load('textures/Home/evaluasi.jpg')
+evaluasiTexture.flipY = false
+evaluasiTexture.encoding = THREE.sRGBEncoding
+const evaluasi = new THREE.MeshBasicMaterial({map: evaluasiTexture})
 
-const evalTexture = textureLoader.load('textures/Home/evalTexture.jpg') //bake ulang
-evalTexture.flipY = false
-evalTexture.encoding = THREE.sRGBEncoding
 
-const userTexture = textureLoader.load('textures/Home/user.jpg')
-userTexture.flipY = false
-userTexture.encoding = THREE.sRGBEncoding
+const models = {
+    petunjuk: '/models/Home/glTF/petunjuk.gltf',
+    capaian: '/models/Home/glTF/capaian.gltf',
+    user: '/models/Home/glTF/user.gltf',
+    materi: '/models/Home/glTF/materi.glb',
+    evaluasi: '/models/Home/glTF/evaluasi.gltf'
 
-// Material
-const materiMaterial = new THREE.MeshBasicMaterial({
-    map: materiTexture
-})
+}
 
-const petunjukMaterial = new THREE.MeshBasicMaterial({
-    map: petunjukTexture
-})
+function loadModel(url){
+    return new Promise(resolve=>{
+        gltfLoader.load(url,resolve)
+    })
+}
 
-const evalMaterial = new THREE.MeshBasicMaterial({
-    map: evalTexture
-})
-const userMaterial = new THREE.MeshBasicMaterial({
-    map: userTexture
-})
-
-//Models
-const models = ['petunjuk', 'tujuanPembelajaran', 'materi', 'evaluasi', 'user']
-
-gltfLoader.load(
-    '/models/Home/petunjuk.glb',
-    (gltf)=>{
-        console.log(gltf)
-        gltf.scene.traverse((child)=>{
-            console.log(child)
-            child.material = petunjukMaterial
-            if(child.name === "Plane"){
-                console.log(child)
-                child.scale.z = 1.5
-            }
-        })
-        gltf.scene.scale.set(1, 1, 1)
-        gltf.scene.position.set(0, -1.8, 0)
-        gltf.scene.rotation.y = -Math.PI * 0.5
-        gltf.scene.traverse((child)=>{
-            if(child.name === "question"){
-               const tl = new TimelineMax({repeat: -1, yoyo: true})
-               tl.fromTo(child.position, {y: 1.2}, {ease: Power1.easeInOut, duration: 5, y: 1})
-           }
-       })
-
-       document.querySelector('.btn-kanan').onclick =()=>{
-           gsap.to(camera.position, {duration: 3, x: 12.2, y: 0, z: 3})
-           gsap.to(controls.target, {duration: 3, x: 12.2, y: 0, z: 3})
-       }
-
-        scene.add(gltf.scene)
+const ifModel = (child)=>{
+    if(child.name === "bg"){
+        child.scale.z = 1.5
     }
-)
-
-gltfLoader.load(
-    '/models/Home/materi.gltf',
-    (gltf)=>{
-        console.log(gltf)
-        gltf.scene.traverse((child)=>{
-            console.log(child)
-            child.material = materiMaterial
-        })
-        gltf.scene.scale.set(1, 1, 1)
-        gltf.scene.position.set(12, -1.3, 0)
-        gltf.scene.rotation.y = Math.PI * 0.5
-        scene.add(gltf.scene)
+    if(child.name === "object"){
+        const tl = new TimelineMax({repeat: -1, yoyo: true})
+        tl.fromTo(child.position, {y: 1.2}, {ease: Power1.easeInOut, duration: 5, y: 1})
     }
-)
-
-// gltfLoader.load(
-//     '/models/Home/evaluasi.gltf',
-//     (gltf)=>{
-//         console.log(gltf)
-//         gltf.scene.traverse((child)=>{
-//             console.log(child)
-//             child.material = evalMaterial
-//             if(child.name === "bg"){
-//                 child.scale.z = 1.5
-//             }
-//         })
-//         gltf.scene.scale.set(1, 1, 1)
-//         gltf.scene.position.set(12, -1.8, 0)
-//         gltf.scene.rotation.y = -Math.PI * 0.5
-
-//         gltf.scene.traverse((child)=>{
-//             if(child.name === "user"){
-//                const tl = new TimelineMax({repeat: -1, yoyo: true})
-//                tl.fromTo(child.position, {y: 1.3}, {ease: Power1.easeInOut, duration: 5, y: 1})
-//            }
-//        })
+}
 
 
+let petunjukModel, capaianModel, userModel, materiModel, evaluasiModel;
+let group = new THREE.Group()
 
-//         // scene.add(gltf.scene)
-//     }
-// )
+let p1 = loadModel(models.petunjuk).then(result=> {
+    petunjukModel = result.scene
+    petunjukModel.traverse((child)=>{
+        child.material = petunjuk
+        ifModel(child)
+    })
+    petunjukModel.position.set(0, -1.8, 0)
+    petunjukModel.rotation.y = -Math.PI * 0.5
 
-// const userModel = gltfLoader.load(
-//     '/models/Home/user.gltf',
-//     (gltf)=>{
-        
-//         // const targetPositionY = 0.5
+    // return petunjukModel
+    group.add(petunjukModel)
+})
+let p2 = loadModel(models.capaian).then(result=> { 
+    capaianModel =  result.scene
+    capaianModel.traverse((child)=>{
+        child.material = capaian
+        ifModel(child)
+        if(child.name === "object"){
+            const tl = new TimelineMax({repeat: -1, yoyo: true})
+        tl.fromTo(child.position, {y: 2}, {ease: Power1.easeInOut, duration: 5, y: 1.7})
+        }
+    })
+    capaianModel.position.set(12, -1.8, 0)
+    capaianModel.rotation.y = -Math.PI * 0.5
+    // return capaianModel
+    group.add(capaianModel)
+})
+let p3 = loadModel(models.user).then(result=> { 
+    userModel =  result.scene
+    userModel.traverse((child)=>{
+        child.material = history
+        ifModel(child)
+        if(child.name === "object"){
+            const tl = new TimelineMax({repeat: -1, yoyo: true})
+        tl.fromTo(child.position, {y: 1.7}, {ease: Power1.easeInOut, duration: 5, y: 1.4})
+        }
+    })
+    userModel.position.set(24, -1.8, 0)
+    userModel.rotation.y = -Math.PI * 0.5
+    // return userModel
+    group.add(userModel)
+})
+let p4 = loadModel(models.materi).then(result=> { 
+    materiModel =  result.scene
+    materiModel.traverse((child)=>{
+        child.material = materi
+        ifModel(child)
+        if(child.name === "object"){
+            const tl = new TimelineMax({repeat: -1, yoyo: true})
+        tl.fromTo(child.position, {y: 1.7}, {ease: Power1.easeInOut, duration: 5, y: 1.5})
+        }
+        child.scale.z =1.23
+    })
+    materiModel.rotation. y = -Math.PI * 0.5
+    materiModel.position.set(36, -1.8, 0)
+    // return materiModel
+    group.add(materiModel)
+})
+let p5 = loadModel(models.evaluasi).then(result=> { 
+    evaluasiModel =  result.scene
+    evaluasiModel.traverse((child)=>{
+        child.material = evaluasi
+        ifModel(child)
+        if(child.name === "object"){
+            const tl = new TimelineMax({repeat: -1, yoyo: true})
+        tl.fromTo(child.position, {y: 2.5}, {ease: Power1.easeInOut, duration: 5, y: 2.2})
+        }
+    })
+    evaluasiModel.position.set(48, -1.8, 0)
+    evaluasiModel.rotation.y = -Math.PI * 0.5
+    // return evaluasiModel
+    group.add(evaluasiModel)
+})
 
-//         gltf.scene.traverse((child)=>{
-//             child.material = userMaterial
-//             if(child.name === "bg"){
-//                 console.log(child)
-//                 child.scale.z = 1.5
-//             }
-//         })
-
-        
-//         gltf.scene.scale.set(1, 1, 1)
-//         // gltf.scene.position.set(12, -1.8, 0)
-//         // gltf.scene.position.set(0, -1.5, 0)
-//         gltf.scene.rotation.y = -Math.PI * 0.5
-
-        
-//         gltf.scene.traverse((child)=>{
-//              if(child.name === "user"){
-//                 const tl = new TimelineMax({repeat: -1, yoyo: true})
-//                 tl.fromTo(child.position, {y: 1.3}, {ease: Power1.easeInOut, duration: 5, y: 1})
-//             }
-//         })
-
-//         document.querySelector('.btn-kiri').onclick =()=>{
-//             gsap.to(camera.position, {duration: 3, x: 0, y: 0, z: 3})
-//            gsap.to(controls.target, {duration: 3, x: 0, y: 0, z: 3})
-//         }
-
-//         // scene.add(gltf.scene)
-//     }
-// )
-
-
-
-
-//axes helper
-// const axesHelper = new THREE.AxesHelper(10)
-// scene.add(axesHelper)
+Promise.all([p1,p2,p3,p4,p5]).then(()=>{
+    scene.add(group)
+    // scene.add(evaluasiModel)
+    // scene.add(materiModel)
+    // scene.add(userModel)
+    // scene.add(capaianModel)
+    // scene.add(petunjukModel)
+})
 
 /**
  * Sizes
@@ -298,15 +305,9 @@ window.addEventListener('resize', () =>
 const cameraGroup = new THREE.Group()
 scene.add(cameraGroup)
 
-// Base camera
-// const camera = new THREE.OrthographicCamera( sizes.width / - 2, sizes.width / 2, sizes.height / 2, sizes.height / - 2, 0.1, 100 );
-// scene.add( camera );
-
 const camera = new THREE.PerspectiveCamera(35, sizes.width / sizes.height, 0.1, 100)
 camera.position.set(0,0,3)
-// camera.translateX = 12
-// camera.position.x = 12
-// camera.position.z = 12
+
 cameraGroup.add(camera)
 
 // Controls
@@ -319,25 +320,19 @@ controls.enableDamping = true
  */
 const renderer = new THREE.WebGLRenderer({
     canvas: canvas,
-    alpha: true
+    alpha: true,
+    antialias: true
 })
 renderer.setSize(sizes.width, sizes.height)
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
-renderer.setClearColor(0x4F5D68)
-
+// renderer.setClearColor(0x4F5D68)
+renderer.outputEncoding = THREE.sRGBEncoding
 
 /**
- * Cursor
+ * Stats
  */
-const cursor = {}
-cursor.x = 0
-cursor.y = 0
-
-// window.addEventListener('mousemove', (event) =>
-// {
-//     cursor.x = event.clientX / sizes.width - 0.5
-//     cursor.y = event.clientY / sizes.height - 0.5
-// })
+const stats = Stats()
+document.body.appendChild(stats.dom)
 
 /**
  * Animate
@@ -351,26 +346,14 @@ const tick = () =>
     const deltaTime = elapsedTime - previousTime
     previousTime = elapsedTime
 
-    // Animate camera
-    // camera.position.y = - scrollY / sizes.height * objectsDistance
-
-    // const parallaxX = cursor.x * 0.5
-    // const parallaxY = - cursor.y * 0.5
-    // cameraGroup.position.x += (parallaxX - cameraGroup.position.x) * 5 * deltaTime
-    // cameraGroup.position.y += (parallaxY - cameraGroup.position.y) * 5 * deltaTime
-
-    // // Animate meshes
-    // for(const mesh of sectionMeshes)
-    // {
-    //     mesh.rotation.x += deltaTime * 0.1
-    //     mesh.rotation.y += deltaTime * 0.12
-    // }
-
     // Update controls
     controls.update()
 
     // Render
     renderer.render(scene, camera)
+
+    //stats
+    stats.update()
 
     // Call tick again on the next frame
     window.requestAnimationFrame(tick)
