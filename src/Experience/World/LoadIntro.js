@@ -12,14 +12,13 @@ export default class LoadIntro
         this.time = this.experience.time
         this.debug = this.experience.debug
         this.scene = this.experience.LabScene
-
-        console.log(this.LabScene)
-        
+        console.log(this.scene)
         this.setIntro()
         // this.setAnimation()
     }
 
     setIntro(){
+        console.log('set intro')
       this.overlayGeometry = new THREE.PlaneBufferGeometry(2,2,1,1)
       this.overlayMaterial = new THREE.ShaderMaterial({vertexShader: vertex,
         fragmentShader: fragment,

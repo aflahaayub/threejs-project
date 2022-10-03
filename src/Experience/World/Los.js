@@ -24,6 +24,8 @@ export default class Los{
     this.setLos()
     this.setArrow()
     this.sceneButton()
+    this.setExplanation()
+    this.setSlider()
     this.getTick()
   }
 
@@ -151,32 +153,107 @@ export default class Los{
   }
 
   sceneButton(){
-    document.querySelector('.back-scene').classList.add('visible')
-    // document.querySelector('.next-scene').classList.add('visible')
-
-
-    document.querySelector(`.back-scene`).onclick =()=>{
-      document.querySelector('.next-scene').classList.remove('visible')
-      document.querySelector('.back-scene').classList.remove('visible')
-
-      this.renderer.instance.setClearColor('#211d20')
-      this.ion = new Ionosphere()
-      this.renderer.setIonScene
-    }
-
-    // document.querySelector(`.next-scene`).onclick =()=>{
-  
+    // document.querySelector('.back-scene').classList.add('visible')
+    // document.querySelector(`.back-scene`).onclick =()=>{
     //   document.querySelector('.next-scene').classList.remove('visible')
+    //   document.querySelector('.back-scene').classList.remove('visible')
+
     //   this.renderer.instance.setClearColor('#211d20')
     //   this.ion = new Ionosphere()
-    //   this.renderer.setIonScene()
+    //   this.renderer.setIonScene
     // }
+  }
+  setExplanation(){
+    let pSeven = ['Propagasi line of sight, disebut dengan propagasi dengan gelombang langsung (direct wave), karena gelombang yang terpancar dari antena pemancar langsung berpropagasi menuju antena penerima dan tidak merambat di atas permukaan tanah.', 'Band frekuensi yang digunakan pada jenis propagasi ini sangat lebar, yaitu meliputi band VHF (30 – 300 MHz), UHF (0,3 – 3 GHz), SHF (3 – 30 GHz) dan EHF (30 – 300 GHz). Aplikasi untuk pelayanan komunikasi, antara lain : untuk siaran radio FM, sistem penyiaran televisi (TV), komunikasi bergerak, radar, komunikasi satelit, dan penelitian ruang angkasa']
+  
+    //Slider UP
+    document.querySelector('.slide').classList.add('visible')
+    let upSlide = 0
+    let upIcon = document.querySelector('.up-icon')
+    document.querySelector('.slide-up').onclick = ()=>{
+      upSlide++
+      if(upSlide % 2 === 0){
+        document.querySelector('.kuis').classList.add('visible')
+        document.querySelector('.slide-up').classList.add('hide')
+        document.querySelector('.slide-up').classList.remove('open')
+        document.querySelector('.judul').innerHTML = ''
+        document.querySelector('.p1').innerHTML = ''
+        document.querySelector('.p2').innerHTML = ''
+        upIcon.style.transform = 'rotate(0deg)'
+      }else{
+        document.querySelector('.slide-up').classList.remove('hide')
+        document.querySelector('.slide-up').classList.add('open')
+        upIcon.style.transform = 'rotate(180deg)'
+        upIcon.style.transition = 'transform 1.2s ease'
+        document.querySelector('.judul').innerHTML = 'Propagasi Gelombang Langsung'
+      document.querySelector('.p1').innerHTML = pSeven[0]
+      document.querySelector('.p2').innerHTML = pSeven[1]
+      }
+    }
+
+    document.querySelector('.kuis').onclick=()=>{
+      document.querySelector('.mulai-kuis').classList.add('visible')
+    }
+  }
+
+  setSlider(){
+    console.log(this.resources.myAudioSrc)
+    let myAudio = document.getElementById('myAudio')
+    for(let audioSrc of this.resources.myAudioSrc){
+      if(audioSrc.name === 'audio6'){
+        myAudio.src = audioSrc.path
+        myAudio.autoplay = true
+        myAudio.load()
+        console.log(myAudio)
+        console.log('audio six is playing..')
+    }
+    }
+    //SLIDER
+    this.slideOpen = 0
+    this.slide = document.querySelector('.slide-left')
+    this.slider = document.querySelector('.slider')
+    this.animasi = document.querySelector('.animasi')
+    this.slide.onclick = ()=>{
+      this.slideOpen++
+      if(this.slideOpen % 2 === 0 ){
+        this.slide.style.transform = 'rotate(0deg)'
+        this.slider.classList.remove('open')
+        this.slider.classList.add('close')
+        document.querySelector('figure').classList.remove('visible')
+        this.animasi.classList.remove('visible')
+        console.log('close')
+      }else{
+        this.slide.style.transform = 'rotate(180deg)'
+        this.slide.style.transition = 'transform 1.5s ease'
+        document.querySelector('figure').classList.add('visible')
+        this.animasi.classList.add('visible')
+        this.slider.classList.remove('close')
+        this.slider.classList.add('open')
+        console.log('open')
+      }
+    }
+
+    this.playAnimate = true
+    this.animate = 0
+    this.animasi.onclick=()=>{
+      this.animate++
+      if(this.animate % 2 ===0){
+        console.log('animate')
+        this.playAnimate = true
+        document.querySelector('.fa-compact-disc').classList.add('fa-flip')
+      }else{
+        this.playAnimate = false
+        console.log('stop')
+        document.querySelector('.fa-compact-disc').classList.remove('fa-flip')
+      }
+    }
   }
 
   getTick(){
     this.otherTick = ()=>{
-      this.arrowMat.uniforms.uTime.value = this.time.elapsed * 0.01
-
+      if(this.playAnimate){
+        this.arrowMat.uniforms.uTime.value = this.time.elapsed * 0.01
+      }
       this.camera.controls.update()
 
      window.requestAnimationFrame(this.otherTick)

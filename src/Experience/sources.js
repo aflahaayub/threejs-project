@@ -1,8 +1,13 @@
 export default [
+      {
+        name: 'audio1',
+        type: 'audio',
+        path: 'sounds/materiOne/audioOne.mp3'
+      },
     {
         name: 'labModel',
         type: 'gltfModel',
-        path: 'models/Lab/glTF/Lab.gltf'
+        path: 'models/Lab/glTF/lab.gltf'
     },
     {
       name: 'groundModel',
@@ -54,4 +59,9 @@ export default [
         type: 'texture',
         path: 'textures/ground/groundNormal.jpg'
       }
+      // {
+      //   name: 'audio2',
+      //   type: 'audio',
+      //   path: 'sounds/materiOne/audiotwo.mp3'
+      // }
 ]

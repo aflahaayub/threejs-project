@@ -20,11 +20,14 @@ export default class Ground{
     this.camera = this.experience.camera
     this.overlay = this.experience.overlay
     this.renderer = this.experience.renderer
+    // this.camera.instance.position.set(7,8,9)
 
     this.setLoading()
     this.setGround()
     this.setArrow()
     this.sceneButton()
+    this.setExplanation()
+    this.setSlider()
     this.getTick()
   }
 
@@ -151,18 +154,15 @@ export default class Ground{
   }
 
   sceneButton(){
-    document.querySelector('.back-scene').classList.add('visible')
-    document.querySelector('.next-scene').classList.add('visible')
+    // document.querySelector('.back-scene').classList.add('visible')
+    // document.querySelector(`.back-scene`).onclick =()=>{
+    //   document.querySelector('.next-scene').classList.remove('visible')
+    //   document.querySelector('.back-scene').classList.remove('visible')
 
-
-    document.querySelector(`.back-scene`).onclick =()=>{
-      document.querySelector('.next-scene').classList.remove('visible')
-      document.querySelector('.back-scene').classList.remove('visible')
-
-      this.renderer.instance.setClearColor('#211d20')
-      this.planet = new Planet()
-      this.renderer.setPlanetScene()
-    }
+    //   this.renderer.instance.setClearColor('#211d20')
+    //   this.planet = new Planet()
+    //   this.renderer.setPlanetScene()
+    // }
 
     document.querySelector(`.next-scene`).onclick =()=>{
   
@@ -173,9 +173,92 @@ export default class Ground{
     }
   }
 
+  setExplanation(){
+    let pFive = ['Gelombang tanah (ground wave) adalah gelombang radio yang berpropagasi di sepanjang permukaan bumi/tanah. Gelombang ini sering disebut dengan gelombang permukaan (surface wave).', 'Rugi-rugi (redaman) tanah akan meningkat dengan cepat dengan semakin besarnya frekuensi. Karena alasan tersebut, gelombang tanah sangat tidak efektif pada frekuensi di atas 2 MHz.']
+  
+    //Slider UP
+    document.querySelector('.slide').classList.add('visible')
+    let upSlide = 0
+    let upIcon = document.querySelector('.up-icon')
+    document.querySelector('.slide-up').onclick = ()=>{
+      upSlide++
+      if(upSlide % 2 === 0){
+        document.querySelector('.next-scene').classList.add('visible')
+        document.querySelector('.slide-up').classList.add('hide')
+        document.querySelector('.slide-up').classList.remove('open')
+        document.querySelector('.judul').innerHTML = ''
+        document.querySelector('.p1').innerHTML = ''
+        document.querySelector('.p2').innerHTML = ''
+        upIcon.style.transform = 'rotate(0deg)'
+      }else{
+        document.querySelector('.slide-up').classList.remove('hide')
+        document.querySelector('.slide-up').classList.add('open')
+        upIcon.style.transform = 'rotate(180deg)'
+        upIcon.style.transition = 'transform 1.2s ease'
+        document.querySelector('.judul').innerHTML = 'Propagasi Gelombang Tanah'
+      document.querySelector('.p1').innerHTML = pFive[0]
+      document.querySelector('.p2').innerHTML = pFive[1]
+      }
+    }
+  }
+
+  setSlider(){
+    console.log(this.resources.myAudioSrc)
+    let myAudio = document.getElementById('myAudio')
+    for(let audioSrc of this.resources.myAudioSrc){
+      if(audioSrc.name === 'audio4'){
+        myAudio.src = audioSrc.path
+        myAudio.autoplay = true
+        myAudio.load()
+        console.log(myAudio)
+        console.log('audio four is playing..')
+    }
+    }
+    //SLIDER
+    this.slideOpen = 0
+    this.slide = document.querySelector('.slide-left')
+    this.slider = document.querySelector('.slider')
+    this.animasi = document.querySelector('.animasi')
+    this.slide.onclick = ()=>{
+      this.slideOpen++
+      if(this.slideOpen % 2 === 0 ){
+        this.slide.style.transform = 'rotate(0deg)'
+        this.slider.classList.remove('open')
+        this.slider.classList.add('close')
+        document.querySelector('figure').classList.remove('visible')
+        this.animasi.classList.remove('visible')
+        console.log('close')
+      }else{
+        this.slide.style.transform = 'rotate(180deg)'
+        this.slide.style.transition = 'transform 1.5s ease'
+        document.querySelector('figure').classList.add('visible')
+        this.animasi.classList.add('visible')
+        this.slider.classList.remove('close')
+        this.slider.classList.add('open')
+        console.log('open')
+      }
+    }
+
+    this.playAnimate = true
+    this.animate = 0
+    this.animasi.onclick=()=>{
+      this.animate++
+      if(this.animate % 2 ===0){
+        console.log('animate')
+        this.playAnimate = true
+        document.querySelector('.fa-compact-disc').classList.add('fa-flip')
+      }else{
+        this.playAnimate = false
+        console.log('stop')
+        document.querySelector('.fa-compact-disc').classList.remove('fa-flip')
+      }
+    }
+  }
   getTick(){
     this.otherTick = ()=>{
-      this.arrowMat.uniforms.uTime.value = this.time.elapsed * 0.01
+      if(this.playAnimate){
+        this.arrowMat.uniforms.uTime.value = this.time.elapsed * 0.01
+      }
 
       this.camera.controls.update()
 

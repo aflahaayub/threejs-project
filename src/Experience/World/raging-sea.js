@@ -18,6 +18,7 @@ export default class Sea{
     this.time = this.experience.time
     this.loadIntro = this.experience.loadIntro
     this.renderer = this.experience.renderer
+    this.resources = this.experience.resources
 
     console.log(this.scene)
 
@@ -28,7 +29,6 @@ export default class Sea{
             this.setDebug()
         }
 
-
     if(this.renderer.scene === this.scene){
       console.log('now is raging sea')
     }
@@ -37,7 +37,9 @@ export default class Sea{
     this.setLoading()
     this.setSea()
     this.sceneButton()
+    this.setExplanation()
     this.getTick()
+    this.setSlider()
   }
 
   setLoading(){
@@ -100,19 +102,17 @@ export default class Sea{
   }
 
   sceneButton(){
-      document.querySelector('.back-scene').classList.add('visible')
-      document.querySelector('.next-scene').classList.add('visible')
+      // document.querySelector('.back-scene').classList.add('visible')
 
-
-      document.querySelector(`.back-scene`).onclick =()=>{
-        document.querySelector('.next-scene').classList.remove('visible')
-        document.querySelector('.back-scene').classList.remove('visible')
-        document.querySelector('.back').classList.add('visible')
+      // document.querySelector(`.back-scene`).onclick =()=>{
+      //   document.querySelector('.next-scene').classList.remove('visible')
+      //   document.querySelector('.back-scene').classList.remove('visible')
+      //   document.querySelector('.back').classList.add('visible')
       
-        this.lab = new Lab()
+      //   this.lab = new Lab()
 
-        this.renderer.setLabScene()
-      }
+      //   this.renderer.setLabScene()
+      // }
 
       document.querySelector(`.next-scene`).onclick =()=>{
       
@@ -124,11 +124,96 @@ export default class Sea{
       }
   }
 
-  getTick(){
+  setExplanation(){
+    let pThree = ['Gelombang juga dapat terbagi berdasarkan medium perambatannya, yaitu gelombang mekanik dan gelombang elektromagnetik. Gelombang mekanik adalah Gelombang yang membutuhkan medium dalam perambatannya. Contohnya adalah zat padat, zat cair, atau zat gas.', 'Gerakan pada gelombang laut disebabkan oleh angin yang berembus, sehingga membuat laut bergerak dan membentuk gelombang naik dan turun.']
 
+    //Slider UP
+    document.querySelector('.slide').classList.add('visible')
+    let upSlide = 0
+    let upIcon = document.querySelector('.up-icon')
+    document.querySelector('.slide-up').onclick = ()=>{
+      upSlide++
+      if(upSlide % 2 === 0){
+        document.querySelector('.next-scene').classList.add('visible')
+        document.querySelector('.slide-up').classList.add('hide')
+        document.querySelector('.slide-up').classList.remove('open')
+        document.querySelector('.judul').innerHTML = ''
+        document.querySelector('.p1').innerHTML = ''
+        document.querySelector('.p2').innerHTML = ''
+        upIcon.style.transform = 'rotate(0deg)'
+      }else{
+        document.querySelector('.slide-up').classList.remove('hide')
+        document.querySelector('.slide-up').classList.add('open')
+        upIcon.style.transform = 'rotate(180deg)'
+        upIcon.style.transition = 'transform 1.2s ease'
+        document.querySelector('.judul').innerHTML = 'Gelombang Mekanik'
+      document.querySelector('.p1').innerHTML = pThree[0]
+      document.querySelector('.p2').innerHTML = pThree[1]
+      }
+    }
+  }
+
+  setSlider(){
+
+    console.log(this.resources.myAudioSrc)
+    let myAudio = document.getElementById('myAudio')
+
+    for(let audioSrc of this.resources.myAudioSrc){
+      if(audioSrc.name === 'audio2'){
+        myAudio.src = audioSrc.path
+        myAudio.autoplay = true
+        myAudio.load()
+        console.log(myAudio)
+        console.log('audio two is playing..')
+    }
+    }
+    //SLIDER
+    this.slideOpen = 0
+    this.slide = document.querySelector('.slide-left')
+    this.slider = document.querySelector('.slider')
+    this.animasi = document.querySelector('.animasi')
+    this.slide.onclick = ()=>{
+      this.slideOpen++
+      if(this.slideOpen % 2 === 0 ){
+        this.slide.style.transform = 'rotate(0deg)'
+        this.slider.classList.remove('open')
+        this.slider.classList.add('close')
+        document.querySelector('figure').classList.remove('visible')
+        this.animasi.classList.remove('visible')
+        console.log('close')
+      }else{
+        this.slide.style.transform = 'rotate(180deg)'
+        this.slide.style.transition = 'transform 1.5s ease'
+        document.querySelector('figure').classList.add('visible')
+        this.animasi.classList.add('visible')
+        this.slider.classList.remove('close')
+        this.slider.classList.add('open')
+        console.log('open')
+      }
+    }
+
+    this.playAnimate = true
+    this.animate = 0
+    this.animasi.onclick=()=>{
+      this.animate++
+      if(this.animate % 2 ===0){
+        console.log('animate')
+        this.playAnimate = true
+        document.querySelector('.fa-compact-disc').classList.add('fa-flip')
+      }else{
+        this.playAnimate = false
+        console.log('stop')
+        document.querySelector('.fa-compact-disc').classList.remove('fa-flip')
+      }
+    }
+  }
+
+  getTick(){
     console.log('sea run ')
     this.otherTick = ()=>{
-     this.material.uniforms.uTime.value = this.time.elapsed * 0.001
+      if(this.playAnimate){
+        this.material.uniforms.uTime.value = this.time.elapsed * 0.001
+      }
      this.camera.controls.update()
 
      window.requestAnimationFrame(this.otherTick)

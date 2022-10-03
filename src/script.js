@@ -28,6 +28,8 @@ const loadingManager = new THREE.LoadingManager(
         window.setTimeout(() =>
         {
             // Animate overlay
+            gsap.to(camera.position, {duration: 3, x: 48, y: 0, z: 3})
+            gsap.to(controls.target, {duration: 3, x: 48, y: 0, z: 3})
             gsap.to(overlayMaterial.uniforms.uAlpha, { duration: 3, value: 0, delay: 1 })
 
             // Update loadingBarElement
@@ -35,7 +37,8 @@ const loadingManager = new THREE.LoadingManager(
             titleElement.classList.add('ended')
             loadingBarElement.style.transform = ''
 
-            
+            gsap.to(camera.position, {duration: 3, x: 0, y: 0, z: 3})
+            gsap.to(controls.target, {duration: 3, x: 0, y: 0, z: 3})
             window.setTimeout(()=>{
                 document.querySelector('.container-title').classList.add('visible')
             }, 1000)
@@ -102,12 +105,15 @@ document.querySelector('.btn-kiri').onclick =()=>{
     i--
     console.log(positionX + ' back')
     title[0].innerHTML = `${titleModels[i]}`
+    console.log(titleModels[i], i)
     gsap.to(camera.position, {duration: 3, x: positionX, y: 0, z: 3})
     gsap.to(controls.target, {duration: 3, x: positionX, y: 0, z: 3})
 
+    document.querySelector('.btn-kiri').classList.add('visible')
+    document.querySelector('.btn-kanan').classList.add('visible')
+
     if(positionX === 0){
         document.querySelector('.btn-kiri').classList.remove('visible')
-
         i = 0
         console.log(positionX + ' mentok kiri')
     }
@@ -118,15 +124,16 @@ document.querySelector('.btn-kanan').onclick =()=>{
     i++
     console.log(positionX + ' continu')
     title[0].innerHTML = `${titleModels[i]}`
+    console.log(titleModels[i], i)
 
     gsap.to(camera.position, {duration: 3, x: positionX, y: 0, z: 3})
     gsap.to(controls.target, {duration: 3, x: positionX, y: 0, z: 3})
 
     document.querySelector('.btn-kiri').classList.add('visible')
+    document.querySelector('.btn-kanan').classList.add('visible')
     if(positionX === 48){
         document.querySelector('.btn-kanan').classList.remove('visible')
-
-        i = 48
+        i = 4
         console.log(positionX + ' mentok kanan')
     }
 }
@@ -275,6 +282,86 @@ Promise.all([p1,p2,p3,p4,p5]).then(()=>{
     // scene.add(petunjukModel)
 })
 
+//Telusuri Isi
+
+
+
+//Smooth Scroll
+document.querySelector('.btn-discover').onclick =()=>{
+    console.log(titleModels[i])
+    if(titleModels[i] === 'Petunjuk'){
+        document.querySelector('.content').classList.add('visible')
+            if(document.querySelector('.content')){
+                document.querySelector('.content').scrollIntoView({
+                behavior: 'smooth'
+        })
+      }
+    }else if(titleModels[i] === 'Capaian Pembelajaran'){
+        console.log('cp open up')
+        document.querySelector('.cap-content').classList.add('visible')
+            if(document.querySelector('.cap-content')){
+                document.querySelector('.cap-content').scrollIntoView({
+                behavior: 'smooth'
+        })
+      }
+    }else if(titleModels[i] === 'History'){
+        console.log('history open up')
+        document.querySelector('.history-content').classList.add('visible')
+            if(document.querySelector('.history-content')){
+                document.querySelector('.history-content').scrollIntoView({
+                behavior: 'smooth'
+        })
+      }
+    }else if(titleModels[i] === 'Materi'){
+        console.log('materi open up')
+        document.querySelector('.materi-content').classList.add('visible')
+            if(document.querySelector('.materi-content')){
+                document.querySelector('.materi-content').scrollIntoView({
+                behavior: 'smooth'
+        })
+      }
+    }else if(titleModels[i]==='Evaluasi'){
+        document.querySelector('.eval-content').classList.add('visible')
+    }
+    console.log('telusuri clicked')
+}
+
+document.querySelector('.up-petunjuk').onclick =()=>{
+    document.querySelector('.container-title').scrollIntoView({
+        behavior: 'smooth'
+    })
+    document.querySelector('.content').classList.remove('visible')
+}
+document.querySelector('.up-cp').onclick =()=>{
+    document.querySelector('.container-title').scrollIntoView({
+        behavior: 'smooth'
+    })
+    document.querySelector('.cap-content').classList.remove('visible')
+}
+document.querySelector('.up-history').onclick =()=>{
+    document.querySelector('.container-title').scrollIntoView({
+        behavior: 'smooth'
+    })
+    document.querySelector('.history-content').classList.remove('visible')
+}
+document.querySelector('.up-materi').onclick =()=>{
+    document.querySelector('.container-title').scrollIntoView({
+        behavior: 'smooth'
+    })
+    document.querySelector('.materi-content').classList.remove('visible')
+}
+document.querySelector('.btn-close').onclick =()=>{
+    document.querySelector('.container-title').scrollIntoView({
+        behavior: 'smooth'
+    })
+    document.querySelector('.eval-content').classList.remove('visible')
+}
+
+document.querySelector('.btn-materi-1').onclick =()=>{
+    console.log('materi 1 access')
+}
+
+
 /**
  * Sizes
  */
@@ -331,8 +418,8 @@ renderer.outputEncoding = THREE.sRGBEncoding
 /**
  * Stats
  */
-const stats = Stats()
-document.body.appendChild(stats.dom)
+// const stats = Stats()
+// document.body.appendChild(stats.dom)
 
 /**
  * Animate
@@ -353,7 +440,7 @@ const tick = () =>
     renderer.render(scene, camera)
 
     //stats
-    stats.update()
+    // stats.update()
 
     // Call tick again on the next frame
     window.requestAnimationFrame(tick)

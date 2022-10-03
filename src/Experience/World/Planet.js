@@ -27,9 +27,8 @@ export default class Planet{
     this.camera = this.experience.camera
     this.overlay = this.experience.overlay
     this.renderer = this.experience.renderer
-
-    
     this.camera.controls.maxDistance = 35
+    // this.camera.instance.position.set(10,2,10)
 
     this.setLoading()
 
@@ -40,8 +39,10 @@ export default class Planet{
 
     this.setArrow()
     this.setStars()
-
+  
     this.sceneButton()
+    this.setExplanation()
+    this.setSlider()
     this.getTick()
   }
 
@@ -68,11 +69,8 @@ export default class Planet{
       this.loadingBarElement.classList.add('ended')
       this.loadingBarElement.style.transform = ``
     })
-
-
   }
   
-
   setGeometry(){
     this.earth = new THREE.SphereGeometry(3, 50, 50)
     this.sun = new THREE.SphereGeometry(5, 50, 50)
@@ -205,34 +203,101 @@ export default class Planet{
 
   }
 
-
-  sceneButton(){
-    document.querySelector('.back-scene').classList.add('visible')
-    document.querySelector('.next-scene').classList.add('visible')
-
-
-    document.querySelector(`.back-scene`).onclick =()=>{
-      document.querySelector('.next-scene').classList.remove('visible')
-      document.querySelector('.back-scene').classList.remove('visible')
-      this.sea = new Sea()
-
-      this.renderer.setSeaScene()
+  setSlider(){
+    console.log(this.resources.myAudioSrc)
+    let myAudio = document.getElementById('myAudio')
+    for(let audioSrc of this.resources.myAudioSrc){
+      if(audioSrc.name === 'audio3'){
+        myAudio.src = audioSrc.path
+        myAudio.autoplay = true
+        myAudio.load()
+        console.log(myAudio)
+        console.log('audio three is playing..')
+    }
+    }
+    //SLIDER
+    this.slideOpen = 0
+    this.slide = document.querySelector('.slide-left')
+    this.slider = document.querySelector('.slider')
+    this.animasi = document.querySelector('.animasi')
+    this.slide.onclick = ()=>{
+      this.slideOpen++
+      if(this.slideOpen % 2 === 0 ){
+        this.slide.style.transform = 'rotate(0deg)'
+        this.slider.classList.remove('open')
+        this.slider.classList.add('close')
+        document.querySelector('figure').classList.remove('visible')
+        this.animasi.classList.remove('visible')
+        console.log('close')
+      }else{
+        this.slide.style.transform = 'rotate(180deg)'
+        this.slide.style.transition = 'transform 1.5s ease'
+        document.querySelector('figure').classList.add('visible')
+        this.animasi.classList.add('visible')
+        this.slider.classList.remove('close')
+        this.slider.classList.add('open')
+        console.log('open')
+      }
     }
 
-    document.querySelector(`.next-scene`).onclick =()=>{
-    
-      document.querySelector('.next-scene').classList.remove('visible')
+    this.playAnimate = true
+    this.animate = 0
+    this.animasi.onclick=()=>{
+      this.animate++
+      if(this.animate % 2 ===0){
+        console.log('animate')
+        this.playAnimate = true
+        document.querySelector('.fa-compact-disc').classList.add('fa-flip')
+      }else{
+        this.playAnimate = false
+        console.log('stop')
+        document.querySelector('.fa-compact-disc').classList.remove('fa-flip')
+      }
+    }
+  }
 
+  sceneButton(){
+    document.querySelector(`.next-scene`).onclick =()=>{
+      document.querySelector('.next-scene').classList.remove('visible')
       this.ground = new Ground()
       this.renderer.setGroundScene()
     }
 }
+
+setExplanation(){
+  let pFour = ['Gelombang Elektromagnetik merupakan Gelombang yang tidak membutuhkan medium dalam perambatannya dan bisa merambat di ruang yang hampa udara. Contohnya adalah cahaya matahari. Walaupun ruang angkasa adalah ruang yang hampa udara, tapi sinar matahari tetap bisa bersinar sampai ke bumi.', 'Jika kita melihat ke luar angkasa, tidak ada medium di sana. Tapi kita mendapatkan cahaya dari bintang-bintang yang jauh ini. Jadi cahaya atau gelombang radio dapat merambat melalui ketiadaan.']
+
+  //Slider UP
+    document.querySelector('.slide').classList.add('visible')
+    let upSlide = 0
+    let upIcon = document.querySelector('.up-icon')
+    document.querySelector('.slide-up').onclick = ()=>{
+      upSlide++
+      if(upSlide % 2 === 0){
+        document.querySelector('.next-scene').classList.add('visible')
+        document.querySelector('.slide-up').classList.add('hide')
+        document.querySelector('.slide-up').classList.remove('open')
+        document.querySelector('.judul').innerHTML = ''
+        document.querySelector('.p1').innerHTML = ''
+        document.querySelector('.p2').innerHTML = ''
+        upIcon.style.transform = 'rotate(0deg)'
+      }else{
+        document.querySelector('.slide-up').classList.remove('hide')
+        document.querySelector('.slide-up').classList.add('open')
+        upIcon.style.transform = 'rotate(180deg)'
+        upIcon.style.transition = 'transform 1.2s ease'
+        document.querySelector('.judul').innerHTML = 'Gelombang Elektromagnetik'
+        document.querySelector('.p1').innerHTML = pFour[0]
+        document.querySelector('.p2').innerHTML = pFour[1]
+      }
+    }
+}
   getTick(){
     this.otherTick = ()=>{
-      this.arrowMat.uniforms.uTime.value = this.time.elapsed * 0.01
-
+      if(this.playAnimate){
+        this.arrowMat.uniforms.uTime.value = this.time.elapsed * 0.01
+      }
       // this.camera.controls.update()
-
      window.requestAnimationFrame(this.otherTick)
   }
   this.otherTick()

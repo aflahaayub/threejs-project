@@ -22,10 +22,8 @@ export default class Ionosphere{
 
     this.overlay = this.experience.overlay
     this.renderer = this.experience.renderer
-
-    
     this.camera.controls.maxDistance = 35
-
+    // this.camera.instance.position.set(10,8,10)
     this.setLoading()
 
     this.setEarth()
@@ -43,6 +41,8 @@ export default class Ionosphere{
     this.setArrow4()
 
     this.sceneButton()
+    this.setExplanation()
+    this.setSlider()
     // this.getTick()
   }
 
@@ -327,19 +327,12 @@ export default class Ionosphere{
   }
 
   sceneButton(){
-    document.querySelector('.back-scene').classList.add('visible')
-    document.querySelector('.next-scene').classList.add('visible')
-
-
-    document.querySelector(`.back-scene`).onclick =()=>{
-      document.querySelector('.next-scene').classList.remove('visible')
-      document.querySelector('.back-scene').classList.remove('visible')
-
-      
-      this.ground = new Ground()
-
-      this.renderer.setGroundScene()
-    }
+    // document.querySelector('.back-scene').classList.add('visible')
+    // document.querySelector(`.back-scene`).onclick =()=>{
+    //   document.querySelector('.back-scene').classList.remove('visible')
+    //   this.ground = new Ground()
+    //   this.renderer.setGroundScene()
+    // }
 
     document.querySelector(`.next-scene`).onclick =()=>{
     
@@ -350,5 +343,66 @@ export default class Ionosphere{
     }
   }
 
+  setExplanation(){
+    let pSix = ['Pada frekuensi tinggi atau daerah HF, yang mempunyai range frekuensi 3–30 MHz, gelombang dapat dipropagasikan menempuh jarak yang jauh akibat dari pembiasan dan pemantulan lintasan pada lapisan ionospher. Gelombang yang berpropagasi melalui lapisan ionosfir ini disebut sebagai gelombang ionosfir (ionospheric wave) atau juga disebut gelombang langit (sky wave).', 'Ionosfir tersusun dari 3 (tiga) lapisan, mulai dari yang terbawah yang disebut dengan lapisan D, E dan F. Sedangkan lapisan F dibagi menjadi dua, yaitu lapisan F1 dan F2 (yang lebih atas). ']
+
+    document.querySelector('.slide').classList.add('visible')
+    let upSlide = 0
+    let upIcon = document.querySelector('.up-icon')
+    document.querySelector('.slide-up').onclick = ()=>{
+      upSlide++
+      if(upSlide % 2 === 0){
+        document.querySelector('.next-scene').classList.add('visible')
+        document.querySelector('.slide-up').classList.add('hide')
+        document.querySelector('.slide-up').classList.remove('open')
+        document.querySelector('.judul').innerHTML = ''
+        document.querySelector('.p1').innerHTML = ''
+        document.querySelector('.p2').innerHTML = ''
+        upIcon.style.transform = 'rotate(0deg)'
+      }else{
+        document.querySelector('.slide-up').classList.remove('hide')
+        document.querySelector('.slide-up').classList.add('open')
+        upIcon.style.transform = 'rotate(180deg)'
+        upIcon.style.transition = 'transform 1.2s ease'
+        document.querySelector('.judul').innerHTML = 'Propagasi Gelombang Ionosfir'
+      document.querySelector('.p1').innerHTML = pSix[0]
+      document.querySelector('.p2').innerHTML = pSix[1]
+      }
+    }
+  }
+
+  setSlider(){
+    console.log(this.resources.myAudioSrc)
+    let myAudio = document.getElementById('myAudio')
+    for(let audioSrc of this.resources.myAudioSrc){
+      if(audioSrc.name === 'audio5'){
+        myAudio.src = audioSrc.path
+        myAudio.autoplay = true
+        myAudio.load()
+        console.log(myAudio)
+        console.log('audio five is playing..')
+    }
+    }
+    //SLIDER
+    this.slideOpen = 0
+    this.slide = document.querySelector('.slide-left')
+    this.slider = document.querySelector('.slider')
+    this.slide.onclick = ()=>{
+      this.slideOpen++
+      if(this.slideOpen % 2 === 0 ){
+        this.slide.style.transform = 'rotate(0deg)'
+        this.slider.classList.remove('open')
+        this.slider.classList.add('close')
+        document.querySelector('figure').classList.remove('visible')
+      }else{
+        this.slide.style.transform = 'rotate(180deg)'
+        this.slide.style.transition = 'transform 1.5s ease'
+        document.querySelector('figure').classList.add('visible')
+        this.slider.classList.remove('close')
+        this.slider.classList.add('open')
+        console.log('open')
+      }
+    }
+  }
  
 }

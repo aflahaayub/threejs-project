@@ -1,5 +1,5 @@
 import * as THREE from 'three'
-import { Raycaster, Vector2 } from 'three'
+import { AudioAnalyser, Raycaster, Vector2 } from 'three'
 import Experience from '../Experience.js'
 import Sizes from '../Utils/Sizes.js'
 import gsap from 'gsap'
@@ -20,9 +20,6 @@ export default class Lab
         this.world = this.experience.world
 
         this.loadIntro = this.experience.loadIntro
-        
-
-        console.log(this.scene)
         this.model = this.resources.items.labModel
 
         this.setRoom()
@@ -30,11 +27,10 @@ export default class Lab
         this.setAnimation()
         this.getEachPoint()
         this.setCamera()
+        this.setSlider()
     }
 
     setRoom(){
-      
-      
       this.room = {}
       this.room.model = this.model.scene
       this.room.texture = this.resources.items.labTexture
@@ -81,12 +77,13 @@ export default class Lab
  
         // Actions
         this.animation.actions = []
+        this.animationAct = []
 
         for(let i = 0; i < this.model.animations.length; i++){
 
           this.animation.actions[i] = this.animation.mixer.clipAction(this.model.animations[i])
-
           this.animation.actions[i].play()
+          this.animationAct.push(this.animation.actions[i])
         }
     }
 
@@ -94,6 +91,7 @@ export default class Lab
       this.showPoints = true
       this.otherTick = ()=>{
         if(this.world.sceneReady){
+          document.querySelector('.slider').classList.add('visible')
           if(this.showPoints){
             // console.log(this.showPoints)
             for(const point of this.points){
@@ -146,15 +144,22 @@ export default class Lab
     }
 
     setCamera(){
-      let isButtonClicked = false
+      let title = ['Getaran', 'Gelombang', 'Gelombang Longitudinal', 'Gelombang Mekanik', 'Gelombang Elektromagnetik', 'Propagasi Gelombang Tanah', 'Propagasi Gelombang Ionosfir', 'Propagasi Garis Pandang']
+
+      let pOne = ['Getaran merupakan gerakan bolak-balik suatu benda dalam selang waktu tertentu melalui titik      kesetimbangannya. Benda dikatakan bergetar dalam satu kali getaran penuh apabila benda bergerak dari titik awal dan kembali lagi ke titik awal tersebut.', 'Gelombang adalah suatu gangguan yang merambatkan energi dari satu titik ke titik lainnya. Gelombang juga dapat diartikan sebagai perambatan energi getaran dari satu titik ke titik lainnya. Gelombang dapat dibedakan berdasarkan medium perambatannya dan berdasarkan arah rambatnya. ', 'Berbeda dengan transverse wave, longitudinal merupakan gelombang yang arah getarannya sejajar atau berhimpit dengan arah rambatnya. Dalam satu gelombang longitudinal terdiri dari satu regangan dan satu rapatan. Perhitungan panjang satu gelombang longitudinal ini dinyatakan dalam satu rapatan dan regangan. Contohnya pada gelombang suara di udara.']
+
+      let pTwo = ['Besaran-besaran fisika pada getaran yaitu periode (T), frekuensi (f), simpangan (y), dan amplitudo (A).', 'Gelombang pada contoh ini disebut gelombang transverse  atau transverse wave. Gelombang yang arah getarannya tegak lurus dengan arah rambatnya. Panjang satu gelombangnya dinyatakan dalam 1 bukit dan 1 lembah.' , 'Besaran-besaran fisika pada getaran yaitu periode (T), frekuensi (f), simpangan (x), amplitudo (A), panjang gelombang (λ), dan cepat rambat gelombang (v). Rumus cepat rambat gelombang: v = f x λ.' ]
       
+      //audio
+      let audio = document.getElementById("myAudio")
+      audio.autoplay = true
+      audio.load()
+
       for(let i = 0; i < this.points.length; i++){
         document.querySelector(`.point-${i}`).onclick = ()=>{
           document.querySelector('.back').classList.add('visible')
-          
           if(`point-${i}` === 'point-0'){
             console.log('this is 3')
-            // 0.5, 3.5, 2.6
             gsap.to(this.camera.instance.position, {duration: 3,
               x: 0.5,
               y: 3.5,
@@ -167,36 +172,21 @@ export default class Lab
               z:-0.2
             })
 
-            document.querySelector('.next-scene').classList.add('visible')
-            this.nextBtn = 0
-
+            setSliderUp(title[2], pOne[2], pTwo[2])
             //change scene
+            this.nextBtn = 0
             document.querySelector(`.next-scene`).onclick =()=>{
-              
-              // this.startLoad()
               document.querySelector(`.point-${i}`).classList.remove('visible')
-
               document.querySelector('.back').classList.remove('visible')
-
               document.querySelector('.next-scene').classList.remove('visible')
-
-              
-              // this.animation.mixer.stopAllAction()
-              
               //remove class
               this.showPoints = false
-
-              // this.sea = new Sea()
               this.sea = new Sea()
               this.renderer.setSeaScene()
-              
-              // this.scene = this.experience.SeaScene
             }
-
           }
           else if(`point-${i}` === 'point-1'){
             document.querySelector('.point-2').classList.remove('noClick')
-
             document.querySelector('.back').classList.add('visible')
             
             gsap.to(this.camera.instance.position, {duration: 3,
@@ -210,6 +200,7 @@ export default class Lab
               y: -1,
               z: 2
             })
+            setSliderUp(title[0], pOne[0], pTwo[0])
           }
           else if(`point-${i}` === 'point-2'){
             document.querySelector('.point-0').classList.remove('noClick')
@@ -226,13 +217,43 @@ export default class Lab
               y: 2,
               z: -2
             })
+            setSliderUp(title[1], pOne[1], pTwo[1])
         }
-        
+      }
+
+      function setSliderUp(title, pOne, pTwo){
+        //Slider UP
+        document.querySelector('.slide').classList.add('visible')
+        let upSlide = 0
+        let upIcon = document.querySelector('.up-icon')
+        document.querySelector('.slide-up').onclick = ()=>{
+          upSlide++
+          if(upSlide % 2 === 0){
+            if(`point-${i}` === 'point-0'){
+              document.querySelector('.next-scene').classList.add('visible')
+            }
+            document.querySelector('.back').classList.add('visible')
+            document.querySelector('.slide-up').classList.add('hide')
+            document.querySelector('.slide-up').classList.remove('open')
+            document.querySelector('.judul').innerHTML = ''
+            document.querySelector('.p1').innerHTML = ''
+            document.querySelector('.p2').innerHTML = ''
+            upIcon.style.transform = 'rotate(0deg)'
+          }else{
+            document.querySelector('.back').classList.remove('visible')
+            document.querySelector('.slide-up').classList.remove('hide')
+            document.querySelector('.slide-up').classList.add('open')
+            upIcon.style.transform = 'rotate(180deg)'
+            upIcon.style.transition = 'transform 1.2s ease'
+            document.querySelector('.judul').innerHTML = title
+            document.querySelector('.p1').innerHTML = pOne
+            document.querySelector('.p2').innerHTML = pTwo
+          }
+        }
       }
 
       // Tombol Kembali
       document.querySelector(`.back`).onclick = ()=>{
-        // gsap.to(this.camera.instance)
         console.log('kembali')
         gsap.to(this.camera.instance.position, {duration: 3,
           x: 7,
@@ -241,27 +262,66 @@ export default class Lab
         })
 
         document.querySelector('.back').classList.remove('visible')
+        document.querySelector('.slide').classList.remove('visible')
       }
 
+      //Kembali Home, Destroy Scene
+      document.querySelector('.home').onclick = () =>{
+        this.experience.destroy()
+      }
+      }
+    }
 
-  
-      //if points[0] clicked, move to the given position 
+    setSlider(){
+      //SLIDER
+      this.slideOpen = 0
+      this.slide = document.querySelector('.slide-left')
+      this.slider = document.querySelector('.slider')
+      this.animasi = document.querySelector('.animasi')
+      this.slide.onclick = ()=>{
+        this.slideOpen++
+        if(this.slideOpen % 2 === 0 ){
+          this.slide.style.transform = 'rotate(0deg)'
+          this.slider.classList.remove('open')
+          this.slider.classList.add('close')
+          document.querySelector('figure').classList.remove('visible')
+          this.animasi.classList.remove('visible')
+          console.log('close')
+        }else{
+          this.slide.style.transform = 'rotate(180deg)'
+          this.slide.style.transition = 'transform 1.5s ease'
+          document.querySelector('figure').classList.add('visible')
+          this.animasi.classList.add('visible')
+          this.slider.classList.remove('close')
+          this.slider.classList.add('open')
+          console.log('open')
+        }
+      }
+
+      this.animate = 0
+      this.animasi.onclick=()=>{
+        this.animate++
+        if(this.animate % 2 ===0){
+          console.log('animate')
+          for(let i = 0; i<this.animationAct.length; i++){
+            this.animationAct[i].play()
+          }
+          document.querySelector('.fa-compact-disc').classList.add('fa-flip')
+        }else{
+          for(let i = 0; i<this.animationAct.length; i++){
+            this.animationAct[i].stop()
+          }
+          console.log('stop')
+          document.querySelector('.fa-compact-disc').classList.remove('fa-flip')
+        }
+      }
     }
-    }
+   
 
     update(){
       // console.log(this.time.delta * 0)
       this.animation.mixer.update(this.time.delta * 0.001)
-
-      // if(this.sea){
-      //   this.sea.update()
-      //   console.log('sea update')
-      // }
-      // // this.world.update(scene)
       this.camera.controls.update()
-
-      // this.renderer.update(this.scene)
-      
-    
     }
+
 }

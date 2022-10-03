@@ -2,11 +2,14 @@ const CopyWebpackPlugin = require('copy-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const MiniCSSExtractPlugin = require('mini-css-extract-plugin')
 const path = require('path')
+const ExtractTextWebpackPlugin = require("extract-text-webpack-plugin");
 
 module.exports = {
     entry: {
         mainApp: path.resolve(__dirname, '../src/script.js'),
-        materiOneApp: path.resolve(__dirname, '../src/materiOne.js')
+        materiOneApp: path.resolve(__dirname, '../src/materiOne.js'),
+        quizApp: path.resolve(__dirname, '../src/quiz.js')
+        // questionsApp: path.resolve(__dirname, '../src/questions.js')
     },
     output:
     {
@@ -26,6 +29,12 @@ module.exports = {
             filename: 'index.html',
             template: path.resolve(__dirname, '../src/index.html'),
             chunks: ['mainApp'],
+            minify: true
+        }),
+        new HtmlWebpackPlugin({
+            filename: 'quiz.html',
+            template: path.resolve(__dirname, '../src/quiz.html'),
+            chunks: ['quizApp'],
             minify: true
         }),
         new HtmlWebpackPlugin({

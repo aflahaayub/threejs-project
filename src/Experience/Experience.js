@@ -51,13 +51,15 @@ export default class Experience
         // this.renderer = new Renderer()
 
         //Scene
-        this.loadIntro = new THREE.Scene()
+        // this.loadIntro = new THREE.Scene()
         this.LabScene = new THREE.Scene()
         this.SeaScene = new THREE.Scene()
         this.PlanetScene = new THREE.Scene(sources)
         this.GroundScene = new THREE.Scene()
         this.Ionosphere = new THREE.Scene()
         this.LosScene = new THREE.Scene()
+
+        // console.log(this.loadIntro)
 
         
         // this.loadIntro = new LoadIntro()
@@ -116,6 +118,7 @@ export default class Experience
     {
         this.sizes.off('resize')
         this.time.off('tick')
+        console.log('destroyed')
 
         // Traverse the whole scene
         this.scene.traverse((child) =>
