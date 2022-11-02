@@ -23,7 +23,6 @@ export default class Los{
     this.setLoading()
     this.setLos()
     this.setArrow()
-    this.sceneButton()
     this.setExplanation()
     this.setSlider()
     this.getTick()
@@ -152,17 +151,6 @@ export default class Los{
     this.scene.add(this.arrow)
   }
 
-  sceneButton(){
-    // document.querySelector('.back-scene').classList.add('visible')
-    // document.querySelector(`.back-scene`).onclick =()=>{
-    //   document.querySelector('.next-scene').classList.remove('visible')
-    //   document.querySelector('.back-scene').classList.remove('visible')
-
-    //   this.renderer.instance.setClearColor('#211d20')
-    //   this.ion = new Ionosphere()
-    //   this.renderer.setIonScene
-    // }
-  }
   setExplanation(){
     let pSeven = ['Propagasi line of sight, disebut dengan propagasi dengan gelombang langsung (direct wave), karena gelombang yang terpancar dari antena pemancar langsung berpropagasi menuju antena penerima dan tidak merambat di atas permukaan tanah.', 'Band frekuensi yang digunakan pada jenis propagasi ini sangat lebar, yaitu meliputi band VHF (30 – 300 MHz), UHF (0,3 – 3 GHz), SHF (3 – 30 GHz) dan EHF (30 – 300 GHz). Aplikasi untuk pelayanan komunikasi, antara lain : untuk siaran radio FM, sistem penyiaran televisi (TV), komunikasi bergerak, radar, komunikasi satelit, dan penelitian ruang angkasa']
   

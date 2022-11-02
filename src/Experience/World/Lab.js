@@ -21,6 +21,7 @@ export default class Lab
 
         this.loadIntro = this.experience.loadIntro
         this.model = this.resources.items.labModel
+        console.log(this.model)
 
         this.setRoom()
         this.setPointers()
@@ -82,6 +83,7 @@ export default class Lab
         for(let i = 0; i < this.model.animations.length; i++){
 
           this.animation.actions[i] = this.animation.mixer.clipAction(this.model.animations[i])
+          // console.log(this.animation.actions[i])
           this.animation.actions[i].play()
           this.animationAct.push(this.animation.actions[i])
         }

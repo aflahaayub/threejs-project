@@ -11,7 +11,7 @@ export default class LoadIntro
         this.experience = new Experience()
         this.time = this.experience.time
         this.debug = this.experience.debug
-        this.scene = this.experience.LabScene
+        this.scene = this.experience.DipolScene
         console.log(this.scene)
         this.setIntro()
         // this.setAnimation()

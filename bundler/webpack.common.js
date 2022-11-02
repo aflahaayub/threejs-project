@@ -8,7 +8,9 @@ module.exports = {
     entry: {
         mainApp: path.resolve(__dirname, '../src/script.js'),
         materiOneApp: path.resolve(__dirname, '../src/materiOne.js'),
-        quizApp: path.resolve(__dirname, '../src/quiz.js')
+        materiTwoApp: path.resolve(__dirname, '../src/materiTwo.js'),
+        materiThreeApp: path.resolve(__dirname, '../src/materiThree.js'),
+        quizApp: path.resolve(__dirname, '../src/quiz/quiz.js')
         // questionsApp: path.resolve(__dirname, '../src/questions.js')
     },
     output:
@@ -33,7 +35,19 @@ module.exports = {
         }),
         new HtmlWebpackPlugin({
             filename: 'quiz.html',
-            template: path.resolve(__dirname, '../src/quiz.html'),
+            template: path.resolve(__dirname, '../src/quiz/quiz.html'),
+            chunks: ['quizApp'],
+            minify: true
+        }),
+        new HtmlWebpackPlugin({
+            filename: 'quizTwo.html',
+            template: path.resolve(__dirname, '../src/quiz/quizTwo.html'),
+            chunks: ['quizApp'],
+            minify: true
+        }),
+        new HtmlWebpackPlugin({
+            filename: 'quizThree.html',
+            template: path.resolve(__dirname, '../src/quiz/quizThree.html'),
             chunks: ['quizApp'],
             minify: true
         }),
@@ -41,6 +55,18 @@ module.exports = {
             filename: 'materiOne.html',
             template: path.resolve(__dirname, '../src/materiOne.html'),
             chunks: ['materiOneApp']
+            // minify: true
+        }),
+        new HtmlWebpackPlugin({
+            filename: 'materiTwo.html',
+            template: path.resolve(__dirname, '../src/materiTwo.html'),
+            chunks: ['materiTwoApp']
+            // minify: true
+        }),
+        new HtmlWebpackPlugin({
+            filename: 'materiThree.html',
+            template: path.resolve(__dirname, '../src/materiThree.html'),
+            chunks: ['materiThreeApp']
             // minify: true
         }),
         new MiniCSSExtractPlugin()

@@ -1,4 +1,4 @@
-import Experience from '../Experience.js'
+import Experience from '../ExperienceTwo.js'
 import EventEmitter from './EventEmitter.js'
 
 export default class Time extends EventEmitter

@@ -1,9 +1,7 @@
 import * as THREE from 'three'
-import Experience from './Experience.js'
-import Sea from './World/raging-sea.js'
-import Planet from './World/Planet.js'
-import LoadIntro from './World/LoadIntro.js'
-import Lab from './World/Lab.js'
+import Experience from './ExperienceTwo.js'
+import Radio from './World/Radio.js'
+
 import { randFloatSpread } from 'three/src/math/MathUtils.js'
 
 export default class Renderer
@@ -14,7 +12,9 @@ export default class Renderer
         this.canvas = this.experience.canvas
         this.sizes = this.experience.sizes
 
-        this.scene = this.experience.LabScene
+        this.scene = this.experience.RadioScene
+        // this.scene = this.experience.BlokPemancarScene
+        // this.scene = this.experience.BlokLangsungScene
         
 
         this.camera = this.experience.camera
@@ -36,36 +36,29 @@ export default class Renderer
         this.instance.shadowMap.enabled = true
         this.instance.shadowMap.type = THREE.PCFSoftShadowMap
         this.instance.setClearColor('#211d20')
+        // this.instance.setClearColor('#CBA380')
         this.instance.setSize(this.sizes.width, this.sizes.height)
         this.instance.setPixelRatio(Math.min(this.sizes.pixelRatio, 2))
 
     }
 
 
-    setSeaScene(){
-        this.scene = this.experience.SeaScene
+    setLangsungScene(){
+        this.scene = this.experience.BlokLangsungScene
     }
 
-    setPlanetScene(){
-        this.scene = this.experience.PlanetScene
+    setSuperScene(){
+        this.scene = this.experience.BlokSuperScene
     }
 
-    setGroundScene(){
-        this.scene = this.experience.GroundScene
+    setFMScene(){
+        this.scene = this.experience.BlokFMScene
     }
 
-    setIonScene(){
-        this.scene = this.experience.Ionosphere
+    setPemancarScene(){
+        this.scene = this.experience.BlokPemancarScene
     }
-
-    setLosScene(){
-        this.scene = this.experience.LosScene
-    }
-
-    setLabScene(){
-        this.scene = this.experience.LabScene
-    }
-
+    
     resize()
     {
         this.instance.setSize(this.sizes.width, this.sizes.height)

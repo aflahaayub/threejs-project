@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
         integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link rel="stylesheet" href="./style.css">
+    <link rel="stylesheet" href="style.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.10.4/gsap.min.js"
         integrity="sha512-VEBjfxWUOyzl0bAwh4gdLEaQyDYPvLrZql3pw1ifgb6fhEvZl9iDDehwHZ+dsMzA0Jfww8Xt7COSZuJ/slxc4Q=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
@@ -356,9 +356,14 @@
                     <div class="details">
                         <div class="materi-title">Frekuensi dan Propagasi Gelombang</div>
                         <p>Membahas mengenai getaran, gelombang, frekuensi radio, dan propagasi gelombang radio.</p>
-                        <div class="button btn-mulai">
-                            <a href="materiOne.html" class="btn-materi-1">Mulai Belajar</a>
+                        <div class="button">
+                            <a href="materiOne.html" class="btn-materi-1 btn-mulai">Mulai Belajar</a>
+                            <a href="quiz.html" id="chapter" class="kuis-materi-1 kuis-mulai">Mulai
+                                Kuis</a>
                         </div>
+                        <!-- <div id="kuis-1" class="button kuis-mulai">
+                            <a href="quiz.html" class="materi-1">Mulai Belajar</a>
+                        </div> -->
                     </div>
                 </section>
             </div>
@@ -368,9 +373,10 @@
                     <div class="details">
                         <div class="materi-title">Penerima dan Pemancar Radio</div>
                         <p>Membahas blok diagram pada tiap tipe penerima dan pemancar gelombang radio.</p>
-                        <div class="button btn-lock">
-                            <p>Mulai Belajar</p>
-                            <!-- <a href="">Mulai Belajar</a> -->
+                        <div class="button">
+                            <a href="materiTwo.html" class="btn-mulai">Mulai Belajar</a>
+                            <a href="quizTwo.html" id="chapter" class="kuis-mulai">Mulai
+                                Kuis</a>
                         </div>
                     </div>
                 </section>
@@ -383,9 +389,10 @@
                         <p>Membahas mengenai tipe-tipe saluran transmisi, impedansi karakteristik pada saluran
                             transmisi, gelombang elektromagnetik pada saluran transmisi, karakteristik antena, dan
                             tipe-tipe antena. </p>
-                        <div class="button btn-lock">
-                            <p>Mulai Belajar</p>
-                            <!-- <a href="">Mulai Belajar</a> -->
+                        <div class="button">
+                            <a href="materiThree.html" class="btn-mulai">Mulai Belajar</a>
+                            <a href="quizThree.html" id="chapter" class="btn-lock kuis-mulai">Mulai
+                                Kuis</a>
                         </div>
                     </div>
                 </section>
@@ -395,6 +402,7 @@
             <div class="up-materi btn-up"><i class="fa-solid fa-arrow-up-long"></i></div>
         </div>
     </div>
+    <!-- Login / Sign Up -->
     <div class="eval-content" id="eval_content">
         <div class="modal">
             <h2>Pemberitahuan</h2>
@@ -406,6 +414,9 @@
             </div>
         </div>
     </div>
+    <!-- <script>let exports = {};</script>
+    <script src="./quiz/questions.js"></script>
+    <script type="module" src="./quiz/quiz.js"></script> -->
 
 </body>
 

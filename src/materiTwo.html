@@ -5,11 +5,63 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Penerima dan Pemancar Radio</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
   <link rel="stylesheet" href="./style.css">
 </head>
 
 <body>
   <canvas class="webgl"></canvas>
+  <div class="loading-bar"></div>
+  <div class="slider">
+    <div class="slide-left">
+      <i class="bi bi-box-arrow-left"></i>
+    </div>
+    <div class="isi">
+      <div class="audio">
+        <figure>
+          <audio id="myAudio" controls src="/static/sounds/materiOne/audioOne.mp3"></audio>
+        </figure>
+      </div>
+      <div class="animasi">
+        <i class="fa-solid fa-compact-disc fa-flip"></i>
+      </div>
+    </div>
+  </div>
+  <div class="point point-0">
+    <div class="label">Tune</div>
+    <div class="text">Ubah Frekuensi</div>
+  </div>
+  <div class="slide">
+    <div class="slide-up hide">
+      <div class="expand-btn">
+        <div class="up-icon"><i class="bi bi-chevron-compact-up"></i></div>
+        <p>Penjelasan</p>
+      </div>
+      <div class="box-materi">
+        <p class="judul"></p>
+        <p class="p1"></p>
+        <p class="p2"></p>
+      </div>
+    </div>
+  </div>
+  <div class="next next-scene">
+    <div class="text-label text-label-hide">Selanjutnya</div>
+  </div>
+  <div class="kuis">
+    <div class="text-label text-label-hide">Mulai Kuis</div>
+  </div>
+  <div class="mulai-kuis" id="mulai_kuis">
+    <div class="modal">
+      <h2>Mulai Kuis</h2>
+      <p>Selamat, anda telah menyelesaikan materi! Untuk memulai kuis, anda dapat menekan tombol mulai.
+        Anda juga dapat menekan tombol kembali untuk pergi ke halaman utama, tetapi pembelajaran akan diulang dari
+        awal.
+      </p>
+      <a href="/" class="btn-kuis kembali">Kembali</a>
+      <a href="/quizTwo.html" class="btn-kuis start">Mulai</a>
+    </div>
+  </div>
 </body>
 
 </html>

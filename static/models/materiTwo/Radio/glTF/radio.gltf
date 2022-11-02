@@ -1,0 +1,262 @@
+{
+    "asset" : {
+        "generator" : "Khronos glTF Blender I/O v3.2.40",
+        "version" : "2.0"
+    },
+    "extensionsUsed" : [
+        "KHR_draco_mesh_compression"
+    ],
+    "extensionsRequired" : [
+        "KHR_draco_mesh_compression"
+    ],
+    "scene" : 0,
+    "scenes" : [
+        {
+            "name" : "Scene",
+            "nodes" : [
+                0
+            ]
+        }
+    ],
+    "nodes" : [
+        {
+            "mesh" : 0,
+            "name" : "Radio",
+            "scale" : [
+                1.5182188749313354,
+                1.1297976970672607,
+                0.6119872331619263
+            ],
+            "translation" : [
+                0.09683942794799805,
+                4.831896781921387,
+                5.44765567779541
+            ]
+        }
+    ],
+    "materials" : [
+        {
+            "doubleSided" : true,
+            "name" : "Material",
+            "pbrMetallicRoughness" : {
+                "baseColorFactor" : [
+                    0.010925132781267166,
+                    0.010925132781267166,
+                    0.010925132781267166,
+                    1
+                ],
+                "metallicFactor" : 0
+            }
+        },
+        {
+            "doubleSided" : true,
+            "name" : "Material.001",
+            "pbrMetallicRoughness" : {
+                "baseColorFactor" : [
+                    0,
+                    0,
+                    0,
+                    1
+                ],
+                "metallicFactor" : 0.2954545319080353,
+                "roughnessFactor" : 0.34090909361839294
+            }
+        },
+        {
+            "doubleSided" : true,
+            "name" : "Material.002",
+            "pbrMetallicRoughness" : {
+                "baseColorFactor" : [
+                    0.800000011920929,
+                    0.800000011920929,
+                    0.800000011920929,
+                    1
+                ],
+                "metallicFactor" : 0,
+                "roughnessFactor" : 0.5
+            }
+        }
+    ],
+    "meshes" : [
+        {
+            "name" : "Cube",
+            "primitives" : [
+                {
+                    "attributes" : {
+                        "POSITION" : 0,
+                        "NORMAL" : 1,
+                        "TEXCOORD_0" : 2
+                    },
+                    "extensions" : {
+                        "KHR_draco_mesh_compression" : {
+                            "bufferView" : 0,
+                            "attributes" : {
+                                "POSITION" : 0,
+                                "NORMAL" : 1,
+                                "TEXCOORD_0" : 2
+                            }
+                        }
+                    },
+                    "indices" : 3,
+                    "material" : 0,
+                    "mode" : 4
+                },
+                {
+                    "attributes" : {
+                        "POSITION" : 4,
+                        "NORMAL" : 5,
+                        "TEXCOORD_0" : 6
+                    },
+                    "extensions" : {
+                        "KHR_draco_mesh_compression" : {
+                            "bufferView" : 1,
+                            "attributes" : {
+                                "POSITION" : 0,
+                                "NORMAL" : 1,
+                                "TEXCOORD_0" : 2
+                            }
+                        }
+                    },
+                    "indices" : 7,
+                    "material" : 1,
+                    "mode" : 4
+                },
+                {
+                    "attributes" : {
+                        "POSITION" : 8,
+                        "NORMAL" : 9,
+                        "TEXCOORD_0" : 10
+                    },
+                    "extensions" : {
+                        "KHR_draco_mesh_compression" : {
+                            "bufferView" : 2,
+                            "attributes" : {
+                                "POSITION" : 0,
+                                "NORMAL" : 1,
+                                "TEXCOORD_0" : 2
+                            }
+                        }
+                    },
+                    "indices" : 11,
+                    "material" : 2,
+                    "mode" : 4
+                }
+            ]
+        }
+    ],
+    "accessors" : [
+        {
+            "componentType" : 5126,
+            "count" : 17387,
+            "max" : [
+                1.273946762084961,
+                1.0039751529693604,
+                1.5189292430877686
+            ],
+            "min" : [
+                -1.265918493270874,
+                -1.000065565109253,
+                -1.4198729991912842
+            ],
+            "type" : "VEC3"
+        },
+        {
+            "componentType" : 5126,
+            "count" : 17387,
+            "type" : "VEC3"
+        },
+        {
+            "componentType" : 5126,
+            "count" : 17387,
+            "type" : "VEC2"
+        },
+        {
+            "componentType" : 5123,
+            "count" : 94446,
+            "type" : "SCALAR"
+        },
+        {
+            "componentType" : 5126,
+            "count" : 4266,
+            "max" : [
+                1.2712442874908447,
+                0.8031295537948608,
+                -0.018890853971242905
+            ],
+            "min" : [
+                0.0125828105956316,
+                -0.9895312190055847,
+                -1.177079439163208
+            ],
+            "type" : "VEC3"
+        },
+        {
+            "componentType" : 5126,
+            "count" : 4266,
+            "type" : "VEC3"
+        },
+        {
+            "componentType" : 5126,
+            "count" : 4266,
+            "type" : "VEC2"
+        },
+        {
+            "componentType" : 5123,
+            "count" : 23112,
+            "type" : "SCALAR"
+        },
+        {
+            "componentType" : 5126,
+            "count" : 2007,
+            "max" : [
+                1.0296522378921509,
+                1.0039750337600708,
+                -0.6426007747650146
+            ],
+            "min" : [
+                -0.8379374742507935,
+                -0.593224048614502,
+                -1.166427493095398
+            ],
+            "type" : "VEC3"
+        },
+        {
+            "componentType" : 5126,
+            "count" : 2007,
+            "type" : "VEC3"
+        },
+        {
+            "componentType" : 5126,
+            "count" : 2007,
+            "type" : "VEC2"
+        },
+        {
+            "componentType" : 5123,
+            "count" : 9942,
+            "type" : "SCALAR"
+        }
+    ],
+    "bufferViews" : [
+        {
+            "buffer" : 0,
+            "byteLength" : 68042,
+            "byteOffset" : 0
+        },
+        {
+            "buffer" : 0,
+            "byteLength" : 13750,
+            "byteOffset" : 68044
+        },
+        {
+            "buffer" : 0,
+            "byteLength" : 8865,
+            "byteOffset" : 81796
+        }
+    ],
+    "buffers" : [
+        {
+            "byteLength" : 90664,
+            "uri" : "radio.bin"
+        }
+    ]
+}

@@ -504,13 +504,13 @@ section:nth-child(odd)
 }
 
 .wrapper .details .button{
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
     padding: 0.5rem;
     margin-top: 1rem;
-    border: 1px solid none;
-    width: 25%;
     text-align: center;
     border-radius: 25px;
-    background-color: #2ade9c;
 }
 
 .wrapper .details a{
@@ -521,6 +521,15 @@ section:nth-child(odd)
 .wrapper .details .btn-mulai{
     font-weight: 500;
     background-color: #2ade9c;
+    padding: 5px 15px;
+    border-radius: 15px;
+}
+
+.wrapper .details .kuis-mulai{
+    font-weight: 500;
+    background-color: #238899;
+    padding: 5px 15px;
+    border-radius: 15px;
 }
 
 .wrapper .details .btn-lock{
@@ -701,16 +710,13 @@ section:nth-child(odd)
     top: 50%;
     left: 50%;
     text-align: center;
+    transform: scaleX(0);
 }
 
-.point:hover .text{
+/* .point:hover .text{
     opacity: 1;
     transition: opacity 0.3s;
-}
-
-.point.visible .label{
-    transform: scale(1,1);
-}
+} */
 
 .point .label{
     position: absolute;
@@ -731,6 +737,14 @@ section:nth-child(odd)
     transition: transform 0.5s ease-in-out;
 }
 
+.point.visible{
+    transform: scale(1,1);
+}
+
+.point.visible .label{
+    transform: scale(1,1);
+}
+
 .point .text{
     position: absolute;
     text-align: center;
@@ -744,7 +758,7 @@ section:nth-child(odd)
     font-weight: 100;
     font-size: 0.7rem;
     font-family: Helvetica, Arial, sans-serif;
-    opacity: 0;
+    opacity: 1;
     transition: opacity 0.3s;
     pointer-events: none;
 }
@@ -783,8 +797,8 @@ section:nth-child(odd)
 }
 
 .slide-up.open{
-    height: 85%;
-    top: 15%;
+    height: 350px;
+    top: 0;
     transition: height 1.2s ease-in-out;
 }
 
@@ -818,6 +832,10 @@ section:nth-child(odd)
 
 .slide-up .box-materi .p1,.slide-up .box-materi .p2{
     padding: 1rem;
+}
+
+.slide-up .box-materi .judul.hide, .slide-up .box-materi .p1.hide, .slide-up .box-materi .p2.hide{
+    display: none;
 }
 
 
@@ -885,7 +903,7 @@ audio{
 .slider .animasi{
     width: 10%;
     height: 25px;
-    background:#86e286;
+    /* background:#86e286; */
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -893,6 +911,12 @@ audio{
     margin: 8px 8px 8px 0;
     padding: 0 10px;
     transform: scaleX(0);
+}
+
+.slider .animasi.visible{
+    background:#86e286;
+    transform: scale(1,1);
+    transition: transform 1.7s ease;
 }
 
 figure.visible, .slider .animasi.visible{
@@ -1045,6 +1069,11 @@ figure.visible, .slider .animasi.visible{
     }
     .next{
         left: 75%;
+    }
+    .slider .animasi{
+        margin: 8px 5px 8px 0;
+        padding: 0 8px;
+        transform: scaleX(0);
     }
 }
 
