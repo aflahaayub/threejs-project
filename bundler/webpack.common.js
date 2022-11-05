@@ -10,7 +10,8 @@ module.exports = {
         materiOneApp: path.resolve(__dirname, '../src/materiOne.js'),
         materiTwoApp: path.resolve(__dirname, '../src/materiTwo.js'),
         materiThreeApp: path.resolve(__dirname, '../src/materiThree.js'),
-        quizApp: path.resolve(__dirname, '../src/quiz/quiz.js')
+        quizApp: path.resolve(__dirname, '../src/quiz/quiz.js'),
+        loginApp: path.resolve(__dirname, '../src/login/login.js') 
         // questionsApp: path.resolve(__dirname, '../src/questions.js')
     },
     output:
@@ -31,6 +32,12 @@ module.exports = {
             filename: 'index.html',
             template: path.resolve(__dirname, '../src/index.html'),
             chunks: ['mainApp'],
+            minify: true
+        }),
+        new HtmlWebpackPlugin({
+            filename: 'login.html',
+            template: path.resolve(__dirname, '../src/login/login.html'),
+            chunks: ['loginApp'],
             minify: true
         }),
         new HtmlWebpackPlugin({

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login or Sign Up | Penerapan Sistem Radio dan Televisi </title>
+  <link rel="stylesheet" href="/login/login.css" type="text/css">
+  <!-- FontAweome CDN Link for Icons-->
+</head>
+
+<body>
+  <div class="container" id="container">
+    <div class="form-container sign-up-container">
+      <form action="/account" method="POST">
+        <h1>Create Account</h1>
+        <input type="text" name="username" id="username" placeholder="Username" />
+        <input type="password" name="password" id="password" placeholder="Password" />
+        <input type="hidden" name="formType" value="signup">
+        <button type="submit" value="signup">Sign Up</button>
+      </form>
+      <div class="responsive res-sign-in">
+        <button>Sign In</button>
+      </div>
+    </div>
+    <div class="form-container sign-in-container">
+      <form action="/account" method="POST">
+        <h1>Sign in</h1>
+        <input type="text" name="username" id="username" placeholder="Username" />
+        <input type="password" name="password" id="password" placeholder="Password" />
+        <input type="hidden" name="formType" value="signin">
+        <button type="submit" value="signin">Sign In</button>
+      </form>
+      <div class="responsive res-sign-up">
+        <button>Create Account</button>
+      </div>
+    </div>
+    <div class="overlay-container">
+      <div class="overlay">
+        <div class="overlay-panel overlay-left">
+          <h1>Selamat Datang Kembali!</h1>
+          <p>Jika kamu sudah memiliki akun, silahkan login dan kamu dapat mulai belajar!</p>
+          <button class="ghost" id="signIn">Sign In</button>
+        </div>
+        <div class="overlay-panel overlay-right">
+          <h1>Halo!</h1>
+          <p>Jika kamu belum memiliki akun, silahkan buat terlebih dahulu</p>
+          <button class="ghost" id="signUp">Sign Up</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Javascript file -->
+  <script>let exports = {};</script>
+  <script type="module" src="/login/login.js"></script>
+</body>
+
+</html>

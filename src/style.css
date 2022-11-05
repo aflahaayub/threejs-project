@@ -212,6 +212,7 @@ section:nth-child(odd)
 }
 
 .content.visible, .cap-content.visible, .history-content.visible, .materi-content.visible, .eval-content.visible, .mulai-kuis.visible{
+    overflow-y: scroll;
     transform: scale(1,1);
 }
 
@@ -367,11 +368,24 @@ section:nth-child(odd)
     overflow-x: hidden;
 }
 
-.history-content .board{
-    border: 1px solid white;
+.board{
+    height: 50%;
+    border: 1px solid rgb(43, 43, 43);
+    background-color: rgb(43, 43, 43);
     padding: 2rem;
     margin: 1rem;
     font-size: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.history-content .detail{
+    display: none;
+}
+
+.history-content .detail.visible{
+    display: inline;
 }
 
 .history-content .detail-quiz{
@@ -397,6 +411,31 @@ section:nth-child(odd)
     font-size: 2rem;
 }
 
+/* Login */
+.login{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.login h3{
+    padding-bottom: 15px;
+}
+
+.login .lock{
+    font-size: 75px;
+    padding: 20px 0;
+}
+
+.login .login-btn a{
+    text-decoration: none;
+    color: black;
+    font-weight: 600;
+    background-color: white;
+    padding: 5px 35px;
+    border-radius: 15px;
+}
+
 /* Materi */
 .materi-content
 {
@@ -414,12 +453,16 @@ section:nth-child(odd)
 }
 
 .wrapper{
-    /* background-color: rgb(204, 250, 223); */
+    display: none;
     max-width: 1080px;
     margin: 50px auto;
     padding: 0 20px;
     position: relative;
     color: black;
+}
+
+.wrapper.visible{
+    display: inherit;
 }
 
 .wrapper .center-line{

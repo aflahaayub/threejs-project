@@ -361,6 +361,13 @@ document.querySelector('.btn-materi-1').onclick =()=>{
     console.log('materi 1 access')
 }
 
+//Login & Signup
+
+// document.querySelector('.detail').classList.remove('')
+
+
+
+
 
 /**
  * Sizes
