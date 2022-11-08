@@ -22,6 +22,7 @@ export default class BlokLangsung{
     this.setLoading()
     this.setSunLight()
     this.setBlok()
+    this.setSlider()
     this.setExplain()
     this.nextScene()
     this.getTick()
@@ -52,12 +53,17 @@ export default class BlokLangsung{
           this.scene.add(this.blok.model.scene)
 
           this.animation = {}
+          this.animationAct = []
           this.animation.mixer = new THREE.AnimationMixer(this.blok.model.scene)
           this.animation.blok = this.blok.model.animations
 
           this.animation.blok.forEach(clip => {
-            this.animation.mixer.clipAction(clip).play()
+            this.animation.action = this.animation.mixer.clipAction(clip)
+
+            this.animation.action.play()
+            this.animationAct.push(this.animation.action)
           });
+
         }
 
   setLoading(){
@@ -105,11 +111,11 @@ export default class BlokLangsung{
     e)	Bagian alat suara, berfungsi untuk mengubah sinyal informasi (AF) menjadi getaran suara yang dapat didengar oleh telinga manusia. 
     `
         //Slider UP
-        let upSlide = 0
-        let upIcon = document.querySelector('.up-icon')
-        document.querySelector('.slide-up').onclick = ()=>{
-          upSlide++
-          if(upSlide % 2 === 0){
+    let upSlide = 0
+    let upIcon = document.querySelector('.up-icon')
+    document.querySelector('.slide-up').onclick = ()=>{
+      upSlide++
+      if(upSlide % 2 === 0){
             document.querySelector('.next-scene').classList.add('visible')
             document.querySelector('.slide-up').classList.add('hide')
             document.querySelector('.slide-up').classList.remove('open')
@@ -117,7 +123,7 @@ export default class BlokLangsung{
             document.querySelector('.p1').innerHTML = ''
             document.querySelector('.p2').innerHTML = ''
             upIcon.style.transform = 'rotate(0deg)'
-          }else{
+      }else{
             document.querySelector('.next-scene').classList.remove('visible')
             document.querySelector('.slide-up').classList.remove('hide')
             document.querySelector('.slide-up').classList.add('open')
@@ -128,6 +134,63 @@ export default class BlokLangsung{
             document.querySelector('.p2').innerHTML = pTwo
           }
         }
+  }
+
+  setSlider(){
+    console.log(this.resources.myAudioSrc)
+    let myAudio = document.getElementById('myAudio')
+    for(let audioSrc of this.resources.myAudioSrc){
+      if(audioSrc.name === 'audio2'){
+        myAudio.src = audioSrc.path
+        myAudio.autoplay = true
+        myAudio.load()
+        console.log(myAudio)
+    }
+    }
+    //SLIDER
+    this.slideOpen = 0
+    this.slide = document.querySelector('.slide-left')
+    this.slider = document.querySelector('.slider')
+    this.animasi = document.querySelector('.animasi')
+    this.slide.onclick = ()=>{
+      this.slideOpen++
+      if(this.slideOpen % 2 === 0 ){
+        this.slide.style.transform = 'rotate(0deg)'
+        this.slider.classList.remove('open')
+        this.slider.classList.add('close')
+        document.querySelector('figure').classList.remove('visible')
+        this.animasi.classList.remove('visible')
+        console.log('close')
+      }else{
+        this.slide.style.transform = 'rotate(180deg)'
+        this.slide.style.transition = 'transform 1.5s ease'
+        document.querySelector('figure').classList.add('visible')
+        this.animasi.classList.add('visible')
+        this.slider.classList.remove('close')
+        this.slider.classList.add('open')
+        console.log('open')
+      }
+    }
+
+    this.playAnimate = true
+    this.animate = 0
+    console.log(this.animationAct)
+      this.animasi.onclick=()=>{
+        this.animate++
+        if(this.animate % 2 ===0){
+          console.log('animate')
+          for(let i = 0; i<this.animationAct.length; i++){
+            this.animationAct[i].play()
+          }
+          document.querySelector('.fa-compact-disc').classList.add('fa-flip')
+        }else{
+          for(let i = 0; i<this.animationAct.length; i++){
+            this.animationAct[i].stop()
+          }
+          console.log('stop')
+          document.querySelector('.fa-compact-disc').classList.remove('fa-flip')
+        }
+      }
   }
 
   nextScene(){

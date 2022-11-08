@@ -8,7 +8,7 @@ import Impedansi from './Impedansi.js'
 import Dipol from './AnDipol.js'
 import Monopol from './Monopole.js'
 import Loop from './Loop.js'
-import Apeture from './Aperture.js'
+import Aperture from './Aperture.js'
 import Mikrostrip from './Mikrostrip.js'
 import Array from './AnArray.js'
 import Reflector from './Reflector.js'
@@ -39,7 +39,7 @@ export default class World
             // this.reflector = new Reflector()
             // this.array = new Array()
             // this.mikro = new Mikrostrip()
-            // this.horn = new Apeture()
+            // this.horn = new Aperture()
             // this.loop = new Loop()
             // this.monopole = new Monopol()
             // this.Dipol = new Dipol()

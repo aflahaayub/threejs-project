@@ -10,7 +10,6 @@ export default class Mikrostrip{
     this.scene = this.experience.MikrostripScene
     this.resources = this.experience.resources
     this.time = this.experience.time
-    this.gui = this.experience.ui
     this.camera = this.experience.camera
     this.sizes = this.experience.sizes
     this.renderer = this.experience.renderer
@@ -116,6 +115,16 @@ export default class Mikrostrip{
       }
 
   setSlider(){
+    console.log(this.resources.myAudioSrc)
+    let myAudio = document.getElementById('myAudio')
+    for(let audioSrc of this.resources.myAudioSrc){
+      if(audioSrc.name === 'audio9'){
+        myAudio.src = audioSrc.path
+        myAudio.autoplay = true
+        myAudio.load()
+        console.log(myAudio)
+    }
+    }
     document.querySelector('.slider').classList.add('visible')
     document.querySelector('.animasi').classList.remove('visible')
     //SLIDER
@@ -185,7 +194,7 @@ export default class Mikrostrip{
       
       document.querySelector('.next-scene').classList.remove('visible')
       this.array = new Array()
-      this.scene = this.experience.ArrayScene
+      this.renderer.setArrayScene()
     }
   }
 

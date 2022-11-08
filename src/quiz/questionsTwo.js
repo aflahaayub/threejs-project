@@ -1,6 +1,6 @@
 // creating an array and passing the number, questions, options, and answers
 // import './quiz.css'
-exports.questionsTwo = [
+export const questionsTwo = [
   {
   numb: 1,
   question: "Suatu sumber sinyal/ getaran radio nantinya akan dipancarkan melalui antenna pancar, merupakan salah satu bagian dari …",

@@ -179,6 +179,7 @@ export default class Lab
             this.nextBtn = 0
             document.querySelector(`.next-scene`).onclick =()=>{
               document.querySelector(`.point-${i}`).classList.remove('visible')
+              document.querySelector('.text').classList.add('no-disp')
               document.querySelector('.back').classList.remove('visible')
               document.querySelector('.next-scene').classList.remove('visible')
               //remove class

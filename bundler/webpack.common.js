@@ -11,14 +11,15 @@ module.exports = {
         materiTwoApp: path.resolve(__dirname, '../src/materiTwo.js'),
         materiThreeApp: path.resolve(__dirname, '../src/materiThree.js'),
         quizApp: path.resolve(__dirname, '../src/quiz/quiz.js'),
-        loginApp: path.resolve(__dirname, '../src/login/login.js') 
+        loadApp: path.resolve(__dirname, '../src/load/load.js') 
         // questionsApp: path.resolve(__dirname, '../src/questions.js')
     },
     output:
     {
         hashFunction: 'xxhash64',
         filename: '[name].bundle.[contenthash].js',
-        path: path.resolve(__dirname, '../dist')
+        path: path.resolve(__dirname, '../dist'),
+        publicPath: '/'
     },
     devtool: 'source-map',
     plugins:
@@ -30,22 +31,28 @@ module.exports = {
         }),
         new HtmlWebpackPlugin({
             filename: 'index.html',
-            template: path.resolve(__dirname, '../src/index.html'),
+            template: path.resolve(__dirname, '../src/load/index.html'),
+            chunks: ['loadApp'],
+            minify: true
+        }),
+        new HtmlWebpackPlugin({
+            filename: 'home.html',
+            template: path.resolve(__dirname, '../src/home.html'),
             chunks: ['mainApp'],
             minify: true
         }),
-        new HtmlWebpackPlugin({
-            filename: 'login.html',
-            template: path.resolve(__dirname, '../src/login/login.html'),
-            chunks: ['loginApp'],
-            minify: true
-        }),
-        new HtmlWebpackPlugin({
-            filename: 'quiz.html',
-            template: path.resolve(__dirname, '../src/quiz/quiz.html'),
-            chunks: ['quizApp'],
-            minify: true
-        }),
+        // new HtmlWebpackPlugin({
+        //     filename: 'login.html',
+        //     template: path.resolve(__dirname, '../src/login/login.html'),
+        //     chunks: ['loginApp'],
+        //     minify: true
+        // }),
+        // new HtmlWebpackPlugin({
+        //     filename: 'quiz.html',
+        //     template: path.resolve(__dirname, '../src/quiz/quiz.html'),
+        //     chunks: ['quizApp'],
+        //     minify: true
+        // }),
         new HtmlWebpackPlugin({
             filename: 'quizTwo.html',
             template: path.resolve(__dirname, '../src/quiz/quizTwo.html'),

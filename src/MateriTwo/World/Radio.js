@@ -120,8 +120,6 @@ export default class Radio{
   setDisplay(){
 
     //AUDIO
-
-    console.log(this.resources.myAudioSrc)
     this.myAudio = document.getElementById('myAudio')
 
     //DISPLAY
@@ -141,26 +139,29 @@ export default class Radio{
       }
     }
     this.display.model = this.resources.items.displayModel.scene
+    console.log(this.clicked)
+    console.log(this.resources.myRadioSrc)
 
     if(this.clicked === 0){
       this.display.texture = this.resources.items.displayTexture
     }else if(this.clicked === 1){
       this.isClicked = true
-      console.log('clicked once')
       this.display.texture = this.resources.items.displayTexture2
-      this.myAudio.src = this.resources.myAudioSrc[1].path
+      this.myAudio.src = this.resources.myRadioSrc[2].path
         this.myAudio.load()
         this.myAudio.autoplay = true
     }else if(this.clicked === 2){
       this.isClicked = true
-      console.log('clicked twice')
       this.display.texture = this.resources.items.displayTexture3
-      this.myAudio.src = this.resources.myAudioSrc[0].path
+      this.myAudio.src = this.resources.myRadioSrc[1].path
         this.myAudio.load()
         this.myAudio.autoplay = true
     }else{
       this.isClicked = true
       this.display.texture = this.resources.items.displayTexture
+      this.myAudio.src = this.resources.myRadioSrc[0].path
+      this.myAudio.load()
+      this.myAudio.autoplay = true
       this.clicked = 0
     }
     this.display.texture.encoding = THREE.sRGBEncoding

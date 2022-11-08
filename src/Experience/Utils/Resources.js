@@ -27,16 +27,9 @@ export default class Resources extends EventEmitter
 
         this.loadingBarElement = document.querySelector('.loading-bar')
 
-        // this.setAudioLoad()
         this.setLoaders()
         this.startLoading()
     }
-
-    // setAudioLoad(){
-    //     this.managerAudio = new THREE.LoadingManager()
-    //     this.audioLoader= new THREE.AudioLoader(this.managerAudio)
-        
-    // }
 
     setLoaders()
     {

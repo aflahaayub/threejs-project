@@ -10,7 +10,6 @@ export default class Elektromagnetik{
     this.scene = this.experience.ElektromagnetikScene
     this.resources = this.experience.resources
     this.time = this.experience.time
-    this.gui = this.experience.ui
     this.camera = this.experience.camera
     this.sizes = this.experience.sizes
     this.renderer = this.experience.renderer
@@ -19,9 +18,6 @@ export default class Elektromagnetik{
 
     this.clicked = 0
     this.isClicked = false
-    this.gui.add(this.camera.instance.position, 'x').min(-10).max(10).name('posX')
-    this.gui.add(this.camera.instance.position, 'y').min(-10).max(10).name('posY')
-    this.gui.add(this.camera.instance.position, 'z').min(-10).max(10).name('posZ')
     // this.camera.instance.position.z = -2
     this.setLoading()
     this.setSunLight()
@@ -120,21 +116,34 @@ export default class Elektromagnetik{
         this.animation.mixer = new THREE.AnimationMixer(this.elek.model.scene)
         this.animation.elek = this.elek.model.animations
 
-        console.log(this.animation.elek)
+        this.animationAct = []
 
         this.animation.elek.forEach(clip => {
-          this.animation.mixer.clipAction(clip).play()
+          this.animation.action = this.animation.mixer.clipAction(clip)
+          this.animation.action.play()
+          this.animationAct.push(this.animation.action)
         });
 
       }
 
   setSlider(){
+    console.log(this.resources.myAudioSrc)
+    let myAudio = document.getElementById('myAudio')
+    for(let audioSrc of this.resources.myAudioSrc){
+      if(audioSrc.name === 'audio3'){
+        myAudio.src = audioSrc.path
+        myAudio.autoplay = true
+        myAudio.load()
+        console.log(myAudio)
+    }
+    }
     document.querySelector('.slider').classList.add('visible')
     document.querySelector('.animasi').classList.remove('visible')
     //SLIDER
     this.slideOpen = 0
     this.slide = document.querySelector('.slide-left')
     this.slider = document.querySelector('.slider')
+    this.animasi = document.querySelector('.animasi')
     this.slide.onclick = ()=>{
       this.slideOpen++
       if(this.slideOpen % 2 === 0 ){
@@ -142,16 +151,38 @@ export default class Elektromagnetik{
         this.slider.classList.remove('open')
         this.slider.classList.add('close')
         document.querySelector('figure').classList.remove('visible')
+        this.animasi.classList.remove('visible')
+        
         console.log('close')
       }else{
         this.slide.style.transform = 'rotate(180deg)'
         this.slide.style.transition = 'transform 1.5s ease'
         document.querySelector('figure').classList.add('visible')
+        this.animasi.classList.add('visible')
         this.slider.classList.remove('close')
         this.slider.classList.add('open')
         console.log('open')
       }
     }
+    this.playAnimate = true
+    this.animate = 0
+    console.log(this.animationAct)
+      this.animasi.onclick=()=>{
+        this.animate++
+        if(this.animate % 2 ===0){
+          console.log('animate')
+          for(let i = 0; i<this.animationAct.length; i++){
+            this.animationAct[i].play()
+          }
+          document.querySelector('.fa-compact-disc').classList.add('fa-flip')
+        }else{
+          for(let i = 0; i<this.animationAct.length; i++){
+            this.animationAct[i].stop()
+          }
+          console.log('stop')
+          document.querySelector('.fa-compact-disc').classList.remove('fa-flip')
+        }
+      }
   }
 
   setExplain(){

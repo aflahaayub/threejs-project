@@ -10,6 +10,7 @@ import Resources from './Utils/Resources.js'
 
 import sources from './sources.js'
 import audioSources from './audioSources.js'
+import radioSources from './radioAudio.js'
 import LoadIntro from './World/LoadIntro.js'
 
 
@@ -55,7 +56,7 @@ export default class Experience
         this.BlokFMScene = new THREE.Scene()
         this.BlokPemancarScene = new THREE.Scene()
         
-        this.resources = new Resources(sources, audioSources)
+        this.resources = new Resources(sources, audioSources, radioSources)
         this.camera = new Camera()
         this.renderer = new Renderer()
         this.world = new World()

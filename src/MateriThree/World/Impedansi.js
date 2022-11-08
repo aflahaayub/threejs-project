@@ -10,7 +10,6 @@ export default class Impedansi{
     this.scene = this.experience.ImpedansiScene
     this.resources = this.experience.resources
     this.time = this.experience.time
-    // this.gui = this.experience.ui
     this.camera = this.experience.camera
     this.sizes = this.experience.sizes
     this.renderer = this.experience.renderer
@@ -116,21 +115,33 @@ export default class Impedansi{
         this.animation.mixer = new THREE.AnimationMixer(this.imp.model.scene)
         this.animation.imp = this.imp.model.animations
 
-        console.log(this.animation.imp)
+        this.animationAct = []
 
         this.animation.imp.forEach(clip => {
           this.animation.mixer.clipAction(clip).play()
+          this.animationAct.push(this.animation.mixer.clipAction(clip))
         });
 
       }
 
   setSlider(){
+    console.log(this.resources.myAudioSrc)
+    let myAudio = document.getElementById('myAudio')
+    for(let audioSrc of this.resources.myAudioSrc){
+      if(audioSrc.name === 'audio4'){
+        myAudio.src = audioSrc.path
+        myAudio.autoplay = true
+        myAudio.load()
+        console.log(myAudio)
+    }
+    }
     document.querySelector('.slider').classList.add('visible')
     document.querySelector('.animasi').classList.remove('visible')
     //SLIDER
     this.slideOpen = 0
     this.slide = document.querySelector('.slide-left')
     this.slider = document.querySelector('.slider')
+    this.animasi = document.querySelector('.animasi')
     this.slide.onclick = ()=>{
       this.slideOpen++
       if(this.slideOpen % 2 === 0 ){
@@ -138,16 +149,37 @@ export default class Impedansi{
         this.slider.classList.remove('open')
         this.slider.classList.add('close')
         document.querySelector('figure').classList.remove('visible')
+        this.animasi.classList.remove('visible')
         console.log('close')
       }else{
         this.slide.style.transform = 'rotate(180deg)'
         this.slide.style.transition = 'transform 1.5s ease'
         document.querySelector('figure').classList.add('visible')
+        this.animasi.classList.add('visible')
         this.slider.classList.remove('close')
         this.slider.classList.add('open')
         console.log('open')
       }
     }
+    this.playAnimate = true
+    this.animate = 0
+    console.log(this.animationAct)
+      this.animasi.onclick=()=>{
+        this.animate++
+        if(this.animate % 2 ===0){
+          console.log('animate')
+          for(let i = 0; i<this.animationAct.length; i++){
+            this.animationAct[i].play()
+          }
+          document.querySelector('.fa-compact-disc').classList.add('fa-flip')
+        }else{
+          for(let i = 0; i<this.animationAct.length; i++){
+            this.animationAct[i].stop()
+          }
+          console.log('stop')
+          document.querySelector('.fa-compact-disc').classList.remove('fa-flip')
+        }
+      }
   }
 
   setExplain(){
@@ -184,6 +216,7 @@ export default class Impedansi{
             document.querySelector('.p2').innerHTML = pTwo
           }
         }
+        
   }
 
   nextScene(){
@@ -191,7 +224,7 @@ export default class Impedansi{
       
       document.querySelector('.next-scene').classList.remove('visible')
       this.Dipol = new Dipol()
-      this.scene = this.experience.DipolScene
+      this.renderer.setDipolScene()
     }
   }
 

@@ -10,7 +10,6 @@ export default class Dipol{
     this.scene = this.experience.DipolScene
     this.resources = this.experience.resources
     this.time = this.experience.time
-    this.gui = this.experience.ui
     this.camera = this.experience.camera
     this.sizes = this.experience.sizes
     this.renderer = this.experience.renderer
@@ -86,8 +85,6 @@ export default class Dipol{
   setModel(){
 
         this.group = new Group()
-
-        console.log(this.resources.items)
         this.bgModel = {}
         this.bgModel.model = this.resources.items.bgMejaModel.scene
         this.bgModel.texture = this.resources.items.bgMejaTexture
@@ -107,16 +104,9 @@ export default class Dipol{
           }
         })
 
-        console.log(this.bgModel.model)
-        console.log(this.dipol.model)
-
         this.group.add(this.bgModel.model)
         this.group.add(this.dipol.model.scene)
 
-
-        this.gui.add(this.group.position, 'x').min(-10).max(10).step(0.01).name('positionX')
-        this.gui.add(this.group.position, 'y').min(-10).max(10).step(0.01).name('positionY')
-        this.gui.add(this.group.position, 'z').min(-10).max(10).step(0.01).name('positionZ')
 
         // this.group.scale.set(-1,-1,-1)
         this.group.rotation.y = 1.5
@@ -124,8 +114,12 @@ export default class Dipol{
         this.group.position.x = -12
         this.group.position.y = -9.5
         this.group.position.z = -1
+
+        console.log(this.group)
+        console.log(this.scene)
         // this.scene.add(this.group)
         this.scene.add(this.group)
+        document.querySelector('.point-1').classList.remove('no-disp')
 
       }
 
@@ -141,8 +135,8 @@ export default class Dipol{
             }
           ]
           console.log(document.getElementById('point1'))
-          // document.getElementById('point1').getElementsByClassName('text')[0].innerHTML = 'Antena Dipol'
-          // document.getElementById('point1').getElementsByClassName('label')[0].innerHTML = '1'
+          document.getElementById('point1').getElementsByClassName('text')[0].innerHTML = 'Antena Dipol'
+          document.getElementById('point1').getElementsByClassName('label')[0].innerHTML = '1'
     }
 
     
@@ -161,9 +155,6 @@ export default class Dipol{
               if(this.intersects.length === 0 ){
                 point.element.classList.add('visible')
               }else{
-    
-                // console.log(this.intersects)
-    
                 this.intersectDistance = this.intersects[0].distance
                 this.pointDistance = point.position.distanceTo(this.camera.instance.position)
     
@@ -193,6 +184,16 @@ export default class Dipol{
       }
 
   setSlider(){
+    console.log(this.resources.myAudioSrc)
+    let myAudio = document.getElementById('myAudio')
+    for(let audioSrc of this.resources.myAudioSrc){
+      if(audioSrc.name === 'audio5'){
+        myAudio.src = audioSrc.path
+        myAudio.autoplay = true
+        myAudio.load()
+        console.log(myAudio)
+    }
+    }
     document.querySelector('.slider').classList.add('visible')
     document.querySelector('.animasi').classList.remove('visible')
     //SLIDER
@@ -219,10 +220,6 @@ export default class Dipol{
   }
   setZoom(){
     this.point = 0
-
-    // this.gui.add(this.camera.instance.position, 'y').min(-3).max(10).step(0.01).name('positionY')
-    // this.gui.add(this.camera.instance.position, 'x').min(-3).max(10).step(0.01).name('positionX')
-    // this.gui.add(this.camera.instance.position, 'z').min(-3).max(8).step(0.01).name('positionZ')
 
     document.querySelector('.point-1').classList.remove('noClick')
     document.querySelector('.point-1').onclick = ()=>{
@@ -298,10 +295,10 @@ export default class Dipol{
 
   nextScene(){
     document.querySelector(`.next-scene`).onclick =()=>{
-      
+      document.querySelector('.point-1').classList.add('no-disp')
       document.querySelector('.next-scene').classList.remove('visible')
       this.monopole = new Monopol()
-      this.scene = this.experience.MonopoleScene
+      this.renderer.setMonopoleScene()
     }
   }
 

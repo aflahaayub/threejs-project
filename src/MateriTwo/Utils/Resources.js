@@ -8,7 +8,7 @@ import Experience from '../ExperienceTwo.js'
 
 export default class Resources extends EventEmitter
 {
-    constructor(sources, audioSources)
+    constructor(sources, audioSources, radioSources)
     {
         super()
         this.experience = new Experience()
@@ -16,6 +16,7 @@ export default class Resources extends EventEmitter
 
         this.sources = sources
         this.audioSources = audioSources
+        this.radioSources = radioSources
 
         this.items = {}
         this.toLoad = this.sources.length
@@ -30,12 +31,6 @@ export default class Resources extends EventEmitter
         this.setLoaders()
         this.startLoading()
     }
-
-    // setAudioLoad(){
-    //     this.managerAudio = new THREE.LoadingManager()
-    //     this.audioLoader= new THREE.AudioLoader(this.managerAudio)
-        
-    // }
 
     setLoaders()
     {
@@ -69,6 +64,29 @@ export default class Resources extends EventEmitter
                     this.myAudioSrc.push(audioSource)
                 }
             )
+        }
+        this.myRadioSrc = []
+        for(const radioSource of this.radioSources){
+            if(radioSource.name === "audio1"){
+                this.myRadioSrc[0] = radioSource
+            }
+            else if(radioSource.name === "audioRadio2"){
+                this.myRadioSrc[1] = radioSource
+            }
+            else{
+                this.myRadioSrc[2] = radioSource
+            }
+
+            console.log(this.myRadioSrc)
+            if(this.myRadioSrc.length === 3){
+                this.loaders.audioLoader.load(
+                radioSource.path,
+                (radioFile)=>{
+                    this.sourceLoaded(radioSource, radioFile)
+                }
+            )
+            }
+            
         }
         // Load each source
         for(const source of this.sources)

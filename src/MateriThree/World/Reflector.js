@@ -9,7 +9,6 @@ export default class Reflector{
     this.scene = this.experience.ReflectorScene
     this.resources = this.experience.resources
     this.time = this.experience.time
-    this.gui = this.experience.ui
     this.camera = this.experience.camera
     this.sizes = this.experience.sizes
     this.renderer = this.experience.renderer
@@ -116,6 +115,16 @@ export default class Reflector{
       }
 
   setSlider(){
+    console.log(this.resources.myAudioSrc)
+    let myAudio = document.getElementById('myAudio')
+    for(let audioSrc of this.resources.myAudioSrc){
+      if(audioSrc.name === 'audio11'){
+        myAudio.src = audioSrc.path
+        myAudio.autoplay = true
+        myAudio.load()
+        console.log(myAudio)
+    }
+    }
     document.querySelector('.slider').classList.add('visible')
     document.querySelector('.animasi').classList.remove('visible')
     //SLIDER

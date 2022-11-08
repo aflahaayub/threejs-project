@@ -74,6 +74,7 @@ export default class Renderer
         this.scene = this.experience.LoopScene
     }
     setApertureScene(){
+        console.log('aperture')
         this.scene = this.experience.ApertureScene
     }
     setMikrostripScene(){

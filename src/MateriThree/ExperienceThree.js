@@ -41,7 +41,7 @@ export default class Experience
         // {
         //     this.ui = new dat.GUI()
         // }
-        this.ui = new dat.GUI()
+        // this.ui = new dat.GUI()
         // this.debug = new Debug()
         // console.log(this.ui.add)
         this.sizes = new Sizes()

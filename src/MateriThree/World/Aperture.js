@@ -4,13 +4,12 @@ import Experience from '../ExperienceThree'
 import gsap from 'gsap'
 import Mikrostrip from './Mikrostrip'
 
-export default class Apeture{
+export default class Aperture{
   constructor(){
     this.experience = new Experience()
     this.scene = this.experience.ApertureScene
     this.resources = this.experience.resources
     this.time = this.experience.time
-    this.gui = this.experience.ui
     this.camera = this.experience.camera
     this.sizes = this.experience.sizes
     this.renderer = this.experience.renderer
@@ -112,11 +111,22 @@ export default class Apeture{
         this.group.position.y = -9.5
         this.group.position.z = -1
         // this.scene.add(this.group)
+        console.log(this.group)
         this.scene.add(this.group)
 
       }
 
   setSlider(){
+    console.log(this.resources.myAudioSrc)
+    let myAudio = document.getElementById('myAudio')
+    for(let audioSrc of this.resources.myAudioSrc){
+      if(audioSrc.name === 'audio8'){
+        myAudio.src = audioSrc.path
+        myAudio.autoplay = true
+        myAudio.load()
+        console.log(myAudio)
+    }
+    }
     document.querySelector('.slider').classList.add('visible')
     document.querySelector('.animasi').classList.remove('visible')
     //SLIDER
@@ -186,7 +196,7 @@ export default class Apeture{
       
       document.querySelector('.next-scene').classList.remove('visible')
       this.mikro = new Mikrostrip()
-      this.scene = this.experience.MikrostripScene
+      this.renderer.setMikrostripScene()
     }
   }
 

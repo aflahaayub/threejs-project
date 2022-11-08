@@ -7,7 +7,7 @@ export default [
   {
     name: 'audio2',
     type: 'audio',
-    path: 'sounds/materiOne/audiotwo.mp3'
+    path: 'sounds/materiOne/audioTwo.mp3'
   },
   {
     name: 'audio3',

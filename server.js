@@ -1,11 +1,26 @@
 const express = require('express')
+const webpack = require('webpack');
+const webpackDevMiddleware = require('webpack-dev-middleware');
+
 const app = express();
+const config = require('./bundler/webpack.dev.js')
+const compiler = webpack(config)
+
+app.use(
+  webpackDevMiddleware(compiler, {
+    publicPath: config.output.publicPath,
+  })
+);
+
 const User = require('./models/user');
+const History = require('./models/user_history')
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt')
 const session = require('express-session');
+const ObjectId = require('mongodb').ObjectId;
 
-mongoose.connect('mongodb://localhost:27017/authMedia', {useNewUrlParser: true, useUnifiedTopology: true})
+
+mongoose.connect('mongodb://localhost:27017/mediaDatabase', {useNewUrlParser: true, useUnifiedTopology: true})
   .then(()=>{
     console.log('CONNECTION OPEN!');
   })
@@ -17,6 +32,7 @@ mongoose.connect('mongodb://localhost:27017/authMedia', {useNewUrlParser: true, 
 app.set('view engine', 'ejs')
 app.set('views', 'views')
 
+app.use(express.json());
 app.use(express.static(__dirname + '/src'));
 app.use(express.urlencoded({extended: true}))
 app.use(session({secret: 'notagoodsecret'}))
@@ -28,21 +44,43 @@ const requireLogin = (req,res,next)=>{ //set middleware
   next();
 }
 
+app.use((req,res,next)=>{
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader(
+    'Access-Control-Allow-Methods',
+    'OPTIONS, GET, POST, PUT, PATCH, DELETE'
+  );
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+  next();
+})
+
+app.get('/', (req,res)=>{
+  res.redirect('/index.html')
+})
+
+app.get('/home', (req,res)=>{
+  res.redirect('/home')
+})
+
 app.get('/account', async(req, res)=>{
   res.render('account')
 })
 
 app.post('/account', async(req,res)=>{
   if('signup' === req.body.formType){
-    console.log(req.body)
     const {password, username} = req.body;
     if(username === '' || password === ''){
       res.redirect('/account')
     }else{
       const user = new User({username,password})
-      await user.save();
+      await user.save().then().catch(err=>console.log(err))
+
+      const historyUser = new History({username, quizOneScore: 0, quizTwoScore: 0, quizThreeScore: 0, evaluationScore: 0, totalScore: 0 })
+      await historyUser.save().then().catch(err=>console.log(err))
+
       req.session.user_id = user._id;
-      res.redirect('/secret')
+      req.session.username = user.username;
+      res.redirect('/home.html')
     }
   }else if('signin' === req.body.formType){
     const {password, username} = req.body;
@@ -51,7 +89,8 @@ app.post('/account', async(req,res)=>{
     if(user){
       if(foundUser){
         req.session.user_id = user._id;
-        res.redirect("/secret")
+        req.session.username = user.username;
+        res.redirect("/home.html" )
       }else{
         res.redirect('/account')
       }
@@ -61,68 +100,96 @@ app.post('/account', async(req,res)=>{
   }
 })
 
-
-// app.get('/', (req,res)=>{
-//   res.send('THIS IS THE HOME PAGE')
-// })
-
-// app.get('/register', (req,res)=>{
-//   res.render('auth')
-// })
-
-// app.post('/register', async(req,res)=>{
-//   // res.send(req.body)
-//   const {password, username} = req.body;
-//   // const hash = await bcrypt.hash(password, 12)
-//   const user = new User({
-//     username,
-//     // password: hash
-//     password
-//   })
-//   await user.save();
-//   req.session.user_id = user._id;
-//   res.redirect('/')
-// })
-
-// app.get('/login', (req,res)=>{
-//   res.render('login')
-// })
-
-// app.post('/login', async(req,res, err)=>{
-//   // res.send(req.body)
-//   const {username, password} = req.body;
-//   const user = await User.findOne({username});
-//   const foundUser = await User.findAndValidate(username, password)
-//   // const validPassword = await bcrypt.compare(password, user.password)
-//   if(user){
-//     if(foundUser){
-//       req.session.user_id = user._id;
-//       res.redirect("/secret")
-//     }else{
-//       res.redirect('/login')
-//     }
-//   }else{
-//     res.redirect('/login')
-//   }
-// })
-
-app.post('/logout', (req,res)=>{
-  // req.session.user_id = null; //choice 1
-  req.session.destroy(); //choice 2, destroy everything
-  res.redirect('/account')
+app.get('/quizOne',requireLogin, (req,res)=>{
+  const username = req.session.username;
+  // res.send(req.params)
+  console.log(req.params)
+   res.render('quizOne', {username})
 })
 
-app.get('/secret', requireLogin, (req,res)=>{
-  if(!req.session.user_id){
-    return res.redirect('/account')
+app.post('/quizOne', (req,res)=>{
+  const {quizScore, username} = req.body;
+  console.log(req.body)
+  History.updateOne({username}, {$set: {quizOneScore: quizScore}}, (err)=>{
+    if(err){
+      console.log(err)
+    }
+  })
+})
+
+app.get('/quizTwo', requireLogin, (req,res)=>{
+  const username = req.session.username;
+   res.render('quizTwo', {username})
+})
+
+app.post('/quizTwo', (req,res)=>{
+  const {quizScore, username} = req.body;
+  console.log(req.body)
+  History.updateOne({username}, {$set: {quizTwoScore: quizScore}}, (err)=>{
+    if(err){
+      console.log(err)
+    }
+  })
+})
+
+app.get('/quizThree',requireLogin, (req,res)=>{
+  const username = req.session.username;
+   res.render('quizThree', {username})
+})
+
+app.post('/quizThree', (req,res)=>{
+  const {quizScore, username} = req.body;
+  console.log(req.body)
+  History.updateOne({username}, {$set: {quizThreeScore: quizScore}}, (err)=>{
+    if(err){
+      console.log(err)
+    }
+  })
+})
+
+app.get('/evaluasi',requireLogin, (req,res)=>{
+  const username = req.session.username;
+   res.render('evaluasi', {username})
+})
+
+app.post('/evaluasi', (req,res)=>{
+  const {quizScore, username} = req.body;
+  console.log(req.body)
+  History.updateOne({username}, {$set: {evaluationScore: quizScore}}, (err)=>{
+    if(err){
+      console.log(err)
+    }
+  })
+})
+
+app.get('/leaderboard', requireLogin,async(req,res)=>{
+  const username = req.session.username;
+  let userHistory = [];
+  const user = await History.where({username});
+
+  const usersHistory = await History.find({});
+  const arrUsers = []
+  for(let user of usersHistory){
+    arrUsers.push({
+      username: user.username,
+      quizOneScore: user.quizOneScore,
+      quizTwoScore: user.quizTwoScore,
+      quizThreeScore: user.quizThreeScore,
+      evaluationScore: user.evaluationScore,
+      totalScore: user.quizOneScore + user.quizTwoScore + user.quizThreeScore+user.evaluationScore
+    })
   }
-  res.render('secret')
+
+  const users = arrUsers
+  users.sort((a,b)=> b.totalScore -a.totalScore)
+
+  res.render('history', {users,user,username})
+  
 })
 
-app.get('/topsecret', requireLogin, (req,res)=>{
-  res.send('TOP SECRET PAGE!')
+app.get('/materi', requireLogin, async(req,res)=>{
+  res.render('materi')
 })
-
 
 app.listen(3000, ()=>{
   console.log('serving app...')

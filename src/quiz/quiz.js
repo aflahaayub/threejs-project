@@ -1,18 +1,25 @@
-import {questionsOne} from './questions.js'
+import {questionsOne} from './questionsOne.js'
 import {questionsTwo} from './questionsTwo.js'
 import {questionsThree} from './questionsThree.js'
-import './quiz.css'
+import {evaluasi} from './evaluation.js'
+// import './quiz.css'
 
 const materiOne = document.querySelector('.materiOne')
 const materiTwo = document.querySelector('.materiTwo')
 const materiThree = document.querySelector('.materiThree')
+const btnQuit = document.querySelector('.quit')
+const result = document.querySelector('.result')
+const user = document.querySelector('.username').innerHTML
+let username = user.trim()
 
 if(materiOne){
     startQuiz(questionsOne)
 } else if(materiTwo){
     startQuiz(questionsTwo)
-}else{
+}else if(materiThree){
     startQuiz(questionsThree)
+}else{
+    startQuiz(evaluasi)
 }
 
 function startQuiz(questions){
@@ -98,7 +105,6 @@ function startQuiz(questions){
             clearInterval(counter); //clear counter
             clearInterval(counterLine); //clear counterLine
             startTimer(timeValue); //calling startTimer function
-            startTimerLine(widthValue); //calling startTimerLine function
             timeText.textContent = "Time Left"; //change the timeText to Time Left
             next_btn.classList.remove("show"); //hide the next button
         }else{
@@ -151,10 +157,6 @@ function startQuiz(questions){
         }
     }
 
-    function clicked(answer){
-        console.log(answer)
-    }
-
     // creating the new div tags which for icons
     let tickIconTag = '<div class="icon tick"><i class="fas fa-check"></i></div>';
     let crossIconTag = '<div class="icon cross"><i class="fas fa-times"></i></div>';
@@ -193,6 +195,29 @@ function startQuiz(questions){
         next_btn.classList.add("show"); //show the next button if user selected any option
     }
 
+    function saveScore(userScore){
+        let xhr = new XMLHttpRequest()
+        if(questions === questionsOne){
+            xhr.open('POST', '/quizOne', true)
+        }else if(questions === questionsTwo){
+            xhr.open('POST', '/quizTwo', true)
+        }else if(questions === questionsThree){
+            xhr.open('POST', '/quizThree', true)
+        }else{
+            xhr.open('POST', '/evaluasi', true)
+        }
+        xhr.setRequestHeader("Content-Type", "application/json")
+        xhr.onreadystatechange = ()=>{
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                // Print received data from server
+                result.innerHTML = this.responseText;
+                btnQuit.href = '/home.html'
+            }
+        }
+        let data = JSON.stringify({"quizScore" : userScore, "username" : username})
+        xhr.send(data)
+    }
+
     function showResult(){
         info_box.classList.remove("activeInfo"); //hide info box
         quiz_box.classList.remove("activeQuiz"); //hide quiz box
@@ -212,6 +237,7 @@ function startQuiz(questions){
             scoreText.innerHTML = scoreTag;
         }
         const total = Math.round(userScore/questions.length * 100)
+        saveScore(total)
         // if(total%)
         result_box.querySelector('.total_score').innerHTML = `<p>${total} </p>`
     }
@@ -245,6 +271,8 @@ function startQuiz(questions){
         }
     }
 
+    
+
     // function startTimerLine(time){
     //     counterLine = setInterval(timer, 29);
     //     function timer(){
@@ -258,7 +286,7 @@ function startQuiz(questions){
 
         function queCounter(index){
             //creating a new span tag and passing the question number and total question
-            let totalQueCounTag = '<span><p>'+ index +'</p> of <p>'+ 15 +'</p> Questions</span>';
+            let totalQueCounTag = '<span><p>'+ index +'</p> of <p>'+ questions.length +'</p> Questions</span>';
             bottom_ques_counter.innerHTML = totalQueCounTag;  //adding new span tag inside bottom_ques_counter
         }
 

@@ -10,7 +10,6 @@ export default class Array{
     this.scene = this.experience.ArrayScene
     this.resources = this.experience.resources
     this.time = this.experience.time
-    this.gui = this.experience.ui
     this.camera = this.experience.camera
     this.sizes = this.experience.sizes
     this.renderer = this.experience.renderer
@@ -117,6 +116,16 @@ export default class Array{
       }
 
   setSlider(){
+    console.log(this.resources.myAudioSrc)
+    let myAudio = document.getElementById('myAudio')
+    for(let audioSrc of this.resources.myAudioSrc){
+      if(audioSrc.name === 'audio10'){
+        myAudio.src = audioSrc.path
+        myAudio.autoplay = true
+        myAudio.load()
+        console.log(myAudio)
+    }
+    }
     document.querySelector('.slider').classList.add('visible')
     document.querySelector('.animasi').classList.remove('visible')
     //SLIDER
@@ -183,10 +192,9 @@ export default class Array{
 
   nextScene(){
     document.querySelector(`.next-scene`).onclick =()=>{
-      
       document.querySelector('.next-scene').classList.remove('visible')
       this.reflector = new Reflector()
-      this.scene = this.experience.ReflectorScene
+      this.renderer.setReflectorScene()
     }
   }
 

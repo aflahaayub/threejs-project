@@ -2,7 +2,7 @@ import * as THREE from 'three'
 import { Group, Raycaster } from 'three'
 import Experience from '../ExperienceThree'
 import gsap from 'gsap'
-import Apeture from './Aperture'
+import Aperture from './Aperture'
 
 export default class Loop{
   constructor(){
@@ -10,7 +10,6 @@ export default class Loop{
     this.scene = this.experience.LoopScene
     this.resources = this.experience.resources
     this.time = this.experience.time
-    this.gui = this.experience.ui
     this.camera = this.experience.camera
     this.sizes = this.experience.sizes
     this.renderer = this.experience.renderer
@@ -25,7 +24,7 @@ export default class Loop{
     this.setModel()
     this.setSlider()
     this.setExplain()
-    // this.nextScene()
+    this.nextScene()
   }
 
   setLoading(){
@@ -117,6 +116,16 @@ export default class Loop{
       }
 
   setSlider(){
+    console.log(this.resources.myAudioSrc)
+    let myAudio = document.getElementById('myAudio')
+    for(let audioSrc of this.resources.myAudioSrc){
+      if(audioSrc.name === 'audio7'){
+        myAudio.src = audioSrc.path
+        myAudio.autoplay = true
+        myAudio.load()
+        console.log(myAudio)
+    }
+    }
     document.querySelector('.slider').classList.add('visible')
     document.querySelector('.animasi').classList.remove('visible')
     //SLIDER
@@ -183,10 +192,10 @@ export default class Loop{
 
   nextScene(){
     document.querySelector(`.next-scene`).onclick =()=>{
-      
+      console.log('next ')
+      this.horn = new Aperture()
+      this.renderer.setApertureScene()
       document.querySelector('.next-scene').classList.remove('visible')
-      this.horn = new Apeture()
-      this.scene = this.experience.ApertureScene
     }
   }
 

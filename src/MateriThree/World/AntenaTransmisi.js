@@ -9,7 +9,6 @@ export default class AntenaTransmisi{
     this.scene = this.experience.AntenaTransmisiScene
     this.resources = this.experience.resources
     this.time = this.experience.time
-    this.debug = this.experience.debug
     this.camera = this.experience.camera
     this.sizes = this.experience.sizes
     this.renderer = this.experience.renderer
@@ -121,6 +120,41 @@ setTower(){
         }
   }
 
+  setSlider(){
+    console.log(this.resources.myAudioSrc)
+    let myAudio = document.getElementById('myAudio')
+    for(let audioSrc of this.resources.myAudioSrc){
+      if(audioSrc.name === 'audio1'){
+        myAudio.src = audioSrc.path
+        myAudio.autoplay = true
+        myAudio.load()
+        console.log(myAudio)
+    }
+    }
+    document.querySelector('.slider').classList.add('visible')
+    //SLIDER
+    this.slideOpen = 0
+    this.slide = document.querySelector('.slide-left')
+    this.slider = document.querySelector('.slider')
+    this.slide.onclick = ()=>{
+      this.slideOpen++
+      if(this.slideOpen % 2 === 0 ){
+        this.slide.style.transform = 'rotate(0deg)'
+        this.slider.classList.remove('open')
+        this.slider.classList.add('close')
+        document.querySelector('figure').classList.remove('visible')
+        console.log('close')
+      }else{
+        this.slide.style.transform = 'rotate(180deg)'
+        this.slide.style.transition = 'transform 1.5s ease'
+        document.querySelector('figure').classList.add('visible')
+        this.slider.classList.remove('close')
+        this.slider.classList.add('open')
+        console.log('open')
+      }
+    }
+
+  }
   nextScene(){
     document.querySelector(`.next-scene`).onclick =()=>{
       

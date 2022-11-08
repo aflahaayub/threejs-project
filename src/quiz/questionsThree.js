@@ -1,6 +1,6 @@
 // creating an array and passing the number, questions, options, and answers
 // import './quiz.css'
-exports.questionsThree = [
+export const questionsThree = [
   {
   numb: 1,
   question: "Saluran transmisi adalah ...",
@@ -100,7 +100,7 @@ exports.questionsThree = [
 {
   numb: 9,
   question: "Pengarahan konsentrasi energi dan besar pengarahan pola radiasi suatu antena merupakan pengertian dari ...",
-  answer: "D. Suara",
+  answer: "E. Direktivitas",
   options: [
     "A. Pola Radiasi", 
     "B. Gain",

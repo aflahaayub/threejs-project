@@ -409,6 +409,18 @@ footer button.show{
     background: #007bff;
 }
 
+.btn-save{
+    background-color: #334bb5;
+    color: white;
+    padding: 15px;
+    border-radius: 20px;
+    cursor: pointer;
+}
+
+.dis-none{
+    display: none;
+}
+
 
 /* Handphone */
 @media screen and (max-width:900px) {

@@ -10,7 +10,6 @@ export default class Saluran{
     this.scene = this.experience.SaluranScene
     this.resources = this.experience.resources
     this.time = this.experience.time
-    this.gui = this.experience.ui
     this.camera = this.experience.camera
     this.sizes = this.experience.sizes
     this.renderer = this.experience.renderer
@@ -192,6 +191,16 @@ setSaltrans(){
   }
 
   setSlider(){
+    console.log(this.resources.myAudioSrc)
+    let myAudio = document.getElementById('myAudio')
+    for(let audioSrc of this.resources.myAudioSrc){
+      if(audioSrc.name === 'audio2'){
+        myAudio.src = audioSrc.path
+        myAudio.autoplay = true
+        myAudio.load()
+        console.log(myAudio)
+    }
+    }
     document.querySelector('.slider').classList.add('visible')
     document.querySelector('.animasi').classList.remove('visible')
     //SLIDER
@@ -219,13 +228,9 @@ setSaltrans(){
 
   setZoom(){
     this.point = ''
-    this.gui.add(this.camera.instance.rotation, 'x').min(-10).max(10).step(0.01).name('rotateX')
-    this.gui.add(this.camera.instance.rotation, 'y').min(-10).max(10).step(0.01).name('rotateY')
-    this.gui.add(this.camera.instance.rotation, 'z').min(-10).max(10).step(0.01).name('rotateZ')
     for(let i = 0; i < this.points.length; i++){
       document.querySelector(`.point-${i}`).onclick = ()=>{
         document.querySelector('.back').classList.add('visible')
-
         if(`point-${i}` === 'point-0'){
           this.point = 0
           document.querySelector('.point-1').classList.remove('noClick')
@@ -333,12 +338,10 @@ setSaltrans(){
           console.log(this.point)
           upSlide++
           if(upSlide % 2 === 0){
-            // if(`point-${this.point}` === 'point-3'){
-            //   document.querySelector('.next-scene').classList.add('visible')
-            // }
-            
-            // document.querySelector('.back').classList.add('visible')
-            // document.querySelector('.next-scene').classList.add('visible')
+            if(`point-${this.point}` === 'point-3'){
+              document.querySelector('.next-scene').classList.add('visible')
+            }
+            document.querySelector('.back').classList.add('visible')
             document.querySelector('.slide-up').classList.add('hide')
             document.querySelector('.slide-up').classList.remove('open')
             document.querySelector('.judul').innerHTML = ''
@@ -361,12 +364,12 @@ setSaltrans(){
 
   nextScene(){
     document.querySelector(`.next-scene`).onclick =()=>{
-      
+      document.querySelector('.back').classList.remove('visible')
       document.querySelector('.next-scene').classList.remove('visible')
       this.elektromagneitik = new Elektromagnetik()
       this.renderer.setElektromagnetikScene()
       document.querySelector('.point-0').remove()
-      document.querySelector('.point-1').remove()
+      document.querySelector('.point-1').classList.add('no-disp')
       document.querySelector('.point-2').remove()
       document.querySelector('.point-3').remove()
 

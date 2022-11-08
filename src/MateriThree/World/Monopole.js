@@ -10,7 +10,6 @@ export default class Monopol{
     this.scene = this.experience.MonopoleScene
     this.resources = this.experience.resources
     this.time = this.experience.time
-    this.gui = this.experience.ui
     this.camera = this.experience.camera
     this.sizes = this.experience.sizes
     this.renderer = this.experience.renderer
@@ -106,12 +105,6 @@ export default class Monopol{
 
         this.group.add(this.bgModel.model)
         this.group.add(this.whips.model.scene)
-
-
-        this.gui.add(this.group.position, 'x').min(-10).max(10).step(0.01).name('positionX')
-        this.gui.add(this.group.position, 'y').min(-10).max(10).step(0.01).name('positionY')
-        this.gui.add(this.group.position, 'z').min(-10).max(10).step(0.01).name('positionZ')
-
         // this.group.scale.set(-1,-1,-1)
         this.group.rotation.y = 1.5
 
@@ -124,6 +117,16 @@ export default class Monopol{
       }
 
   setSlider(){
+    console.log(this.resources.myAudioSrc)
+    let myAudio = document.getElementById('myAudio')
+    for(let audioSrc of this.resources.myAudioSrc){
+      if(audioSrc.name === 'audio6'){
+        myAudio.src = audioSrc.path
+        myAudio.autoplay = true
+        myAudio.load()
+        console.log(myAudio)
+    }
+    }
     document.querySelector('.slider').classList.add('visible')
     document.querySelector('.animasi').classList.remove('visible')
     //SLIDER
@@ -193,7 +196,7 @@ export default class Monopol{
       
       document.querySelector('.next-scene').classList.remove('visible')
       this.loop = new Loop()
-      this.scene = this.experience.LoopScene
+      this.renderer.setLoopScene()
     }
   }
 

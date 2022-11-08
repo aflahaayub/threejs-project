@@ -1,0 +1,96 @@
+<!-- Created By CodingNepal - www.codingnepalweb.com  -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kuis Materi 3 | Penerapan Sistem Radio dan Televisi </title>
+  <link rel="stylesheet" href="/quiz/quiz.css" type="text/css">
+  <!-- FontAweome CDN Link for Icons-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+</head>
+
+<body>
+  <div class="container">
+
+    <!-- start Quiz button -->
+    <div class="start_btn"><button>Mulai Kuis</button></div>
+
+    <!-- Info Box -->
+    <div class="info_box">
+      <div class="info-title"><span>Peraturan Pengerjaan Kuis</span></div>
+      <div class="info-list">
+        <div class="info">1. Kamu hanya memiliki waktu <span>25 detik</span> untuk tiap pertanyaan.</div>
+        <div class="info">2. Jawaban akan otomatis terkunci setelah kamu memilih.</div>
+        <div class="info">3. Kamu tidak dapat memilih jawaban jika waktu telah habis.</div>
+        <div class="info">4. Kamu tidak dapat keluar dari kuis ketika dalam pengerjaan.</div>
+        <div class="info">5. Kamu akan mendapatkan poin pada tiap soal yang memiliki jawaban benar.</div>
+      </div>
+      <div class="buttons">
+        <button class="quit">Keluar Kuis</button>
+        <button class="lanjut restart">Lanjutkan</button>
+      </div>
+    </div>
+
+    <!-- Quiz Box -->
+    <div class="quiz_box">
+      <header>
+        <div class="title materiThree">Kuis Materi 3</div>
+        <!-- <div class="number">1/15</div> -->
+        <div class="timer">
+          <div class="time_left_txt">Time Left</div>
+          <div class="timer_sec">25</div>
+        </div>
+        <div class="time_line"></div>
+      </header>
+      <section>
+        <div class="que_contain">
+          <div class="que_img">
+            <!-- <img src="" alt=""> -->
+          </div>
+          <div class="que_text">
+            <!-- Here I've inserted question from JavaScript -->
+          </div>
+        </div>
+
+        <div class="option_list">
+          <!-- Here I've inserted options from JavaScript -->
+        </div>
+      </section>
+
+      <!-- footer of Quiz Box -->
+      <footer>
+        <div class="total_que">
+          <!-- Here I've inserted Question Count Number from JavaScript -->
+        </div>
+        <button class="next_btn">Next</button>
+      </footer>
+    </div>
+
+    <!-- Result Box -->
+    <div class="result_box">
+      <div class="icon">
+        <div class="total_score">
+          <!-- Total Score -> totalScore/15 * 100 -->
+        </div>
+      </div>
+      <div class="complete_text">Kamu telah menyelesaikan kuis!</div>
+      <div class="score_text">
+        <!-- Here I've inserted Score Result from JavaScript -->
+      </div>
+      <div class="buttons">
+        <!-- <button class="restart">Replay Quiz</button> -->
+        <a href="/home.html" class="btn-save quit">Simpan dan Keluar kuis</a>
+      </div>
+      <div class="dis-none username">
+        <%=username%>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="/quiz/quiz.js"></script>
+
+</body>
+
+</html>

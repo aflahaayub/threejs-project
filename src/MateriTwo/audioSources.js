@@ -1,12 +1,21 @@
 export default [
-  {
-    name: 'audioRadio2',
+{
+  name: 'audio2',
   type: 'audio',
-  path: 'sounds/materiTwo/987.mp3'
+  path: 'sounds/materiTwo/audioTwo.mp3'
 },
 {
-  name: 'audioRadio3',
-type: 'audio',
-path: 'sounds/materiTwo/101.mp3'
+  name: 'audio3',
+  type: 'audio',
+  path: 'sounds/materiTwo/audioThree.mp3'
+},
+{
+  name: 'audio4',
+  type: 'audio',
+  path: 'sounds/materiTwo/audioFour.mp3'
+},{
+  name: 'audio5',
+  type: 'audio',
+  path: 'sounds/materiTwo/audioFive.mp3'
 }
 ]
