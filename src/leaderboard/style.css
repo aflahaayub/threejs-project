@@ -41,13 +41,17 @@ table{
   box-shadow: 0px -3px 28px 13px rgb(0 0 0 / 25%), 0 10px 10px rgb(0 0 0 / 22%);
 	position: relative;
 	overflow: hidden;
-	width: 768px;
-	max-width: 100%;
+	max-width: 768px;
 	min-height: 480px;
+  max-height: 700px;
   display: flex;
   flex-direction: column;
   align-items: center;
   padding: 0 20px;
+}
+
+.wrap-scroll{
+  overflow: scroll;
 }
 
 .button-group {

@@ -363,12 +363,12 @@ document.querySelector('.up-cp').onclick =()=>{
 //     })
 //     document.querySelector('.materi-content').classList.remove('visible')
 // }
-document.querySelector('.btn-close').onclick =()=>{
-    document.querySelector('.container-title').scrollIntoView({
-        behavior: 'smooth'
-    })
-    document.querySelector('.eval-content').classList.remove('visible')
-}
+// document.querySelector('.btn-close').onclick =()=>{
+//     document.querySelector('.container-title').scrollIntoView({
+//         behavior: 'smooth'
+//     })
+//     document.querySelector('.eval-content').classList.remove('visible')
+// }
 
 // document.querySelector('.btn-materi-1').onclick =()=>{
 //     console.log('materi 1 access')

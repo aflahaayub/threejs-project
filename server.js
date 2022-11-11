@@ -20,7 +20,7 @@ const session = require('express-session');
 const ObjectId = require('mongodb').ObjectId;
 
 
-mongoose.connect('mongodb://localhost:27017/mediaDatabase', {useNewUrlParser: true, useUnifiedTopology: true})
+mongoose.connect('mongodb://localhost:27017/penelitianMedia', {useNewUrlParser: true, useUnifiedTopology: true})
   .then(()=>{
     console.log('CONNECTION OPEN!');
   })
@@ -58,8 +58,8 @@ app.get('/', (req,res)=>{
   res.redirect('/index.html')
 })
 
-app.get('/home', (req,res)=>{
-  res.redirect('/home')
+app.get('/home', requireLogin, (req,res)=>{
+  res.redirect('/home.html')
 })
 
 app.get('/account', async(req, res)=>{

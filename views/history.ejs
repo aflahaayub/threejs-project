@@ -16,74 +16,52 @@
 <body>
   <div class="container">
     <div class="board">
-      <a class="btn-back" href="/home.html"><i class="bi bi-arrow-left-short"></i>Halaman Utama</a>
+      <a class="btn-back" href="/home"><i class="bi bi-arrow-left-short"></i>Halaman Utama</a>
       <h1>&#128081; Papan Skor &#128081;</h1>
       <div class="button-group" data-left="4px">
         <button onClick="buttonClick('4px')">Ranking</button>
         <button onClick="buttonClick('50%')">Skor Pengguna</button>
       </div>
-      <table class="table allRank table-responsive">
-        <thead class="table-warning">
-          <tr>
-            <!-- <th scope="col">Rank</th> -->
-            <th scope="col">Username</th>
-            <th scope="col">Kuis 1</th>
-            <th scope="col">Kuis 2</th>
-            <th scope="col">Kuis 3</th>
-            <th scope="col">Evaluasi</th>
-          </tr>
-        </thead>
-        <tbody class="table-group-divider">
-
-          <% for(let user of users){ %>
+      <div class="wrap-scroll">
+        <table class="table allRank table-responsive">
+          <thead class="table-warning">
             <tr>
-              <!-- <th scope="row">
+              <!-- <th scope="col">Rank</th> -->
+              <th scope="col">Username</th>
+              <th scope="col">Kuis 1</th>
+              <th scope="col">Kuis 2</th>
+              <th scope="col">Kuis 3</th>
+              <th scope="col">Evaluasi</th>
+            </tr>
+          </thead>
+          <tbody class="table-group-divider">
+
+            <% for(let user of users){ %>
+              <tr>
+                <!-- <th scope="row">
                 1
               </th> -->
-              <td>
-                <%= user.username %>
-              </td>
-              <td>
-                <%= user.quizOneScore %>
-              </td>
-              <td>
-                <%= user.quizTwoScore %>
-              </td>
-              <td>
-                <%= user.quizThreeScore %>
-              </td>
-              <td>
-                <%= user.evaluationScore %>
-              </td>
-            </tr>
-            <% } %>
-              <!-- <tr>
-              <th scope="row">1</th>
-              <td>Mark</td>
-              <td>0</td>
-              <td>0</td>
-              <td>0</td>
-              <td>0</td>
-            </tr>
-            <tr>
-              <th scope="row">2</th>
-              <td>Jacob</td>
-              <td>0</td>
-              <td>0</td>
-              <td>0</td>
-              <td>0</td>
-            </tr>
-            <tr>
-              <th scope="row">3</th>
-              <td>Larry</td>
-              <td>0</td>
-              <td>0</td>
-              <td>0</td>
-              <td>0</td>
-            </tr> -->
+                <td>
+                  <%= user.username %>
+                </td>
+                <td>
+                  <%= user.quizOneScore %>
+                </td>
+                <td>
+                  <%= user.quizTwoScore %>
+                </td>
+                <td>
+                  <%= user.quizThreeScore %>
+                </td>
+                <td>
+                  <%= user.evaluationScore %>
+                </td>
+              </tr>
+              <% } %>
+          </tbody>
+        </table>
+      </div>
 
-        </tbody>
-      </table>
       <table class="table skorPengguna notVisible">
         <thead class="table-success">
           <tr>

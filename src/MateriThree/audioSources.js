@@ -51,6 +51,6 @@ export default [
   ,{
     name: 'audio11',
     type: 'audio',
-    path: 'sounds/materiThree/audioEeleven.mp3'
+    path: 'sounds/materiThree/audioEleven.mp3'
   }
   ]
