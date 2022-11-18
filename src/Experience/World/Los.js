@@ -169,6 +169,7 @@ export default class Los{
         document.querySelector('.p2').innerHTML = ''
         upIcon.style.transform = 'rotate(0deg)'
       }else{
+        document.querySelector('.kuis').classList.remove('visible')
         document.querySelector('.slide-up').classList.remove('hide')
         document.querySelector('.slide-up').classList.add('open')
         upIcon.style.transform = 'rotate(180deg)'
@@ -181,22 +182,16 @@ export default class Los{
 
     document.querySelector('.kuis').onclick=()=>{
       document.querySelector('.mulai-kuis').classList.add('visible')
+      document.querySelector('.mulai-kuis').classList.remove('no-disp')
     }
   }
 
   setSlider(){
-    console.log(this.resources.myAudioSrc)
-    let myAudio = document.getElementById('myAudio')
-    for(let audioSrc of this.resources.myAudioSrc){
-      if(audioSrc.name === 'audio6'){
-        myAudio.src = audioSrc.path
-        myAudio.autoplay = true
-        myAudio.load()
-        console.log(myAudio)
-        console.log('audio six is playing..')
-    }
-    }
     //SLIDER
+    document.getElementsByClassName('modal')[0].style.maxWidth = '500px'
+    document.getElementsByClassName('modal')[0].style.maxHeight = '500px'
+    document.getElementsByClassName('modal')[0].style.overflowY = 'scroll'
+
     this.slideOpen = 0
     this.slide = document.querySelector('.slide-left')
     this.slider = document.querySelector('.slider')

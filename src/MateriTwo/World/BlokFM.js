@@ -53,18 +53,6 @@ export default class BlokFM{
           this.blok.model.scene.position.set(3.5 ,-4, 1)
           this.scene.add(this.blok.model.scene)
 
-          this.animation = {}
-          this.animationAct = []
-          this.animation.mixer = new THREE.AnimationMixer(this.blok.model.scene)
-          this.animation.blok = this.blok.model.animations
-
-          this.animation.blok.forEach(clip => {
-            this.animation.action = this.animation.mixer.clipAction(clip)
-
-            this.animation.action.play()
-            this.animationAct.push(this.animation.action)
-          });
-
         }
 
   setLoading(){
@@ -133,16 +121,6 @@ export default class BlokFM{
   }
 
   setSlider(){
-    console.log(this.resources.myAudioSrc)
-    let myAudio = document.getElementById('myAudio')
-    for(let audioSrc of this.resources.myAudioSrc){
-      if(audioSrc.name === 'audio4'){
-        myAudio.src = audioSrc.path
-        myAudio.autoplay = true
-        myAudio.load()
-        console.log(myAudio)
-    }
-    }
     //SLIDER
     this.slideOpen = 0
     this.slide = document.querySelector('.slide-left')
@@ -158,6 +136,7 @@ export default class BlokFM{
         this.animasi.classList.remove('visible')
         console.log('close')
       }else{
+        document.querySelector('.audio').classList.remove('no-disp')
         this.slide.style.transform = 'rotate(180deg)'
         this.slide.style.transition = 'transform 1.5s ease'
         document.querySelector('figure').classList.add('visible')
@@ -167,26 +146,6 @@ export default class BlokFM{
         console.log('open')
       }
     }
-
-    this.playAnimate = true
-    this.animate = 0
-    console.log(this.animationAct)
-      this.animasi.onclick=()=>{
-        this.animate++
-        if(this.animate % 2 ===0){
-          console.log('animate')
-          for(let i = 0; i<this.animationAct.length; i++){
-            this.animationAct[i].play()
-          }
-          document.querySelector('.fa-compact-disc').classList.add('fa-flip')
-        }else{
-          for(let i = 0; i<this.animationAct.length; i++){
-            this.animationAct[i].stop()
-          }
-          console.log('stop')
-          document.querySelector('.fa-compact-disc').classList.remove('fa-flip')
-        }
-      }
   }
   nextScene(){
     document.querySelector(`.next-scene`).onclick =()=>{
@@ -194,12 +153,12 @@ export default class BlokFM{
       document.querySelector('.next-scene').classList.remove('visible')
       this.blokPemancar = new BlokPemancar()
       this.renderer.setPemancarScene()
-      // console.log('next to planet from raging sea')
+      this.audioElement = document.querySelector('audio')
+      this.audioElement.src = '/sounds/materiTwo/audioFive.mp3'
     }
   }
   getTick(){
     this.otherTick = ()=>{
-      this.animation.mixer.update(this.time.delta * 0.001)
       this.camera.controls.update()
      window.requestAnimationFrame(this.otherTick)
     }

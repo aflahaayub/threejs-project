@@ -53,18 +53,18 @@ module.exports = {
         //     chunks: ['quizApp'],
         //     minify: true
         // }),
-        new HtmlWebpackPlugin({
-            filename: 'quizTwo.html',
-            template: path.resolve(__dirname, '../src/quiz/quizTwo.html'),
-            chunks: ['quizApp'],
-            minify: true
-        }),
-        new HtmlWebpackPlugin({
-            filename: 'quizThree.html',
-            template: path.resolve(__dirname, '../src/quiz/quizThree.html'),
-            chunks: ['quizApp'],
-            minify: true
-        }),
+        // new HtmlWebpackPlugin({
+        //     filename: 'quizTwo.html',
+        //     template: path.resolve(__dirname, '../src/quiz/quizTwo.html'),
+        //     chunks: ['quizApp'],
+        //     minify: true
+        // }),
+        // new HtmlWebpackPlugin({
+        //     filename: 'quizThree.html',
+        //     template: path.resolve(__dirname, '../src/quiz/quizThree.html'),
+        //     chunks: ['quizApp'],
+        //     minify: true
+        // }),
         new HtmlWebpackPlugin({
             filename: 'materiOne.html',
             template: path.resolve(__dirname, '../src/materiOne.html'),

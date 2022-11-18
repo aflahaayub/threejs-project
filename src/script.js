@@ -1,11 +1,11 @@
-import './style.css'
+import './home/home.css'
 import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader.js'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
 import gsap from 'gsap'
-import Stats from 'three/examples/jsm/libs/stats.module'
-import { Group, MeshBasicMaterial } from 'three'
+// import Stats from 'three/examples/jsm/libs/stats.module'
+// import { Group, MeshBasicMaterial } from 'three'
 
 //HOME PAGE
 /**
@@ -51,7 +51,6 @@ const loadingManager = new THREE.LoadingManager(
         // Calculate the progress and update the loadingBarElement
         // modelTextures()
         const progressRatio = itemsLoaded / itemsTotal
-        console.log(itemsLoaded)
         loadingBarElement.style.transform = `scaleX(${progressRatio})`
     }
 )
@@ -91,22 +90,49 @@ scene.add(overlay)
 
 
 //Models
-const titleModels = ['Petunjuk', 'Capaian Pembelajaran', 'Leaderboard','Materi'];
+const titleModels = ['Petunjuk', 'Capaian Pembelajaran', 'Materi', 'Leaderboard'];
 let i = 0;
 let title = document.getElementsByClassName('context-title');
+let openBtn = document.getElementsByClassName('btn-discover')
+let ptnjKanan = document.getElementsByClassName('penjelasKanan')[0]
+let ptnjKiri = document.getElementsByClassName('penjelasKiri')[0]
+const mediaQuery = window.matchMedia('(min-width: 568px)')
+const btnQuery = window.matchMedia('(min-width: 655px)')
+
+console.log(document.getElementsByClassName('penjelasKanan')[0])
 
 let positionX = 0
 if(positionX === 0){
     document.querySelector('.btn-kanan').classList.add('visible')
 }
 
+if(!mediaQuery.matches){
+    openBtn[0].innerHTML = `Lihat Isi`
+}
+
+if(!btnQuery.matches){
+    ptnjKanan.classList.add('no-disp')
+    ptnjKiri.classList.add('no-disp')
+}
+
 document.querySelector('.btn-kiri').onclick =()=>{
     document.getElementById('redirect').href = "#"
     positionX-=12
     i--
-    console.log(positionX + ' back')
     title[0].innerHTML = `${titleModels[i]}`
-    console.log(titleModels[i], i)
+    if(mediaQuery.matches){
+        openBtn[0].innerHTML = `Lihat ${titleModels[i]}`
+    }
+
+    if(btnQuery.matches){
+        titleModels[1] = 'Capaian'
+        ptnjKanan.innerHTML = `${titleModels[i+1]}`
+        if(!titleModels[i-1]){
+            ptnjKiri.innerHTML = 'Petunjuk'
+        }else{
+            ptnjKiri.innerHTML = `${titleModels[i-1]}`
+        }
+    }
     gsap.to(camera.position, {duration: 3, x: positionX, y: 0, z: 3})
     gsap.to(controls.target, {duration: 3, x: positionX, y: 0, z: 3})
 
@@ -116,7 +142,6 @@ document.querySelector('.btn-kiri').onclick =()=>{
     if(positionX === 0){
         document.querySelector('.btn-kiri').classList.remove('visible')
         i = 0
-        console.log(positionX + ' mentok kiri')
     }
 
     if(titleModels[i] === 'Leaderboard'){
@@ -130,10 +155,19 @@ document.querySelector('.btn-kiri').onclick =()=>{
 document.querySelector('.btn-kanan').onclick =()=>{
     positionX+=12
     i++
-    console.log(positionX + ' continu')
     title[0].innerHTML = `${titleModels[i]}`
-    console.log(titleModels[i], i)
-
+    if(mediaQuery.matches){
+        openBtn[0].innerHTML = `Lihat ${titleModels[i]}`
+    }
+    if(btnQuery.matches){
+        titleModels[1] = 'Capaian'
+        ptnjKanan.innerHTML = `${titleModels[i+1]}`
+        if(!titleModels[i-1]){
+            ptnjKiri.innerHTML = 'Petunjuk'
+        }else{
+            ptnjKiri.innerHTML = `${titleModels[i-1]}`
+        }
+    }
     gsap.to(camera.position, {duration: 3, x: positionX, y: 0, z: 3})
     gsap.to(controls.target, {duration: 3, x: positionX, y: 0, z: 3})
 
@@ -142,16 +176,15 @@ document.querySelector('.btn-kanan').onclick =()=>{
     if(positionX === 36){
         document.querySelector('.btn-kanan').classList.remove('visible')
         i = 3
-        console.log(positionX + ' mentok kanan')
     }
 
     if(titleModels[i] === 'Leaderboard'){
         document.getElementById('redirect').href = "/leaderboard"
+
     }else if(titleModels[i] === 'Materi'){
         document.getElementById('redirect').href = "/materi"
     }
 }
-console.log(positionX)
 
 /**
  * Objects
@@ -168,28 +201,21 @@ capaianTexture.flipY = false
 capaianTexture.encoding = THREE.sRGBEncoding
 const capaian = new THREE.MeshBasicMaterial({map: capaianTexture})
 
-const historyTexture = textureLoader.load('textures/Home/user.jpg')
-historyTexture.flipY = false
-historyTexture.encoding = THREE.sRGBEncoding
-const history = new THREE.MeshBasicMaterial({map: historyTexture})
-
 const materiTexture = textureLoader.load('textures/Home/materi.jpg')
 materiTexture.flipY = false
 materiTexture.encoding = THREE.sRGBEncoding
 const materi = new THREE.MeshBasicMaterial({map: materiTexture})
 
-// const evaluasiTexture = textureLoader.load('textures/Home/evaluasi.jpg')
-// evaluasiTexture.flipY = false
-// evaluasiTexture.encoding = THREE.sRGBEncoding
-// const evaluasi = new THREE.MeshBasicMaterial({map: evaluasiTexture})
-
+const historyTexture = textureLoader.load('textures/Home/user.jpg')
+historyTexture.flipY = false
+historyTexture.encoding = THREE.sRGBEncoding
+const history = new THREE.MeshBasicMaterial({map: historyTexture})
 
 const models = {
     petunjuk: '/models/Home/glTF/petunjuk.gltf',
     capaian: '/models/Home/glTF/capaian.gltf',
-    user: '/models/Home/glTF/user.gltf',
-    materi: '/models/Home/glTF/materi.glb'
-    // evaluasi: '/models/Home/glTF/evaluasi.gltf'
+    materi: '/models/Home/glTF/materi.glb',
+    user: '/models/Home/glTF/user.gltf'
 
 }
 
@@ -210,7 +236,7 @@ const ifModel = (child)=>{
 }
 
 
-let petunjukModel, capaianModel, userModel, materiModel;
+let petunjukModel, capaianModel, materiModel,userModel;
 let group = new THREE.Group()
 
 let p1 = loadModel(models.petunjuk).then(result=> {
@@ -221,8 +247,6 @@ let p1 = loadModel(models.petunjuk).then(result=> {
     })
     petunjukModel.position.set(0, -1.8, 0)
     petunjukModel.rotation.y = -Math.PI * 0.5
-
-    // return petunjukModel
     group.add(petunjukModel)
 })
 let p2 = loadModel(models.capaian).then(result=> { 
@@ -237,25 +261,10 @@ let p2 = loadModel(models.capaian).then(result=> {
     })
     capaianModel.position.set(12, -1.8, 0)
     capaianModel.rotation.y = -Math.PI * 0.5
-    // return capaianModel
     group.add(capaianModel)
 })
-let p3 = loadModel(models.user).then(result=> { 
-    userModel =  result.scene
-    userModel.traverse((child)=>{
-        child.material = history
-        ifModel(child)
-        if(child.name === "object"){
-            const tl = new TimelineMax({repeat: -1, yoyo: true})
-        tl.fromTo(child.position, {y: 1.7}, {ease: Power1.easeInOut, duration: 5, y: 1.4})
-        }
-    })
-    userModel.position.set(24, -1.8, 0)
-    userModel.rotation.y = -Math.PI * 0.5
-    // return userModel
-    group.add(userModel)
-})
-let p4 = loadModel(models.materi).then(result=> { 
+
+let p3 = loadModel(models.materi).then(result=> { 
     materiModel =  result.scene
     materiModel.traverse((child)=>{
         child.material = materi
@@ -267,34 +276,31 @@ let p4 = loadModel(models.materi).then(result=> {
         child.scale.z =1.23
     })
     materiModel.rotation. y = -Math.PI * 0.5
-    materiModel.position.set(36, -1.8, 0)
+    materiModel.position.set(24, -1.8, 0)
     // return materiModel
     group.add(materiModel)
 })
-// let p5 = loadModel(models.evaluasi).then(result=> { 
-//     evaluasiModel =  result.scene
-//     evaluasiModel.traverse((child)=>{
-//         child.material = evaluasi
-//         ifModel(child)
-//         if(child.name === "object"){
-//             const tl = new TimelineMax({repeat: -1, yoyo: true})
-//         tl.fromTo(child.position, {y: 2.5}, {ease: Power1.easeInOut, duration: 5, y: 2.2})
-//         }
-//     })
-//     evaluasiModel.position.set(48, -1.8, 0)
-//     evaluasiModel.rotation.y = -Math.PI * 0.5
-//     // return evaluasiModel
-//     group.add(evaluasiModel)
-// })
+
+let p4 = loadModel(models.user).then(result=> { 
+    userModel =  result.scene
+    userModel.traverse((child)=>{
+        child.material = history
+        ifModel(child)
+        if(child.name === "object"){
+            const tl = new TimelineMax({repeat: -1, yoyo: true})
+        tl.fromTo(child.position, {y: 1.7}, {ease: Power1.easeInOut, duration: 5, y: 1.4})
+        }
+    })
+    userModel.position.set(36, -1.8, 0)
+    userModel.rotation.y = -Math.PI * 0.5
+    group.add(userModel)
+})
 
 Promise.all([p1,p2,p3,p4]).then(()=>{
     scene.add(group)
-    // scene.add(evaluasiModel)
-    // scene.add(materiModel)
-    // scene.add(userModel)
-    // scene.add(capaianModel)
-    // scene.add(petunjukModel)
 })
+
+// Dispose
 
 //Smooth Scroll
 document.querySelector('.btn-discover').onclick =()=>{
@@ -315,28 +321,6 @@ document.querySelector('.btn-discover').onclick =()=>{
         })
       }
     }
-    // else if(titleModels[i] === 'History'){
-        
-    //     console.log('history open up')
-    //     document.querySelector('.history-content').classList.add('visible')
-    //         if(document.querySelector('.history-content')){
-    //             document.querySelector('.history-content').scrollIntoView({
-    //             behavior: 'smooth'
-    //     })
-    //   }
-    // }else if(titleModels[i] === 'Materi'){
-    //     console.log('materi open up')
-    //     document.querySelector('.materi-content').classList.add('visible')
-    //         if(document.querySelector('.materi-content')){
-    //             document.querySelector('.materi-content').scrollIntoView({
-    //             behavior: 'smooth'
-    //     })
-    //   }
-    // }
-    // else if(titleModels[i]==='Evaluasi'){
-    //     document.querySelector('.eval-content').classList.add('visible')
-    // }
-    // console.log('telusuri clicked')
 }
 
 document.querySelector('.up-petunjuk').onclick =()=>{
@@ -351,28 +335,7 @@ document.querySelector('.up-cp').onclick =()=>{
     })
     document.querySelector('.cap-content').classList.remove('visible')
 }
-// document.querySelector('.up-history').onclick =()=>{
-//     document.querySelector('.container-title').scrollIntoView({
-//         behavior: 'smooth'
-//     })
-//     document.querySelector('.history-content').classList.remove('visible')
-// }
-// document.querySelector('.up-materi').onclick =()=>{
-//     document.querySelector('.container-title').scrollIntoView({
-//         behavior: 'smooth'
-//     })
-//     document.querySelector('.materi-content').classList.remove('visible')
-// }
-// document.querySelector('.btn-close').onclick =()=>{
-//     document.querySelector('.container-title').scrollIntoView({
-//         behavior: 'smooth'
-//     })
-//     document.querySelector('.eval-content').classList.remove('visible')
-// }
 
-// document.querySelector('.btn-materi-1').onclick =()=>{
-//     console.log('materi 1 access')
-// }
 
 
 /**

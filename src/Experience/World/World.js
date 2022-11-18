@@ -34,17 +34,12 @@ export default class World
         // Wait for resources
         this.resources.manager.onProgress = (itemUrl, itemsLoaded, itemsTotal)=>{
             this.progressRatio = itemsLoaded / itemsTotal
-            // this.progressRatio = this.resources.loaded/this.resources.toLoad
-            // console.log(this.progressRatio)
-            // console.log(itemsLoaded, itemsTotal)
             this.loadingBarElement.style.transform = `scaleX(${this.progressRatio})`
         }
 
         this.resources.on('ready', () =>
         {
-            console.log(this.progressRatio)
-            // Setup
-            // this.loadIntro = new LoadIntro()
+            // this.sceneReady = true
             // this.lab = new Lab()
             // this.los = new Los()
         })

@@ -59,7 +59,7 @@ button {
 	transition: transform 80ms ease-in;
 }
 
-.responsive.notVisible{
+.notVisible{
 	display: none;
 }
 
@@ -229,6 +229,15 @@ span {
 	font-size: 16px;
 }
 
+.switch{
+	margin-top: 20px;
+}
+
+.switch p{
+	font-size: 12px;
+	margin: 0;
+	color: rgb(111, 103, 103);
+}
 
 @media (max-width: 768px) {
   .container{

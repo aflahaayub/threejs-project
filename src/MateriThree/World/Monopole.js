@@ -63,8 +63,8 @@ export default class Monopol{
   setSunLight()
   {
 
-      const light = new THREE.AmbientLight( 0xffffff ); // soft white light
-      this.scene.add( light );
+      this.light = new THREE.AmbientLight( 0xffffff ); // soft white light
+      this.scene.add( this.light );
 
       this.sunLight = new THREE.DirectionalLight('#ffffff', 5)
       this.sunLight.castShadow = true
@@ -117,16 +117,6 @@ export default class Monopol{
       }
 
   setSlider(){
-    console.log(this.resources.myAudioSrc)
-    let myAudio = document.getElementById('myAudio')
-    for(let audioSrc of this.resources.myAudioSrc){
-      if(audioSrc.name === 'audio6'){
-        myAudio.src = audioSrc.path
-        myAudio.autoplay = true
-        myAudio.load()
-        console.log(myAudio)
-    }
-    }
     document.querySelector('.slider').classList.add('visible')
     document.querySelector('.animasi').classList.remove('visible')
     //SLIDER
@@ -197,6 +187,11 @@ export default class Monopol{
       document.querySelector('.next-scene').classList.remove('visible')
       this.loop = new Loop()
       this.renderer.setLoopScene()
+      this.audioElement = document.querySelector('audio')
+      this.audioElement.src = '/sounds/materiThree/audioSeven.mp3'
+      this.sunLight.dispose()
+      this.light.dispose()
+      this.scene.remove(this.group)
     }
   }
 

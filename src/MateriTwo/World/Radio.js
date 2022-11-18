@@ -119,9 +119,6 @@ export default class Radio{
 
   setDisplay(){
 
-    //AUDIO
-    this.myAudio = document.getElementById('myAudio')
-
     //DISPLAY
     this.raycaster = new Raycaster()
     this.points = [
@@ -132,37 +129,58 @@ export default class Radio{
     ]
 
     this.display= {}
+    this.display.model = this.resources.items.displayModel.scene
+
+    this.audioElement = document.querySelector('audio')
+    this.audioElement.src = '/sounds/materiTwo/audioOne.mp3'
+    this.playBtn = document.querySelector('.control')
+    this.text = document.querySelector('.play')
+
+    this.playBtn.addEventListener('click', ()=>{
+      if(this.playBtn.dataset.playing === 'false'){
+        this.playBtn.dataset.playing = 'true'
+        this.playBtn.innerHTML = '<i class="bi bi-pause-fill"></i>'
+        this.text.innerHTML = 'Pause Audio'
+        this.audioElement.play()
+      }else if(this.playBtn.dataset.playing === 'true'){
+        this.playBtn.dataset.playing = 'false'
+        this.playBtn.innerHTML = '<i class="bi bi-play-fill"></i>'
+        this.text.innerHTML = 'Play Audio'
+        this.audioElement.pause()
+      }
+    })
+
+    // this.playBtn.addEventListener('ended', ()=>{
+    //   this.playBtn.dataset.playing = 'false'
+    //   this.playBtn.innerHTML = '<i class="bi bi-play-fill"></i>'
+    //   this.text.innerHTML = 'Audio Ended'
+    // }, false)
+
     document.querySelector('.point-0').onclick=()=>{
       this.clicked++
       if(this.clicked !== 0){
         this.setDisplay()
       }
     }
-    this.display.model = this.resources.items.displayModel.scene
-    console.log(this.clicked)
-    console.log(this.resources.myRadioSrc)
 
     if(this.clicked === 0){
       this.display.texture = this.resources.items.displayTexture
     }else if(this.clicked === 1){
       this.isClicked = true
       this.display.texture = this.resources.items.displayTexture2
-      this.myAudio.src = this.resources.myRadioSrc[2].path
-        this.myAudio.load()
-        this.myAudio.autoplay = true
+      this.audioElement.src = '/sounds/materiTwo/101.mp3'
+      this.audioElement.autoplay = true
     }else if(this.clicked === 2){
       this.isClicked = true
       this.display.texture = this.resources.items.displayTexture3
-      this.myAudio.src = this.resources.myRadioSrc[1].path
-        this.myAudio.load()
-        this.myAudio.autoplay = true
+      this.audioElement.src = '/sounds/materiTwo/987.mp3'
+      this.audioElement.autoplay = true
     }else{
       this.isClicked = true
       this.display.texture = this.resources.items.displayTexture
-      this.myAudio.src = this.resources.myRadioSrc[0].path
-      this.myAudio.load()
-      this.myAudio.autoplay = true
+      this.audioElement.src = '/sounds/materiTwo/audioOne.mp3'
       this.clicked = 0
+      this.audioElement.autoplay = true
     }
     this.display.texture.encoding = THREE.sRGBEncoding
     this.display.texture.flipY = false
@@ -246,17 +264,22 @@ export default class Radio{
     this.slideOpen = 0
     this.slide = document.querySelector('.slide-left')
     this.slider = document.querySelector('.slider')
+    // document.getElementsByClassName('slider')[0].style.width = '110px';
+    
     this.slide.onclick = ()=>{
       this.slideOpen++
       if(this.slideOpen % 2 === 0 ){
         this.slide.style.transform = 'rotate(0deg)'
+        // document.getElementsByClassName('slider')[0].style.width = '110px';
         this.slider.classList.remove('open')
         this.slider.classList.add('close')
         document.querySelector('figure').classList.remove('visible')
         console.log('close')
       }else{
+        document.querySelector('.audio').classList.remove('no-disp')
         this.slide.style.transform = 'rotate(180deg)'
         this.slide.style.transition = 'transform 1.5s ease'
+        // document.getElementsByClassName('slider')[0].style.width = '300px';
         document.querySelector('figure').classList.add('visible')
         this.slider.classList.remove('close')
         this.slider.classList.add('open')
@@ -308,8 +331,11 @@ export default class Radio{
       document.querySelector('.next-scene').classList.remove('visible')
       this.blokLangsung = new BlokLangsung()
       this.renderer.setLangsungScene()
+      this.audioElement = document.querySelector('audio')
+      this.audioElement.src = '/sounds/materiTwo/audioTwo.mp3'
       document.querySelector('.point-0').remove()
-      // console.log('next to planet from raging sea')
+      this.scene.remove(this.radRoom)
+      this.radRoom.material.dispose()
     }
   }
 

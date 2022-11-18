@@ -4,6 +4,7 @@ import Experience from '../Experience.js'
 import Sizes from '../Utils/Sizes.js'
 import gsap from 'gsap'
 import Sea from './raging-sea.js'
+import audios from '../audioSources.js'
 
 export default class Lab
 {
@@ -21,13 +22,14 @@ export default class Lab
 
         this.loadIntro = this.experience.loadIntro
         this.model = this.resources.items.labModel
-        console.log(this.model)
-
+        // this.ctx = new AudioContext()
+        
         this.setRoom()
         this.setPointers()
         this.setAnimation()
         this.getEachPoint()
         this.setCamera()
+        this.setAudio()
         this.setSlider()
     }
 
@@ -83,10 +85,11 @@ export default class Lab
         for(let i = 0; i < this.model.animations.length; i++){
 
           this.animation.actions[i] = this.animation.mixer.clipAction(this.model.animations[i])
-          // console.log(this.animation.actions[i])
-          this.animation.actions[i].play()
+          // this.animation.actions[i].play()
           this.animationAct.push(this.animation.actions[i])
         }
+
+        
     }
 
     getEachPoint(){
@@ -153,9 +156,11 @@ export default class Lab
       let pTwo = ['Besaran-besaran fisika pada getaran yaitu periode (T), frekuensi (f), simpangan (y), dan amplitudo (A).', 'Gelombang pada contoh ini disebut gelombang transverse  atau transverse wave. Gelombang yang arah getarannya tegak lurus dengan arah rambatnya. Panjang satu gelombangnya dinyatakan dalam 1 bukit dan 1 lembah.' , 'Besaran-besaran fisika pada getaran yaitu periode (T), frekuensi (f), simpangan (x), amplitudo (A), panjang gelombang (λ), dan cepat rambat gelombang (v). Rumus cepat rambat gelombang: v = f x λ.' ]
       
       //audio
-      let audio = document.getElementById("myAudio")
-      audio.autoplay = true
-      audio.load()
+      // let myAudio = document.getElementById('myAudio')
+      // for(let audioSrc of this.resources.myAudioSrc){
+      // if(audioSrc.name === 'audio1'){
+      //   // myAudio.autoplay = true
+      // }}
 
       for(let i = 0; i < this.points.length; i++){
         document.querySelector(`.point-${i}`).onclick = ()=>{
@@ -173,6 +178,11 @@ export default class Lab
               y: 0,
               z:-0.2
             })
+            for(let animation of this.animationAct){
+              if(animation._clip.name !== 'Key.004Action' || 'Weeble'){
+                animation.play()
+              }
+            }
 
             setSliderUp(title[2], pOne[2], pTwo[2])
             //change scene
@@ -186,6 +196,9 @@ export default class Lab
               this.showPoints = false
               this.sea = new Sea()
               this.renderer.setSeaScene()
+              this.scene.remove(this.room.model)
+              this.room.material.dispose()
+              this.audioElement.src = '/sounds/materiOne/audioTwo.mp3'
             }
           }
           else if(`point-${i}` === 'point-1'){
@@ -203,6 +216,12 @@ export default class Lab
               y: -1,
               z: 2
             })
+            for(let animation of this.animationAct){
+              if(animation._clip.name === 'Weeble'){
+                animation.play()
+              }
+              // console.log(animation._clip.name)
+            }
             setSliderUp(title[0], pOne[0], pTwo[0])
           }
           else if(`point-${i}` === 'point-2'){
@@ -220,6 +239,11 @@ export default class Lab
               y: 2,
               z: -2
             })
+            for(let animation of this.animationAct){
+              if(animation._clip.name === 'Key.004Action'){
+                animation.play()
+              }
+            }
             setSliderUp(title[1], pOne[1], pTwo[1])
         }
       }
@@ -258,6 +282,9 @@ export default class Lab
       // Tombol Kembali
       document.querySelector(`.back`).onclick = ()=>{
         console.log('kembali')
+        for(let animation of this.animationAct){
+          animation.stop()
+        }
         gsap.to(this.camera.instance.position, {duration: 3,
           x: 7,
           y: 8,
@@ -267,57 +294,123 @@ export default class Lab
         document.querySelector('.back').classList.remove('visible')
         document.querySelector('.slide').classList.remove('visible')
       }
-
-      //Kembali Home, Destroy Scene
-      document.querySelector('.home').onclick = () =>{
-        this.experience.destroy()
-      }
       }
     }
 
+    setAudio(){
+      let audioCtx = new AudioContext()
+      this.audioElement = document.querySelector('audio')
+      this.audioElement.src = '/sounds/materiOne/audioOne.mp3'
+      this.playBtn = document.querySelector('.control')
+      this.text = document.querySelector('.play')
+
+      this.playBtn.addEventListener('click', ()=>{
+        // if(!audioCtx){
+        //   init()
+        // }
+        if(this.playBtn.dataset.playing === 'false'){
+          this.audioElement.play()
+          this.playBtn.dataset.playing = 'true'
+          this.playBtn.innerHTML = '<i class="bi bi-pause-fill"></i>'
+          this.text.innerHTML = 'Pause Audio'
+        }else if(this.playBtn.dataset.playing === 'true'){
+          this.audioElement.pause()
+          this.playBtn.dataset.playing = 'false'
+          this.playBtn.innerHTML = '<i class="bi bi-play-fill"></i>'
+          this.text.innerHTML = 'Play Audio'
+        }
+      })
+
+      this.playBtn.addEventListener('ended', ()=>{
+        this.playBtn.dataset.playing = 'false'
+        this.playBtn.innerHTML = '<i class="bi bi-play-fill"></i>'
+        this.text.innerHTML = 'Audio Ended'
+      }, false)
+
+      // function init(){
+      //   audioCtx = new AudioContext()
+      //   // this.track = new MediaElementAudioSourceNode(audioCtx, {mediaElement: this.audioElement})
+      // }
+
+
+      // fetch('sounds/materiOne/audioOne.mp3')
+      //     .then(data=> data.arrayBuffer())
+      //     .then(arrayBuffer => this.ctx.decodeAudioData(arrayBuffer))
+      //     .then(decodeAudio=> {
+      //       this.audio = decodeAudio
+      //     })
+      // this.playback = ()=>{
+      //   const playSound = this.ctx.createBufferSource()
+      //   playSound.buffer = this.audio
+      //   playSound.connect(this.ctx.destination)
+      //   playSound.start(this.ctx.currentTime)
+      // }
+      
+      
+    }
     setSlider(){
       //SLIDER
       this.slideOpen = 0
       this.slide = document.querySelector('.slide-left')
       this.slider = document.querySelector('.slider')
+      // document.getElementsByClassName('slider')[0].style.width = '110px';
+      // this.audioControl = document.querySelector('.penjelasAudio')
       this.animasi = document.querySelector('.animasi')
+      // this.audioControl.classList.add('visible')
+      
+
       this.slide.onclick = ()=>{
         this.slideOpen++
         if(this.slideOpen % 2 === 0 ){
+          // this.audioControl.classList.add('visible')
           this.slide.style.transform = 'rotate(0deg)'
+          // document.getElementsByClassName('slider')[0].style.width = '110px';
           this.slider.classList.remove('open')
           this.slider.classList.add('close')
           document.querySelector('figure').classList.remove('visible')
-          this.animasi.classList.remove('visible')
+          // this.animasi.classList.remove('visible')
           console.log('close')
         }else{
+          // this.audioControl.classList.remove('visible')
           this.slide.style.transform = 'rotate(180deg)'
           this.slide.style.transition = 'transform 1.5s ease'
           document.querySelector('figure').classList.add('visible')
-          this.animasi.classList.add('visible')
+          // document.getElementsByClassName('slider')[0].style.width = '300px';
+          // this.animasi.classList.add('visible')
           this.slider.classList.remove('close')
           this.slider.classList.add('open')
           console.log('open')
         }
       }
 
-      this.animate = 0
-      this.animasi.onclick=()=>{
-        this.animate++
-        if(this.animate % 2 ===0){
-          console.log('animate')
-          for(let i = 0; i<this.animationAct.length; i++){
-            this.animationAct[i].play()
-          }
-          document.querySelector('.fa-compact-disc').classList.add('fa-flip')
-        }else{
-          for(let i = 0; i<this.animationAct.length; i++){
-            this.animationAct[i].stop()
-          }
-          console.log('stop')
-          document.querySelector('.fa-compact-disc').classList.remove('fa-flip')
-        }
-      }
+      // this.animate = 0
+      // console.log(this.animationAct)
+      // this.animasi.onclick=()=>{
+      //   this.animate++
+      //   if(this.animate % 2 ===0){
+      //     console.log('animate')
+      //     for(let i = 0; i<this.animationAct.length; i++){
+      //       console.log(this.animationAct[i])
+      //       // this.animationAct[i].play()
+      //     }
+      //     document.querySelector('.fa-compact-disc').classList.add('fa-flip')
+      //   }else{
+      //     for(let i = 0; i<this.animationAct.length; i++){
+      //       // this.animationAct[i].stop()
+      //     }
+      //     console.log('stop')
+      //     document.querySelector('.fa-compact-disc').classList.remove('fa-flip')
+      //   }
+      // }
+      // this.audioBtn.onclick=()=>{
+      //   this.audioBtn++
+      //   if(this.clickAudio %2 === 0){
+      //     this.playback()
+      //     this.audioBtn.innerHTML = '<i class="bi bi-pause-circle-fill"></i>'
+      //   }else{
+      //     this.audioBtn.innerHTML = '<i class="bi bi-play-circle-fill"></i>'
+      //   }
+      // }
     }
    
 

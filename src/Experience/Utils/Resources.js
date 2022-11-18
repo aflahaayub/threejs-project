@@ -2,8 +2,6 @@ import * as THREE from 'three'
 import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader.js'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
 import EventEmitter from './EventEmitter.js'
-import gsap from 'gsap'
-import LoadIntro from '../World/LoadIntro.js'
 import Experience from '../Experience.js'
 import audioSources from '../audioSources.js'
 
@@ -38,14 +36,11 @@ export default class Resources extends EventEmitter
         this.manager = new THREE.LoadingManager()
         this.loaders.audioLoader= new THREE.AudioLoader(this.manager)
 
-        // this.audioListener = new THREE.AudioListener()
-        // this.audio = new THREE.Audio(this.audioListener)
-
         this.loaders.gltfLoader = new GLTFLoader(this.manager)
 
         const dracoLoader = new DRACOLoader()
         dracoLoader.setDecoderPath( '/draco/' )
-        // this.loaders.audioLoader = new THREE.AudioLoader(this.manager)
+
         this.loaders.gltfLoader.setDRACOLoader(dracoLoader)
         this.loaders.textureLoader = new THREE.TextureLoader(this.manager)
         this.loaders.cubeTextureLoader = new THREE.CubeTextureLoader(this.manager)
@@ -54,16 +49,16 @@ export default class Resources extends EventEmitter
 
     startLoading()
     {
-        for(const audioSource of this.audioSources){
-            this.myAudioSrc = []
-            this.loaders.audioLoader.load(
-                audioSource.path,
-                (audioFile)=>{
-                    this.sourceLoaded(audioSource, audioFile)
-                    this.myAudioSrc.push(audioSource)
-                }
-            )
-        }
+        // for(const audioSource of this.audioSources){
+        //     this.myAudioSrc = []
+        //     this.loaders.audioLoader.load(
+        //         audioSource.path,
+        //         (audioFile)=>{
+        //             this.sourceLoaded(audioSource, audioFile)
+        //             this.myAudioSrc.push(audioSource)
+        //         }
+        //     )
+        // }
         // Load each source
         for(const source of this.sources)
         {

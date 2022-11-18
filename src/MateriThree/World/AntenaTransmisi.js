@@ -23,6 +23,7 @@ export default class AntenaTransmisi{
 
     this.setSunLight()
     this.setTower()
+    this.setAudio()
     this.setSlider()
     this.setExplain()
     this.nextScene()
@@ -32,8 +33,8 @@ export default class AntenaTransmisi{
   setSunLight()
   {
 
-      const light = new THREE.AmbientLight( 0xffffff ); // soft white light
-      this.scene.add( light );
+      this.light = new THREE.AmbientLight( 0xffffff ); // soft white light
+      this.scene.add( this.light );
 
       this.sunLight = new THREE.DirectionalLight('#ffffff', 5)
       this.sunLight.castShadow = true
@@ -120,26 +121,41 @@ setTower(){
         }
   }
 
+  setAudio(){
+      let audioCtx = new AudioContext()
+      this.audioElement = document.querySelector('audio')
+      this.audioElement.src = '/sounds/materiThree/audioOne.mp3'
+      this.playBtn = document.querySelector('.control')
+      this.text = document.querySelector('.play')
+
+      this.playBtn.addEventListener('click', ()=>{
+        if(this.playBtn.dataset.playing === 'false'){
+          this.audioElement.play()
+          this.playBtn.dataset.playing = 'true'
+          this.playBtn.innerHTML = '<i class="bi bi-pause-fill"></i>'
+          this.text.innerHTML = 'Pause Audio'
+        }else if(this.playBtn.dataset.playing === 'true'){
+          this.audioElement.pause()
+          this.playBtn.dataset.playing = 'false'
+          this.playBtn.innerHTML = '<i class="bi bi-play-fill"></i>'
+          this.text.innerHTML = 'Play Audio'
+        }
+      })
+      
+    }
+
   setSlider(){
-    console.log(this.resources.myAudioSrc)
-    let myAudio = document.getElementById('myAudio')
-    for(let audioSrc of this.resources.myAudioSrc){
-      if(audioSrc.name === 'audio1'){
-        myAudio.src = audioSrc.path
-        myAudio.autoplay = true
-        myAudio.load()
-        console.log(myAudio)
-    }
-    }
     document.querySelector('.slider').classList.add('visible')
     //SLIDER
     this.slideOpen = 0
     this.slide = document.querySelector('.slide-left')
     this.slider = document.querySelector('.slider')
+    // document.getElementsByClassName('slider')[0].style.width = '110px';
     this.slide.onclick = ()=>{
       this.slideOpen++
       if(this.slideOpen % 2 === 0 ){
         this.slide.style.transform = 'rotate(0deg)'
+        // document.getElementsByClassName('slider')[0].style.width = '110px';
         this.slider.classList.remove('open')
         this.slider.classList.add('close')
         document.querySelector('figure').classList.remove('visible')
@@ -147,6 +163,7 @@ setTower(){
       }else{
         this.slide.style.transform = 'rotate(180deg)'
         this.slide.style.transition = 'transform 1.5s ease'
+        // document.getElementsByClassName('slider')[0].style.width = '300px';
         document.querySelector('figure').classList.add('visible')
         this.slider.classList.remove('close')
         this.slider.classList.add('open')
@@ -157,12 +174,14 @@ setTower(){
   }
   nextScene(){
     document.querySelector(`.next-scene`).onclick =()=>{
-      
       document.querySelector('.next-scene').classList.remove('visible')
       this.saluran = new Saluran()
       this.renderer.setSaluranScene()
-      
-
+      this.audioElement = document.querySelector('audio')
+      this.audioElement.src = '/sounds/materiThree/audioTwo.mp3'
+      this.light.dispose()
+      this.sunLight.dispose()
+      this.scene.remove(this.tower)
     }
   }
 

@@ -2,7 +2,7 @@ export default [
     {
         name: 'salAntenaModel',
         type: 'gltfModel',
-        path: 'models/materiThree/glTF/salAntenna.gltf'
+        path: 'models/materiThree/glTF/threeHome.gltf'
     },
     {
         name: 'salModel',

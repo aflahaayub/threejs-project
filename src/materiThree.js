@@ -1,4 +1,4 @@
-import './style.css'
+import './materi.css'
 import * as THREE from 'three'
 import Experience from './MateriThree/ExperienceThree.js'
 

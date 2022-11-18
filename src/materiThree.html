@@ -5,9 +5,10 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Saluran Transmisi dan Antena Gelombang Radio</title>
+  <link rel="icon" type="image/x-icon" href="../static/image/favicon.jpg">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
-  <link rel="stylesheet" href="./style.css">
+  <link rel="stylesheet" href="./materi.css">
 </head>
 
 <body>
@@ -33,10 +34,15 @@
     <div class="slide-left">
       <i class="bi bi-box-arrow-left"></i>
     </div>
+    <span class="penjelasAudio">Audio</span>
     <div class="isi">
       <div class="audio">
         <figure>
-          <audio id="myAudio" controls src="/static/sounds/materiOne/audioOne.mp3"></audio>
+          <audio id="myAudio" src="#"></audio>
+          <button class="control" data-playing="false">
+            <i class="bi bi-play-fill"></i>
+          </button>
+          <p class="play">Play Audio</p>
         </figure>
       </div>
       <div class="animasi">
@@ -64,22 +70,52 @@
     <div class="text-label text-label-hide">Selanjutnya</div>
   </div>
   <div class="home">
-    <a href="/home.html" class="text-label text-label-hide"> Ke Halaman Utama </a>
+    <a href="/home" class="text-label text-label-hide"> Ke Halaman Utama </a>
   </div>
   <div class="kuis">
+    <div class="text-label text-label-hide">Rangkuman</div>
+  </div>
+  <div class="mulai-kuis no-disp" id="mulai_kuis">
+    <div class="rangkuman">
+      <div id="resumeTeks" class="modal">
+        <h2>Rangkuman</h2>
+        <p>Terdapat beberapa jenis saluran transmisi, yaitu parallel wire transmission line (kabel parallel ganda),
+          coaxial cable (kabel koaksial), microstrip line (penghantar pipih), dan waveguide. Ketika pengiriman sinyal
+          melalui suatu saluran, maka medan-medan (listrik dan magnet) dikirimkan dari sumber sampai ke beban. Ketika
+          sampai di beban energi yang tersimpan dalam medan-medan tersebut diubah menjadi energi yang diinginkan, dimana
+          medan-medan tersebut dikenal sebagai medan elektromagnetik. Saluran transmisi lossless sempurna dapat diwakili
+          oleh seluruh rangkaian induktor dan kapasitor kecil yang terhubung dalam suatu saluran. Setiap induktor
+          mewakili induktansi dari bagian yang sangat pendek dari satu kawat dan setiap kapasitor mewakili kapasitansi
+          antara dua bagian pendek tersebut.</p>
+        <p>Antena adalah salah satu komponen yang paling penting dalam sistem komunikasi. Sebuah antenna adalah bagian
+          vital dari suatu pemancar atau penerima yang berfungsi untuk menyalurkan sinyal radio ke udara. Bentuk antenna
+          bermacam-macam sesuai dengan desain, pola penyebaran, serta gain. Fungsi dari antena adalah mengubah energi
+          listrik yang berasal dari pemancar menjadi gelombang radio, kemudian menerima gelombang radio dan mengubahnya
+          menjadi sinyal listrik. Antena memiliki beberapa tipe, yaitu antena wire yang memiliki berbagai bentuk seperti
+          antena dipole, monopole, dan loop, kemudian tipe antena aperture, antena mikrostrip, antena array, serta
+          antena reflector.</p>
+        <a href="/home.html" class="btn-kuis kembali"> Ke Halaman Utama</a>
+        <a href="/quizThree" class="btn-kuis start">Mulai Kuis</a>
+      </div>
+    </div>
+  </div>
+
+
+
+  <!-- <div class="kuis">
     <div class="text-label text-label-hide">Mulai Kuis</div>
   </div>
-  <div class="mulai-kuis" id="mulai_kuis">
+  <div class="mulai-kuis no-disp" id="mulai_kuis">
     <div class="modal">
       <h2>Mulai Kuis</h2>
       <p>Selamat, anda telah menyelesaikan materi! Untuk memulai kuis, anda dapat menekan tombol mulai.
         Anda juga dapat menekan tombol kembali untuk pergi ke halaman utama, tetapi pembelajaran akan diulang dari
         awal.
       </p>
-      <a href="/home.html" class="btn-kuis kembali">Ke Halaman Utama</a>
+      <a href="/home" class="btn-kuis kembali">Ke Halaman Utama</a>
       <a href="/quizThree" class="btn-kuis start">Mulai</a>
     </div>
-  </div>
+  </div> -->
   <!-- <div class="next next-scene">
     <div class="text-label text-label-hide">Selanjutnya</div>
   </div>

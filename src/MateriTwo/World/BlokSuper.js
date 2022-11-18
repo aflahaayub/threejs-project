@@ -1,6 +1,5 @@
 import * as THREE from 'three'
 import Experience from '../ExperienceTwo'
-import { RectAreaLightHelper } from 'three/examples/jsm/helpers/RectAreaLightHelper.js'
 import gsap from 'gsap'
 import BlokFM from './BlokFM'
 
@@ -45,24 +44,11 @@ export default class BlokSuper{
         }
 
   setBlok(){
-
           this.blok = {}
           this.blok.model = this.resources.items.blokSuperModel
           this.blok.model.scene.rotateY(80)
           this.blok.model.scene.position.set(3.5 ,-4, 1)
           this.scene.add(this.blok.model.scene)
-
-          this.animation = {}
-          this.animationAct = []
-          this.animation.mixer = new THREE.AnimationMixer(this.blok.model.scene)
-          this.animation.blok = this.blok.model.animations
-
-          this.animation.blok.forEach(clip => {
-            this.animation.action = this.animation.mixer.clipAction(clip)
-
-            this.animation.action.play()
-            this.animationAct.push(this.animation.action)
-          });
 
         }
 
@@ -133,16 +119,6 @@ export default class BlokSuper{
   }
 
   setSlider(){
-    console.log(this.resources.myAudioSrc)
-    let myAudio = document.getElementById('myAudio')
-    for(let audioSrc of this.resources.myAudioSrc){
-      if(audioSrc.name === 'audio3'){
-        myAudio.src = audioSrc.path
-        myAudio.autoplay = true
-        myAudio.load()
-        console.log(myAudio)
-    }
-    }
     //SLIDER
     this.slideOpen = 0
     this.slide = document.querySelector('.slide-left')
@@ -158,6 +134,7 @@ export default class BlokSuper{
         this.animasi.classList.remove('visible')
         console.log('close')
       }else{
+        document.querySelector('.audio').classList.remove('no-disp')
         this.slide.style.transform = 'rotate(180deg)'
         this.slide.style.transition = 'transform 1.5s ease'
         document.querySelector('figure').classList.add('visible')
@@ -168,25 +145,7 @@ export default class BlokSuper{
       }
     }
 
-    this.playAnimate = true
-    this.animate = 0
-    console.log(this.animationAct)
-      this.animasi.onclick=()=>{
-        this.animate++
-        if(this.animate % 2 ===0){
-          console.log('animate')
-          for(let i = 0; i<this.animationAct.length; i++){
-            this.animationAct[i].play()
-          }
-          document.querySelector('.fa-compact-disc').classList.add('fa-flip')
-        }else{
-          for(let i = 0; i<this.animationAct.length; i++){
-            this.animationAct[i].stop()
-          }
-          console.log('stop')
-          document.querySelector('.fa-compact-disc').classList.remove('fa-flip')
-        }
-      }
+    
   }
   nextScene(){
     document.querySelector(`.next-scene`).onclick =()=>{
@@ -194,12 +153,13 @@ export default class BlokSuper{
       document.querySelector('.next-scene').classList.remove('visible')
       this.blokFM = new BlokFM()
       this.renderer.setFMScene()
-      // console.log('next to planet from raging sea')
+      this.audioElement = document.querySelector('audio')
+      this.audioElement.src = '/sounds/materiTwo/audioFour.mp3'
+      this.scene.remove(this.blok)
     }
   }
   getTick(){
     this.otherTick = ()=>{
-      this.animation.mixer.update(this.time.delta * 0.001)
       this.camera.controls.update()
      window.requestAnimationFrame(this.otherTick)
     }

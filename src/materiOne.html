@@ -5,12 +5,10 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Frekuensi dan Propagasi Gelombang Radio</title>
+  <link rel="icon" type="image/x-icon" href="../static/image/favicon.jpg">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
-  <link rel="stylesheet" href="./style.css">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.10.4/gsap.min.js"
-    integrity="sha512-VEBjfxWUOyzl0bAwh4gdLEaQyDYPvLrZql3pw1ifgb6fhEvZl9iDDehwHZ+dsMzA0Jfww8Xt7COSZuJ/slxc4Q=="
-    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <link rel="stylesheet" href="./materi.css" type="text/css">
 </head>
 
 <body>
@@ -22,10 +20,15 @@
     <div class="slide-left">
       <i class="bi bi-box-arrow-left"></i>
     </div>
+    <span class="penjelasAudio">Audio</span>
     <div class="isi">
       <div class="audio">
         <figure>
-          <audio id="myAudio" controls src="/static/sounds/materiOne/audioOne.mp3"></audio>
+          <audio id="myAudio" src="#"></audio>
+          <button class="control" data-playing="false">
+            <i class="bi bi-play-fill"></i>
+          </button>
+          <p class="play">Play Audio</p>
         </figure>
       </div>
       <div class="animasi">
@@ -33,19 +36,22 @@
       </div>
     </div>
   </div>
-  <div class="slide">
-    <div class="slide-up hide">
-      <div class="expand-btn">
-        <div class="up-icon"><i class="bi bi-chevron-compact-up"></i></div>
-        <p>Penjelasan</p>
-      </div>
-      <div class="box-materi">
-        <p class="judul">Getaran</p>
-        <p class="p1">Paragraph One</p>
-        <p class="p2">Paragraph Two</p>
+  <div class="wrap-slide">
+    <div class="slide">
+      <div class="slide-up hide">
+        <div class="expand-btn">
+          <div class="up-icon"><i class="bi bi-chevron-compact-up"></i></div>
+          <p>Penjelasan</p>
+        </div>
+        <div class="box-materi">
+          <p class="judul"></p>
+          <p class="p1"></p>
+          <p class="p2"></p>
+        </div>
       </div>
     </div>
   </div>
+
 
   <div class="point point-0 noClick">
     <div class="label">3</div>
@@ -71,18 +77,50 @@
   <div class="home">
     <a href="/home.html" class="text-label text-label-hide"> Ke Halaman Utama </a>
   </div>
+
   <div class="kuis">
-    <div class="text-label text-label-hide">Mulai Kuis</div>
+    <div class="text-label text-label-hide">Rangkuman</div>
   </div>
-  <div class="mulai-kuis" id="mulai_kuis">
-    <div class="modal">
+  <div class="mulai-kuis no-disp" id="mulai_kuis">
+    <div class="rangkuman">
+      <div id="resumeTeks" class="modal">
+        <h2>Rangkuman</h2>
+        <p>Getaran merupakan gerakan bolak-balik suatu benda dalam selang waktu tertentu melalui titik kesetimbangannya.
+          Benda dikatakan bergetar dalam satu kali getaran penuh apabila benda bergerak dari titik awal dan kembali lagi
+          ke titik awal tersebut. Benda yang bergetar juga memiliki besaran-besaran fisikanya, yaitu Periode (T),
+          Frekuensi (f), Simpangan (x) ,Amplitudo (A).</p>
+        <p>Gelombang adalah suatu gangguan yang merambatkan energi dari satu titik ke titik lainnya. Gelombang juga
+          dapat diartikan sebagai perambatan energi getaran dari satu titik ke titik lainnya. Gelombang dapat dibedakan
+          berdasarkan medium perambatannya dan berdasarkan arah rambatnya. Berdasarkan arah rambatannya, gelombang dapat
+          dibagi menjadi dua yaitu gelombang longitudinal dan gelombang transversal. Terdapat besaran-besaran pada
+          gelombang yaitu,Simpangan (y), Amplitudo (A), Periode (T), Frekuensi, Panjang Gelombang (m), Cepat Rambat
+          Gelombang (𝜆).</p>
+        <p>Gelombang juga dapat terbagi berdasarkan medium perambatannya, yaitu gelombang mekanik dan gelombang
+          elektromagnetik. Gelombang mekanik adalah Gelombang yang membutuhkan medium dalam perambatannya. Gelombang
+          Elektromagnetik merupakan Gelombang yang tidak membutuhkan medium dalam perambatannya dan bisa merambat di
+          ruang yang hampa udara</p>
+        <p>Dalam bidang telekomunikasi, jenis gelombang yang digunakan adalah gelombang elektromagnetik, dimana
+          gelombang tersebut dapat merambat melalui udara tanpa dibutuhkannya sebuah medium. Gelombang radio yang
+          dipancarkan berupa gelombang elektromagnetik bergerak menuruti garis lurus. Perambatan gelombang radio
+          mempunyai sifat seperti kecepatan rambat cahaya, dapat dipantulkan, dibiaskan, direfraksi dan dipolarisasikan.
+          Gelombang radio merupakan salah satu bagian dari gelombang elektromagnetik yang memiliki panjang gelombang
+          terpanjang dalam spektrum elektromagnetik.</p>
+        <p>Agar antenna penerima radio dapat menerima informasi, gelombang radio dapat merambat atau berpropagasi
+          melalui udara dari antenna pemancar ke antenna penerima yang jaraknya bisa mencapai beberapa kilometer.
+          Terdapat beberapa mekanisme perambatan gelombang radio, yaitu propagasi gelombang tanah, propagasi gelombang
+          ionosfir, propagasi gelombang garis pandang.</p>
+        <!-- <div class="btn-kuis">Mulai Kuis</div> -->
+        <a href="/home.html" class="btn-kuis kembali"> Ke Halaman Utama</a>
+        <a href="/quizOne" class="btn-kuis start">Mulai Kuis</a>
+      </div>
+      <!-- <div class="modal">
       <h2>Mulai Kuis</h2>
       <p>Selamat, anda telah menyelesaikan materi! Untuk memulai kuis, anda dapat menekan tombol mulai.
         Anda juga dapat menekan tombol kembali untuk pergi ke halaman utama, tetapi pembelajaran akan diulang dari
         awal.
       </p>
       <a href="/home.html" class="btn-kuis kembali"> Ke Halaman Utama</a>
-      <a href="/quizOne" class="btn-kuis start">Mulai</a>
+      <a href="/quizOne" class="btn-kuis start">Mulai</a> -->
     </div>
   </div>
 </body>

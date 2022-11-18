@@ -56,7 +56,7 @@ export default class Experience
         this.BlokFMScene = new THREE.Scene()
         this.BlokPemancarScene = new THREE.Scene()
         
-        this.resources = new Resources(sources, audioSources, radioSources)
+        this.resources = new Resources(sources)
         this.camera = new Camera()
         this.renderer = new Renderer()
         this.world = new World()

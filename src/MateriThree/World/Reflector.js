@@ -61,8 +61,8 @@ export default class Reflector{
   setSunLight()
   {
 
-      const light = new THREE.AmbientLight( 0xffffff ); // soft white light
-      this.scene.add( light );
+      this.light = new THREE.AmbientLight( 0xffffff ); // soft white light
+      this.scene.add( this.light );
 
       this.sunLight = new THREE.DirectionalLight('#ffffff', 5)
       this.sunLight.castShadow = true
@@ -115,18 +115,12 @@ export default class Reflector{
       }
 
   setSlider(){
-    console.log(this.resources.myAudioSrc)
-    let myAudio = document.getElementById('myAudio')
-    for(let audioSrc of this.resources.myAudioSrc){
-      if(audioSrc.name === 'audio11'){
-        myAudio.src = audioSrc.path
-        myAudio.autoplay = true
-        myAudio.load()
-        console.log(myAudio)
-    }
-    }
     document.querySelector('.slider').classList.add('visible')
     document.querySelector('.animasi').classList.remove('visible')
+
+    document.getElementsByClassName('modal')[0].style.maxWidth = '500px'
+    document.getElementsByClassName('modal')[0].style.maxHeight = '500px'
+    document.getElementsByClassName('modal')[0].style.overflowY = 'scroll'
     //SLIDER
     this.slideOpen = 0
     this.slide = document.querySelector('.slide-left')
@@ -192,6 +186,7 @@ export default class Reflector{
   nextScene(){
     document.querySelector('.kuis').onclick=()=>{
       document.querySelector('.mulai-kuis').classList.add('visible')
+      document.querySelector('.mulai-kuis').classList.remove('no-disp')
     }
     
   }

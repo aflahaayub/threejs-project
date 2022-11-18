@@ -1,9 +1,4 @@
 export default [
-      {
-        name: 'audio1',
-        type: 'audio',
-        path: 'sounds/materiOne/audioOne.mp3'
-      },
     {
         name: 'labModel',
         type: 'gltfModel',

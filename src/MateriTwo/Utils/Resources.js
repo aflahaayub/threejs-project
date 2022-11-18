@@ -2,28 +2,22 @@ import * as THREE from 'three'
 import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader.js'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
 import EventEmitter from './EventEmitter.js'
-import gsap from 'gsap'
-import LoadIntro from '../World/LoadIntro.js'
 import Experience from '../ExperienceTwo.js'
 
 export default class Resources extends EventEmitter
 {
-    constructor(sources, audioSources, radioSources)
+    constructor(sources)
     {
         super()
         this.experience = new Experience()
         this.loadIntro = this.experience.loadIntro
 
         this.sources = sources
-        this.audioSources = audioSources
-        this.radioSources = radioSources
 
         this.items = {}
         this.toLoad = this.sources.length
         
         this.loaded = 0
-        this.audioToLoad = this.audioSources.length
-        this.audioLoaded = 0
 
         this.loadingBarElement = document.querySelector('.loading-bar')
 
@@ -55,39 +49,39 @@ export default class Resources extends EventEmitter
 
     startLoading()
     {
-        for(const audioSource of this.audioSources){
-            this.myAudioSrc = []
-            this.loaders.audioLoader.load(
-                audioSource.path,
-                (audioFile)=>{
-                    this.sourceLoaded(audioSource, audioFile)
-                    this.myAudioSrc.push(audioSource)
-                }
-            )
-        }
-        this.myRadioSrc = []
-        for(const radioSource of this.radioSources){
-            if(radioSource.name === "audio1"){
-                this.myRadioSrc[0] = radioSource
-            }
-            else if(radioSource.name === "audioRadio2"){
-                this.myRadioSrc[1] = radioSource
-            }
-            else{
-                this.myRadioSrc[2] = radioSource
-            }
+        // for(const audioSource of this.audioSources){
+        //     this.myAudioSrc = []
+        //     this.loaders.audioLoader.load(
+        //         audioSource.path,
+        //         (audioFile)=>{
+        //             this.sourceLoaded(audioSource, audioFile)
+        //             this.myAudioSrc.push(audioSource)
+        //         }
+        //     )
+        // }
+        // this.myRadioSrc = []
+        // for(const radioSource of this.radioSources){
+        //     if(radioSource.name === "audio1"){
+        //         this.myRadioSrc[0] = radioSource
+        //     }
+        //     else if(radioSource.name === "audioRadio2"){
+        //         this.myRadioSrc[1] = radioSource
+        //     }
+        //     else{
+        //         this.myRadioSrc[2] = radioSource
+        //     }
 
-            console.log(this.myRadioSrc)
-            if(this.myRadioSrc.length === 3){
-                this.loaders.audioLoader.load(
-                radioSource.path,
-                (radioFile)=>{
-                    this.sourceLoaded(radioSource, radioFile)
-                }
-            )
-            }
+        //     console.log(this.myRadioSrc)
+        //     if(this.myRadioSrc.length === 3){
+        //         this.loaders.audioLoader.load(
+        //         radioSource.path,
+        //         (radioFile)=>{
+        //             this.sourceLoaded(radioSource, radioFile)
+        //         }
+        //     )
+        //     }
             
-        }
+        // }
         // Load each source
         for(const source of this.sources)
         {

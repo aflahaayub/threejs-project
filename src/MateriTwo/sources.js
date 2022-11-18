@@ -27,17 +27,20 @@ export default [
     {
         name: 'blokOneModel',
         type: 'gltfModel',
-        path: 'models/materiTwo/BlokDiagram/glTF/blokLangsung.gltf'
+        path: 'models/materiTwo/BlokDiagram/glTF/lngsng.gltf'
+        // path: 'models/materiTwo/BlokDiagram/glTF/blokLangsung.gltf'
     },
     {
         name: 'blokSuperModel',
         type: 'gltfModel',
-        path: 'models/materiTwo/BlokDiagram/glTF/blokSuper.gltf'
+        path: 'models/materiTwo/BlokDiagram/glTF/superheterodyne.gltf'
+        // path: 'models/materiTwo/BlokDiagram/glTF/blokSuper.gltf'
     },
     {
         name: 'blokFMModel',
         type: 'gltfModel',
-        path: 'models/materiTwo/BlokDiagram/glTF/blokFM.gltf'
+        path: 'models/materiTwo/BlokDiagram/glTF/fm.gltf'
+        // path: 'models/materiTwo/BlokDiagram/glTF/blokFM.gltf'
     },
     {
         name: 'pemancarModel',

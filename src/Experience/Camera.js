@@ -29,6 +29,9 @@ export default class Camera
         this.instance.position.set(8,8,10)
         // this.instance.position.set(1, 1, 1)
         // this.scene.add(this.instance)
+        this.listener = new THREE.AudioListener()
+        this.instance.add(this.listener)
+        this.sound = new THREE.Audio(this.listener)
 
         if(this.debug.active)
         {

@@ -36,8 +36,10 @@ if(mediaQuery.matches){
     // signUpContainer.style.display = 'none'
   }
 }else{
-  resSignIn.classList.add('notVisible')
-  resSignUp.classList.add('notVisible')
+  document.querySelector('.switch-in').classList.add('notVisible')
+  document.querySelector('.switch-up').classList.add('notVisible')
+  // resSignIn.classList.add('notVisible')
+  // resSignUp.classList.add('notVisible')
 }
 
 // when create account click, transform rotate y 180deg, transition: transform 0.6s

@@ -60,16 +60,16 @@ export default class Resources extends EventEmitter
 
     startLoading()
     {
-        for(const audioSource of this.audioSources){
-            this.myAudioSrc = []
-            this.loaders.audioLoader.load(
-                audioSource.path,
-                (audioFile)=>{
-                    this.sourceLoaded(audioSource, audioFile)
-                    this.myAudioSrc.push(audioSource)
-                }
-            )
-        }
+        // for(const audioSource of this.audioSources){
+        //     this.myAudioSrc = []
+        //     this.loaders.audioLoader.load(
+        //         audioSource.path,
+        //         (audioFile)=>{
+        //             this.sourceLoaded(audioSource, audioFile)
+        //             this.myAudioSrc.push(audioSource)
+        //         }
+        //     )
+        // }
         // Load each source
         for(const source of this.sources)
         {

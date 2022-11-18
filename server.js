@@ -20,6 +20,8 @@ const session = require('express-session');
 const ObjectId = require('mongodb').ObjectId;
 
 
+// mongoose.connect('mongodb://localhost:27017/penelitianMedia', {useNewUrlParser: true, useUnifiedTopology: true})
+// mongoose.connect('mongodb://aflahaayub:aflahaayub@%2Fhome%2Flearni14%2Fmongodb-0.sock/penelitianMedia?authSource=penelitianMedia', {useNewUrlParser: true, useUnifiedTopology: true})
 mongoose.connect('mongodb://localhost:27017/penelitianMedia', {useNewUrlParser: true, useUnifiedTopology: true})
   .then(()=>{
     console.log('CONNECTION OPEN!');
@@ -72,7 +74,11 @@ app.post('/account', async(req,res)=>{
     if(username === '' || password === ''){
       res.redirect('/account')
     }else{
-      const user = new User({username,password})
+      const userFind = await User.findOne({username});
+      if(userFind){
+        res.redirect('/account')
+      }else{
+        const user = new User({username,password})
       await user.save().then().catch(err=>console.log(err))
 
       const historyUser = new History({username, quizOneScore: 0, quizTwoScore: 0, quizThreeScore: 0, evaluationScore: 0, totalScore: 0 })
@@ -81,6 +87,7 @@ app.post('/account', async(req,res)=>{
       req.session.user_id = user._id;
       req.session.username = user.username;
       res.redirect('/home.html')
+      }
     }
   }else if('signin' === req.body.formType){
     const {password, username} = req.body;
@@ -191,6 +198,8 @@ app.get('/materi', requireLogin, async(req,res)=>{
   res.render('materi')
 })
 
-app.listen(3000, ()=>{
+app.listen(20000, ()=>{
   console.log('serving app...')
 })
+
+console.log(process.memoryUsage())

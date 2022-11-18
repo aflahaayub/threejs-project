@@ -203,18 +203,36 @@ export default class Planet{
 
   }
 
+  // setAudio(){
+  //   let audioCtx = new AudioContext()
+  //   this.audioElement = document.querySelector('audio')
+  //   this.audioElement.src = '/sounds/materiOne/audioThree.mp3'
+  //   this.playBtn = document.querySelector('.control')
+  //   this.text = document.querySelector('.play')
+
+  //   this.playBtn.addEventListener('click', ()=>{
+  //     if(this.playBtn.dataset.playing === 'false'){
+  //       this.audioElement.play()
+  //       this.playBtn.dataset.playing = 'true'
+  //       this.playBtn.innerHTML = '<i class="bi bi-pause-fill"></i>'
+  //       this.text.innerHTML = 'Pause Audio'
+  //     }else if(this.playBtn.dataset.playing === 'true'){
+  //       this.audioElement.pause()
+  //       this.playBtn.dataset.playing = 'false'
+  //       this.playBtn.innerHTML = '<i class="bi bi-play-fill"></i>'
+  //       this.text.innerHTML = 'Play Audio'
+  //     }
+  //   })
+
+  //   this.playBtn.addEventListener('ended', ()=>{
+  //     this.playBtn.dataset.playing = 'false'
+  //     this.playBtn.innerHTML = '<i class="bi bi-play-fill"></i>'
+  //     this.text.innerHTML = 'Audio Ended'
+  //   }, false)
+  // }
+
   setSlider(){
-    console.log(this.resources.myAudioSrc)
-    let myAudio = document.getElementById('myAudio')
-    for(let audioSrc of this.resources.myAudioSrc){
-      if(audioSrc.name === 'audio3'){
-        myAudio.src = audioSrc.path
-        myAudio.autoplay = true
-        myAudio.load()
-        console.log(myAudio)
-        console.log('audio three is playing..')
-    }
-    }
+    
     //SLIDER
     this.slideOpen = 0
     this.slide = document.querySelector('.slide-left')
@@ -261,6 +279,22 @@ export default class Planet{
       document.querySelector('.next-scene').classList.remove('visible')
       this.ground = new Ground()
       this.renderer.setGroundScene()
+      this.audioElement = document.querySelector('audio')
+      this.audioElement.src = '/sounds/materiOne/audioFour.mp3'
+      this.scene.remove(this.overlay)
+      this.scene.remove(this.arrow)
+      this.scene.remove(this.arrow2)
+      this.scene.remove(this.arrow3)
+      this.scene.remove(this.group)
+      this.scene.remove(this.stars)
+      this.overlayGeometry.dispose()
+      this.starGeo.dispose()
+      this.arrowGeo.dispose()
+      this.sunGlowMaterial.dispose()
+      this.earthMaterial.dispose()
+      this.overlayMaterial.dispose()
+      this.sunMaterial.dispose()
+
     }
 }
 

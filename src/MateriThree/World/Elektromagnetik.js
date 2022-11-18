@@ -64,8 +64,8 @@ export default class Elektromagnetik{
   setSunLight()
   {
 
-      const light = new THREE.AmbientLight( 0xffffff ); // soft white light
-      this.scene.add( light );
+      this.light = new THREE.AmbientLight( 0xffffff ); // soft white light
+      this.scene.add( this.light );
 
       this.sunLight = new THREE.DirectionalLight('#ffffff', 5)
       this.sunLight.castShadow = true
@@ -127,16 +127,6 @@ export default class Elektromagnetik{
       }
 
   setSlider(){
-    console.log(this.resources.myAudioSrc)
-    let myAudio = document.getElementById('myAudio')
-    for(let audioSrc of this.resources.myAudioSrc){
-      if(audioSrc.name === 'audio3'){
-        myAudio.src = audioSrc.path
-        myAudio.autoplay = true
-        myAudio.load()
-        console.log(myAudio)
-    }
-    }
     document.querySelector('.slider').classList.add('visible')
     document.querySelector('.animasi').classList.remove('visible')
     //SLIDER
@@ -227,6 +217,12 @@ export default class Elektromagnetik{
       document.querySelector('.next-scene').classList.remove('visible')
       this.Impedansi = new Impedansi()
       this.renderer.setImpedansiScene()
+      this.audioElement = document.querySelector('audio')
+      this.audioElement.src = '/sounds/materiThree/audioFour.mp3'
+      this.sunLight.dispose()
+      this.light.dispose()
+      this.scene.remove(this.group)
+      this.scene.remove(this.animation)
     }
   }
 

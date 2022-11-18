@@ -327,12 +327,6 @@ export default class Ionosphere{
   }
 
   sceneButton(){
-    // document.querySelector('.back-scene').classList.add('visible')
-    // document.querySelector(`.back-scene`).onclick =()=>{
-    //   document.querySelector('.back-scene').classList.remove('visible')
-    //   this.ground = new Ground()
-    //   this.renderer.setGroundScene()
-    // }
 
     document.querySelector(`.next-scene`).onclick =()=>{
     
@@ -340,6 +334,15 @@ export default class Ionosphere{
 
       this.los = new Los()
       this.renderer.setLosScene()
+      this.audioElement = document.querySelector('audio')
+      this.audioElement.src = '/sounds/materiOne/audioSix.mp3'
+      this.overlayGeometry.dispose()
+      this.overlayMaterial.dispose()
+      this.starGeo.dispose()
+      this.starMat.dispose()
+      // this.starTextures.dispose()
+      this.earth.dispose()
+      this.earthMaterial.dispose()
     }
   }
 
@@ -372,17 +375,6 @@ export default class Ionosphere{
   }
 
   setSlider(){
-    console.log(this.resources.myAudioSrc)
-    let myAudio = document.getElementById('myAudio')
-    for(let audioSrc of this.resources.myAudioSrc){
-      if(audioSrc.name === 'audio5'){
-        myAudio.src = audioSrc.path
-        myAudio.autoplay = true
-        myAudio.load()
-        console.log(myAudio)
-        console.log('audio five is playing..')
-    }
-    }
     //SLIDER
     this.slideOpen = 0
     this.slide = document.querySelector('.slide-left')

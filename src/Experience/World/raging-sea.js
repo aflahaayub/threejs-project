@@ -13,31 +13,17 @@ export default class Sea{
   constructor(){
     this.experience = new Experience()
     this.scene = this.experience.SeaScene
-    this.debug = this.experience.debug
     this.camera = this.experience.camera
     this.time = this.experience.time
     this.loadIntro = this.experience.loadIntro
     this.renderer = this.experience.renderer
     this.resources = this.experience.resources
 
-    console.log(this.scene)
-
-    if(this.debug.active)
-        {
-            this.debugFolder = this.debug.ui.addFolder('Raging-Sea')
-
-            this.setDebug()
-        }
-
-    if(this.renderer.scene === this.scene){
-      console.log('now is raging sea')
-    }
-
-    
     this.setLoading()
     this.setSea()
     this.sceneButton()
     this.setExplanation()
+    // this.setAudio()
     this.getTick()
     this.setSlider()
   }
@@ -118,9 +104,14 @@ export default class Sea{
       
         document.querySelector('.next-scene').classList.remove('visible')
 
+
         this.planet = new Planet()
         this.renderer.setPlanetScene()
-        console.log('next to planet from raging sea')
+        this.audioElement = document.querySelector('audio')
+        this.audioElement.src = '/sounds/materiOne/audioThree.mp3'
+        this.scene.remove(this.water)
+        this.material.dispose()
+        this.geometry.dispose()
       }
   }
 
@@ -153,20 +144,38 @@ export default class Sea{
     }
   }
 
+  // setAudio(){
+  //   let audioCtx = new AudioContext()
+  //   this.audioElement = document.querySelector('audio')
+  //   this.audioElement.src = '/sounds/materiOne/audioTwo.mp3'
+  //   this.playBtn = document.querySelector('.control')
+  //   this.text = document.querySelector('.play')
+
+  //   this.playBtn.addEventListener('click', ()=>{
+  //     if(this.playBtn.dataset.playing === 'false'){
+  //       console.log('audio playing')
+  //       this.playBtn.dataset.playing = 'true'
+  //       this.playBtn.innerHTML = '<i class="bi bi-pause-fill"></i>'
+  //       this.text.innerHTML = 'Pause Audio'
+  //       this.audioElement.play()
+  //     }else if(this.playBtn.dataset.playing === 'true'){
+  //       console.log('audio not playing')
+  //       this.playBtn.dataset.playing = 'false'
+  //       this.playBtn.innerHTML = '<i class="bi bi-play-fill"></i>'
+  //       this.text.innerHTML = 'Play Audio'
+  //       this.audioElement.pause()
+  //     }
+  //   })
+
+  //   this.playBtn.addEventListener('ended', ()=>{
+  //     this.playBtn.dataset.playing = 'false'
+  //     this.playBtn.innerHTML = '<i class="bi bi-play-fill"></i>'
+  //     this.text.innerHTML = 'Audio Ended'
+  //   }, false)
+  // }
+
   setSlider(){
 
-    console.log(this.resources.myAudioSrc)
-    let myAudio = document.getElementById('myAudio')
-
-    for(let audioSrc of this.resources.myAudioSrc){
-      if(audioSrc.name === 'audio2'){
-        myAudio.src = audioSrc.path
-        myAudio.autoplay = true
-        myAudio.load()
-        console.log(myAudio)
-        console.log('audio two is playing..')
-    }
-    }
     //SLIDER
     this.slideOpen = 0
     this.slide = document.querySelector('.slide-left')

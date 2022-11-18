@@ -68,8 +68,8 @@ export default class Saluran{
   setSunLight()
   {
 
-      const light = new THREE.AmbientLight( 0xffffff ); // soft white light
-      this.scene.add( light );
+     this.light = new THREE.AmbientLight( 0xffffff ); // soft white light
+      this.scene.add( this.light );
 
       this.sunLight = new THREE.DirectionalLight('#ffffff', 5)
       this.sunLight.castShadow = true
@@ -84,7 +84,7 @@ export default class Saluran{
 
       }
 
-setSaltrans(){
+  setSaltrans(){
 
         this.group = new Group()
 
@@ -191,22 +191,13 @@ setSaltrans(){
   }
 
   setSlider(){
-    console.log(this.resources.myAudioSrc)
-    let myAudio = document.getElementById('myAudio')
-    for(let audioSrc of this.resources.myAudioSrc){
-      if(audioSrc.name === 'audio2'){
-        myAudio.src = audioSrc.path
-        myAudio.autoplay = true
-        myAudio.load()
-        console.log(myAudio)
-    }
-    }
     document.querySelector('.slider').classList.add('visible')
     document.querySelector('.animasi').classList.remove('visible')
     //SLIDER
     this.slideOpen = 0
     this.slide = document.querySelector('.slide-left')
     this.slider = document.querySelector('.slider')
+    document.getElementsByClassName('slider')[0].style.width = '110px';
     this.slide.onclick = ()=>{
       this.slideOpen++
       if(this.slideOpen % 2 === 0 ){
@@ -368,11 +359,16 @@ setSaltrans(){
       document.querySelector('.next-scene').classList.remove('visible')
       this.elektromagneitik = new Elektromagnetik()
       this.renderer.setElektromagnetikScene()
+      this.audioElement = document.querySelector('audio')
+      this.audioElement.src = '/sounds/materiThree/audioThree.mp3'
       document.querySelector('.point-0').remove()
       document.querySelector('.point-1').classList.add('no-disp')
       document.querySelector('.point-2').remove()
       document.querySelector('.point-3').remove()
-
+      this.sunLight.dispose()
+      this.light.dispose()
+      this.scene.remove(this.saltrans)
+      this.scene.remove(this.group)
     }
   }
 

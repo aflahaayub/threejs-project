@@ -1,0 +1,2 @@
+(()=>{"use strict";var e=0;if(0==e){e=1;var t=document.getElementById("myBar"),n=1,r=setInterval(a,75);function a(){n>=100?(clearInterval(r),e=0):(n++,t.style.width=n+"%"),100===n&&document.querySelector(".btn-log").classList.add("ended")}}})();
+//# sourceMappingURL=loadApp.bundle.98c4012813484c00.js.map

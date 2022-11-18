@@ -32,23 +32,10 @@ export default class Experience
         // Options
         this.canvas = _canvas
 
-        //Full Screen
-        // document.querySelector('.full-screen').onclick = ()=>{
-        //     this.fullScreen()
-        // }
-
-        // //Exit - Full Screen
-        // document.querySelector('.out-full-screen').onclick = ()=>{
-        //     this.outFullScreen()
-        // }
-
         // Setup
         this.debug = new Debug()
         this.sizes = new Sizes()
         this.time = new Time()
-
-        // this.camera = new Camera()
-        // this.renderer = new Renderer()
 
         //Scene
         // this.loadIntro = new THREE.Scene()
@@ -94,25 +81,6 @@ export default class Experience
         this.world.update()
         this.renderer.update()
     }
-
-    // fullScreen(){
-    //     const elem = document.querySelector('canvas.webgl')
-    //         if (elem.requestFullscreen) {
-    //           elem.requestFullscreen();
-    //         } else if (elem.mozRequestFullScreen) { /* Firefox */
-    //           elem.mozRequestFullScreen();
-    //         } else if (elem.webkitRequestFullscreen) { /* Chrome, Safari & Opera */
-    //           elem.webkitRequestFullscreen();
-    //         } else if (elem.msRequestFullscreen) { /* IE/Edge */
-    //           elem.msRequestFullscreen();
-    //         }
-    //     elem.style.width = '100%';
-    //     elem.style.height = '100%';
-    // }
-
-    // outFullScreen(){
-    //     document.exitFullscreen()
-    // }
 
     destroy()
     {
