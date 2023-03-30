@@ -199,6 +199,10 @@ body
   transform: scale(1,1);
 }
 
+.point.no-disp{
+  display: none;
+}
+
 .point .text{
   position: absolute;
   text-align: center;
@@ -307,7 +311,7 @@ body
   right: 1%;
   border-radius: 30px;
   background: white;
-  /* width: 110px; */
+  width: 7rem;
   height: 40px;
   transform: scaleX(0);
 }
@@ -329,7 +333,7 @@ body
 }
 
 .slider.open{
-  width: 300px;
+  width: 80%;
   /* left: 2%; */
   right: 5%;
   /* transition: left 1.2s ease-in-out; */
@@ -337,7 +341,7 @@ body
 }
 
 .slider.close{
-  width: 110px;
+  width: 30%;
   /* left: 85%; */
   right: 1%;
   /* transition: left 1.2s ease-in-out; */

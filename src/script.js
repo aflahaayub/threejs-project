@@ -1,9 +1,11 @@
 import './home/home.css'
+import './petunjuk.js'
 import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader.js'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
 import gsap from 'gsap'
+
 // import Stats from 'three/examples/jsm/libs/stats.module'
 // import { Group, MeshBasicMaterial } from 'three'
 
@@ -90,7 +92,8 @@ scene.add(overlay)
 
 
 //Models
-const titleModels = ['Petunjuk', 'Capaian Pembelajaran', 'Materi', 'Leaderboard'];
+const titleModels = ['Petunjuk', 'Kompetensi Dasar dan IPK', 'Materi', 'Leaderboard'];
+const btnTitle = ['Petunjuk', 'KD dan IPK', 'Materi', 'Leaderboard'];
 let i = 0;
 let title = document.getElementsByClassName('context-title');
 let openBtn = document.getElementsByClassName('btn-discover')
@@ -121,16 +124,16 @@ document.querySelector('.btn-kiri').onclick =()=>{
     i--
     title[0].innerHTML = `${titleModels[i]}`
     if(mediaQuery.matches){
-        openBtn[0].innerHTML = `Lihat ${titleModels[i]}`
+        openBtn[0].innerHTML = `Lihat ${btnTitle[i]}`
     }
 
     if(btnQuery.matches){
-        titleModels[1] = 'Capaian'
-        ptnjKanan.innerHTML = `${titleModels[i+1]}`
+        // titleModels[1] = 'Capaian'
+        ptnjKanan.innerHTML = `${btnTitle[i+1]}`
         if(!titleModels[i-1]){
             ptnjKiri.innerHTML = 'Petunjuk'
         }else{
-            ptnjKiri.innerHTML = `${titleModels[i-1]}`
+            ptnjKiri.innerHTML = `${btnTitle[i-1]}`
         }
     }
     gsap.to(camera.position, {duration: 3, x: positionX, y: 0, z: 3})
@@ -157,15 +160,16 @@ document.querySelector('.btn-kanan').onclick =()=>{
     i++
     title[0].innerHTML = `${titleModels[i]}`
     if(mediaQuery.matches){
-        openBtn[0].innerHTML = `Lihat ${titleModels[i]}`
+        openBtn[0].innerHTML = `Lihat ${btnTitle[i]}`
     }
+
     if(btnQuery.matches){
-        titleModels[1] = 'Capaian'
-        ptnjKanan.innerHTML = `${titleModels[i+1]}`
+        // titleModels[1] = 'Capaian'
+        ptnjKanan.innerHTML = `${btnTitle[i+1]}`
         if(!titleModels[i-1]){
             ptnjKiri.innerHTML = 'Petunjuk'
         }else{
-            ptnjKiri.innerHTML = `${titleModels[i-1]}`
+            ptnjKiri.innerHTML = `${btnTitle[i-1]}`
         }
     }
     gsap.to(camera.position, {duration: 3, x: positionX, y: 0, z: 3})
@@ -312,7 +316,7 @@ document.querySelector('.btn-discover').onclick =()=>{
                 behavior: 'smooth'
         })
       }
-    }else if(titleModels[i] === 'Capaian Pembelajaran'){
+    }else if(titleModels[i] === 'Kompetensi Dasar dan IPK'){
         console.log('cp open up')
         document.querySelector('.cap-content').classList.add('visible')
             if(document.querySelector('.cap-content')){
@@ -328,6 +332,17 @@ document.querySelector('.up-petunjuk').onclick =()=>{
         behavior: 'smooth'
     })
     document.querySelector('.content').classList.remove('visible')
+    document.getElementById('content').style.height = '40%'
+    document.querySelector('.btn-petunjuk .btn-siswa').classList.remove('notShow')
+    document.querySelector('.btn-petunjuk .btn-guru').classList.remove('notShow')
+    document.querySelector('.content .pages').classList.add('notShow')
+    document.querySelector('.content .isi-content').classList.add('notShow')
+
+    document.querySelector('.siswa-pages .materi').classList.remove('dis-none') //materi -> dis-none
+    document.querySelector('.siswa-pages .cp').classList.remove('dis-none')
+    document.querySelector('.siswa-pages .penggunaan-2').classList.remove('dis-none')//penggunaan-2 penggunaan-3 penggunaan-4 -> notshow
+    document.querySelector('.siswa-pages .penggunaan-3').classList.remove('dis-none')//penggunaan-2 penggunaan-3 penggunaan-4 -> notshow
+    document.querySelector('.siswa-pages .penggunaan-4').classList.remove('dis-none')
 }
 document.querySelector('.up-cp').onclick =()=>{
     document.querySelector('.container-title').scrollIntoView({

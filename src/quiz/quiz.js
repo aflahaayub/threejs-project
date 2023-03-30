@@ -115,9 +115,10 @@ function startQuiz(questions){
     }
 
     // getting questions and options from array
+    let pembahasan = false;
     function showQuetions(index){
         const que_contain = document.querySelector('.que_contain');
-        console.log(que_contain)
+        // console.log(que_contain)
         const que_text = document.querySelector(".que_text");
         const que_img = document.querySelector(".que_img");
         const footer = document.querySelector('footer')
@@ -146,15 +147,33 @@ function startQuiz(questions){
         
         const option = option_list.querySelectorAll(".option");
 
-        // set onclick attribute to all available options
         for(let i=0; i < option.length; i++){
             console.log(option[i])
-            option[i].onclick=()=>{
-                // option[i].classList.add('clicked')
-                console.log(option[i].textContent)
-                optionSelected(option[i])
-            }
-        }
+                    option[i].onclick=()=>{
+                        optionSelected(option[i])
+                    }
+                }
+
+        // set onclick attribute to all available options
+        // if(!pembahasan){
+        //     for(let i=0; i < option.length; i++){
+        //         option[i].onclick=()=>{
+        //             optionSelected(option[i])
+        //         }
+        //     }
+        // }else{
+        //     let correcAns = questions[index].answer
+        //     for(let i =0; i < option.length; i++){
+        //         if(option[i].textContent == correcAns){
+        //             option[i].classList.add("correct"); //adding green color to correct selected option
+        //             option[i].insertAdjacentHTML("beforeend", tickIconTag); //adding tick icon to correct selected option
+        //         }
+
+        //     }
+        //     // next.classList.add("show");
+        //     // next.classList.remove("dis-none");
+        // }
+        
     }
 
     // creating the new div tags which for icons
@@ -162,37 +181,43 @@ function startQuiz(questions){
     let crossIconTag = '<div class="icon cross"><i class="fas fa-times"></i></div>';
 
     //if user clicked on option
+    let wrongAns = [];
+    let wrongNum = [];
     function optionSelected(answer){
-        console.log(answer)
         clearInterval(counter); //clear counter
         clearInterval(counterLine); //clear counterLine
         let userAns = answer.textContent; //getting user selected option
         let correcAns = questions[que_count].answer; //getting correct answer from array
         const allOptions = option_list.children.length; //getting all option items
+        answer.classList.add("choose");
         
         if(userAns == correcAns){ //if user selected option is equal to array's correct answer
             userScore += 1; //upgrading score value with 1
-            answer.classList.add("correct"); //adding green color to correct selected option
-            answer.insertAdjacentHTML("beforeend", tickIconTag); //adding tick icon to correct selected option
-            console.log("Correct Answer");
-            console.log("Your correct answers = " + userScore);
+            // answer.classList.add("choose"); //adding green color to correct selected option
+            // answer.classList.add("correct"); //adding green color to correct selected option
+            // answer.insertAdjacentHTML("beforeend", tickIconTag); //adding tick icon to correct selected option
+            // console.log("Correct Answer");
         }else{
-            answer.classList.add("incorrect"); //adding red color to correct selected option
-            answer.insertAdjacentHTML("beforeend", crossIconTag); //adding cross icon to correct selected option
-            console.log("Wrong Answer");
+            userScore += 0;
+            wrongAns.push(correcAns);
+            wrongNum.push(que_count);
+            // answer.classList.add("choose");
+            // answer.classList.add("incorrect"); //adding red color to correct selected option
+            // answer.insertAdjacentHTML("beforeend", crossIconTag); //adding cross icon to correct selected option
 
-            for(let i=0; i < allOptions; i++){
-                if(option_list.children[i].textContent == correcAns){ //if there is an option which is matched to an array answer 
-                    option_list.children[i].setAttribute("class", "option correct"); //adding green color to matched option
-                    option_list.children[i].insertAdjacentHTML("beforeend", tickIconTag); //adding tick icon to matched option
-                    console.log("Auto selected correct answer.");
-                }
-            }
+            // for(let i=0; i < allOptions; i++){
+            //     if(option_list.children[i].textContent == correcAns){ //if there is an option which is matched to an array answer 
+            //         option_list.children[i].setAttribute("class", "option correct"); //adding green color to matched option
+            //         option_list.children[i].insertAdjacentHTML("beforeend", tickIconTag); //adding tick icon to matched option
+            //         console.log("Auto selected correct answer.");
+            //     }
+            // }
         }
         for(let i=0; i < allOptions; i++){
             option_list.children[i].classList.add("disabled"); //once user select an option then disabled all options
         }
         next_btn.classList.add("show"); //show the next button if user selected any option
+        return wrongAns, wrongNum;
     }
 
     function saveScore(userScore){
@@ -223,6 +248,14 @@ function startQuiz(questions){
         quiz_box.classList.remove("activeQuiz"); //hide quiz box
         result_box.classList.add("activeResult"); //show result box
         const scoreText = result_box.querySelector(".score_text");
+        
+        explanation(wrongAns, wrongNum)
+        // const explain = result_box.querySelector(".explain")
+        // explain.onclick=()=>{
+        //     console.log("Explanation Open")
+        //     explanation(wrongAns)
+        // }
+
         if (userScore > 12){ // if user scored more than 3
             //creating a new span tag and passing the user score number and total question number
             let scoreTag = `<span>Selamat, kamu berhasil menjawab ${userScore} dari ${questions.length}</span>`;
@@ -240,6 +273,104 @@ function startQuiz(questions){
         saveScore(total)
         // if(total%)
         result_box.querySelector('.total_score').innerHTML = `<p>${total} </p>`
+
+    }
+
+    function explanation(ans, num){
+     const explainBtn = result_box.querySelector(".explain");
+    //  let index = 0;
+     console.log(num)
+     next_btn.classList.remove('show');
+     next_btn.classList.add('dis-none');
+
+     explainBtn.onclick =()=>{
+        document.querySelector('.explain-pop').classList.add('visible')
+        result_box.classList.add('dis-none');
+        start_btn.classList.add('dis-none');
+        bottom_ques_counter.classList.add('dis-none');
+        timeText.classList.add('dis-none')
+        timeCount.classList.add('dis-none')    
+        pembahasan = true;
+
+
+        const expContainer = document.querySelector('.isi-pembahasan');     
+
+        for(let i =0 ;i < num.length; i++){
+            let numIndex = num[i];
+            console.log(numIndex)
+
+            const divBox = document.createElement('div');
+            divBox.className = 'quiz_box';
+            expContainer.append(divBox)
+
+            divBox.classList.add('activeQuiz')
+            divBox.style.position = 'relative';
+            divBox.style.color = 'black'
+            divBox.style.padding = '2rem'
+            divBox.style.marginBottom = '4rem'
+
+            if(!(divBox.hasChildNodes())){
+                const section = document.createElement('section');
+                divBox.append(section)
+
+                const divCont = document.createElement('div')
+                divCont.className = 'que_contain';
+                section.append(divCont)
+
+                const divOpt = document.createElement('div');
+                divOpt.className = 'option_list';
+                section.append(divOpt)
+
+                const divImg = document.createElement('div')
+                divImg.className = 'que_img'
+                const divText = document.createElement('div')
+                divText.className = 'que_text'
+                divCont.append(divImg)
+                divCont.append(divText)
+
+                console.log(questions[numIndex])
+
+                if(questions[numIndex].image){
+                    // divBox.style.height = '95%'
+                    let img_tag = `<img src="${questions[numIndex].image}">`
+                    divImg.innerHTML = img_tag
+                }else{
+                    // divBox.style.height = '90%'
+                    let img_tag = ``
+                    divImg.innerHTML = img_tag
+                }
+                let que_tag = '<span>'+ questions[numIndex].question +'</span>';
+                let option_tag = '<div class="option"><span>'+ questions[numIndex].options[0] +'</span></div>'
+                + '<div class="option"><span>'+ questions[numIndex].options[1] +'</span></div>'
+                + '<div class="option"><span>'+ questions[numIndex].options[2] +'</span></div>'
+                + '<div class="option"><span>'+ questions[numIndex].options[3] +'</span></div>'
+                + '<div class="option"><span>'+ questions[numIndex].options[4] +'</span></div>';
+                divText.innerHTML = que_tag; //adding new span tag inside que_tag
+                divOpt.innerHTML = option_tag; //adding new div tag inside option_tag
+                
+                console.log(divImg.innerHTML)
+                console.log(divText)
+
+                const option = divOpt.querySelectorAll(".option");
+                let correcAns = questions[numIndex].answer
+                for(let i =0; i < option.length; i++){
+                    if(option[i].textContent == correcAns){
+                        option[i].classList.add("correct"); //adding green color to correct selected option
+                        option[i].insertAdjacentHTML("beforeend", tickIconTag); //adding tick icon to correct selected option
+                    }
+
+                }
+
+                
+            }
+
+        }
+        
+        document.querySelector('.btn-tutup').onclick=()=>{
+            document.querySelector('.explain-pop').classList.remove('visible')
+            document.querySelector('.result_box').classList.remove('dis-none')
+        }
+     }
     }
 
     function startTimer(time){
@@ -251,43 +382,32 @@ function startQuiz(questions){
                 let addZero = timeCount.textContent; 
                 timeCount.textContent = "0" + addZero; //add a 0 before time value
             }
-            if(time < 0){ //if timer is less than 0
+            if(time <= 0){ //if timer is less than 0
                 clearInterval(counter); //clear counter
                 timeText.textContent = "Time Off"; //change the time text to time off
-                const allOptions = option_list.children.length; //getting all option items
+                const allOptions = option_list.children.length;
+                wrongNum.push(que_count)
                 let correcAns = questions[que_count].answer; //getting correct answer from array
-                for(let i=0; i < allOptions; i++){
-                    if(option_list.children[i].textContent == correcAns){ //if there is an option which is matched to an array answer
-                        option_list.children[i].setAttribute("class", "option correct"); //adding green color to matched option
-                        option_list.children[i].insertAdjacentHTML("beforeend", tickIconTag); //adding tick icon to matched option
-                        console.log("Time Off: Auto selected correct answer.");
-                    }
-                }
+                // for(let i=0; i < allOptions; i++){
+                //     if(option_list.children[i].textContent == correcAns){ //if there is an option which is matched to an array answer
+                //         option_list.children[i].setAttribute("class", "option correct"); //adding green color to matched option
+                //         option_list.children[i].insertAdjacentHTML("beforeend", tickIconTag); //adding tick icon to matched option
+                //         console.log("Time Off: Auto selected correct answer.");
+                //     }
+                // }
                 for(let i=0; i < allOptions; i++){
                     option_list.children[i].classList.add("disabled"); //once user select an option then disabled all options
                 }
                 next_btn.classList.add("show"); //show the next button if user selected any option
+                
             }
         }
     }
 
-    
-
-    // function startTimerLine(time){
-    //     counterLine = setInterval(timer, 29);
-    //     function timer(){
-    //         time += 1; //upgrading time value with 1
-    //         time_line.style.width = time + "px"; //increasing width of time_line with px by time value
-    //         if(time > 549){ //if time value is greater than 549
-    //             clearInterval(counterLine); //clear counterLine
-    //         }
-    //     }
-    // }
-
-        function queCounter(index){
+    function queCounter(index){
             //creating a new span tag and passing the question number and total question
             let totalQueCounTag = '<span><p>'+ index +'</p> of <p>'+ questions.length +'</p> Questions</span>';
             bottom_ques_counter.innerHTML = totalQueCounTag;  //adding new span tag inside bottom_ques_counter
-        }
+    }
 
 }

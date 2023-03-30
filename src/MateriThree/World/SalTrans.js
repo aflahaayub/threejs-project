@@ -156,7 +156,19 @@ export default class Saluran{
           this.intersects = this.raycaster.intersectObjects(this.scene.children,true)
 
           if(this.intersects.length === 0 ){
-            point.element.classList.add('visible')
+            if(this.pointClicked){
+              point.element.classList.remove('visible')
+              document.querySelector(`.text-1`).style.display = 'none'
+              document.querySelector(`.text-2`).style.display = 'none'
+              document.querySelector(`.text-3`).style.display = 'none'
+              document.querySelector(`.text-4`).style.display = 'none'
+             
+            }
+            else{
+              point.element.classList.add('visible')
+              
+            }
+            // point.element.classList.add('visible')
           }else{
 
             // console.log(this.intersects)
@@ -167,7 +179,18 @@ export default class Saluran{
             if(this.intersectDistance < this.pointDistance){
               point.element.classList.remove('visible')
             }else{
-              point.element.classList.add('visible')
+              if(this.pointClicked){
+                point.element.classList.remove('visible')
+                document.querySelector(`.text-1`).style.display = 'none'
+                document.querySelector(`.text-2`).style.display = 'none'
+                document.querySelector(`.text-3`).style.display = 'none'
+                document.querySelector(`.text-4`).style.display = 'none'
+               
+              }
+              else{
+                point.element.classList.add('visible')
+                
+              }
             }
     
             // console.log(this.intersectDistance, this.pointDistance)
@@ -175,12 +198,18 @@ export default class Saluran{
 
           // console.log(this.sizes)
 
+
           this.translateX = (this.screenPosition.x * this.sizes.width * 0.5) 
           this.translateY = (- this.screenPosition.y * this.sizes.height * 0.5) 
 
           // console.log(this.translateX)
 
-          point.element.style.transform = `translateX(${this.translateX}px)translateY(${this.translateY}px)`
+          if(!this.pointClicked){
+            point.element.style.transform = `translateX(${this.translateX}px)translateY(${this.translateY}px)`
+          }
+            
+          
+          
        }
       
       window.requestAnimationFrame(this.otherTick)
@@ -197,7 +226,6 @@ export default class Saluran{
     this.slideOpen = 0
     this.slide = document.querySelector('.slide-left')
     this.slider = document.querySelector('.slider')
-    document.getElementsByClassName('slider')[0].style.width = '110px';
     this.slide.onclick = ()=>{
       this.slideOpen++
       if(this.slideOpen % 2 === 0 ){
@@ -223,6 +251,7 @@ export default class Saluran{
       document.querySelector(`.point-${i}`).onclick = ()=>{
         document.querySelector('.back').classList.add('visible')
         if(`point-${i}` === 'point-0'){
+          this.pointClicked = true
           this.point = 0
           document.querySelector('.point-1').classList.remove('noClick')
           gsap.to(this.camera.instance.position, {duration: 3,
@@ -242,7 +271,7 @@ export default class Saluran{
         else if(`point-${i}` === 'point-1'){
           document.querySelector('.point-2').classList.remove('noClick')
           document.querySelector('.back').classList.add('visible')
-          
+          this.pointClicked = true
           this.point = 1
           gsap.to(this.camera.instance.position, {duration: 3,
             x: 0.5,
@@ -261,7 +290,7 @@ export default class Saluran{
         else if(`point-${i}` === 'point-2'){
           document.querySelector('.point-3').classList.remove('noClick')
           document.querySelector('.back').classList.add('visible')
-
+          this.pointClicked = true
           this.point = 2
           gsap.to(this.camera.instance.position, {duration: 3,
             x: 0,
@@ -279,7 +308,7 @@ export default class Saluran{
         else if(`point-${i}` === 'point-3'){
           this.point = 3
           document.querySelector('.back').classList.add('visible')
-
+          this.pointClicked = true
           gsap.to(this.camera.instance.position, {duration: 3,
             x: 1,
             y: 1,
@@ -294,6 +323,12 @@ export default class Saluran{
           document.querySelector('.slide').classList.add('visible')
         }
         document.querySelector(`.back`).onclick = ()=>{
+
+          document.querySelector(`.text-1`).style.display = 'inline-block'
+        document.querySelector(`.text-2`).style.display = 'inline-block'
+        document.querySelector(`.text-3`).style.display = 'inline-block'
+        document.querySelector(`.text-4`).style.display = 'inline-block'
+          this.pointClicked = false
           console.log('kembali')
           gsap.to(this.camera.instance.position, {duration: 3,
             x: 5,

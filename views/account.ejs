@@ -10,52 +10,62 @@
 </head>
 
 <body>
-  <div class="container" id="container">
-    <div class="form-container sign-up-container">
-      <form action="/account" method="POST">
-        <h1>Buat Akun</h1>
-        <input type="text" name="username" id="username" placeholder="Username" maxlength="8" />
-        <input type="password" name="password" id="password" placeholder="Password" />
-        <input type="hidden" name="formType" value="signup">
-        <button type="submit" value="signup">Buat Akun</button>
-      </form>
-      <div class="switch-up">
-        <p>Sudah pernah mendaftar? Silahkan klik:</p>
-        <div class="responsive res-sign-in">
-          <button>Masuk</button>
-        </div>
-      </div>
-    </div>
-    <div class="form-container sign-in-container">
-      <form action="/account" method="POST">
-        <h1>Masuk</h1>
-        <input type="text" name="username" id="username" placeholder="Username" />
-        <input type="password" name="password" id="password" placeholder="Password" />
-        <input type="hidden" name="formType" value="signin">
-        <button type="submit" value="signin">Masuk</button>
-      </form>
-      <div class="switch-in">
-        <p>Belum memiliki akun? Silahkan klik: </p>
-        <div class="responsive res-sign-up">
-          <button>Buat Akun</button>
-        </div>
-      </div>
+  <div class="pop-up">
+    <div class="modal">
+      <p>
 
+      </p>
     </div>
-    <div class="overlay-container">
-      <div class="overlay">
-        <div class="overlay-panel overlay-left">
-          <h1>Selamat Datang Kembali!</h1>
-          <p>Jika kamu sudah memiliki akun, silahkan login dan kamu dapat mulai belajar!</p>
-          <button class="ghost" id="signIn">Masuk</button>
+  </div>
+  <div class="container" id="container">
+    <div class="form">
+      <div class="form-container sign-up-container">
+        <form action="/account" method="POST">
+          <h1>Buat Akun</h1>
+          <input type="text" name="username" id="username" placeholder="Username" maxlength="8" />
+          <input type="password" name="password" id="password" placeholder="Password" />
+          <input type="hidden" name="formType" value="signup">
+          <button type="submit" value="signup">Buat Akun</button>
+        </form>
+        <div class="switch-up">
+          <p>Sudah pernah mendaftar? Silahkan klik:</p>
+          <div class="responsive res-sign-in">
+            <button>Masuk</button>
+          </div>
         </div>
-        <div class="overlay-panel overlay-right">
-          <h1>Halo!</h1>
-          <p>Jika kamu belum memiliki akun, silahkan buat terlebih dahulu</p>
-          <button class="ghost" id="signUp">Buat Akun</button>
+      </div>
+      <div class="form-container sign-in-container">
+        <form action="/account" method="POST">
+          <h1>Masuk</h1>
+          <input type="text" name="username" id="username" placeholder="Username" />
+          <input type="password" name="password" id="password" placeholder="Password" />
+          <input type="hidden" name="formType" value="signin">
+          <button type="submit" value="signin">Masuk</button>
+        </form>
+        <div class="switch-in">
+          <p>Belum memiliki akun? Silahkan klik: </p>
+          <div class="responsive res-sign-up">
+            <button>Buat Akun</button>
+          </div>
+        </div>
+
+      </div>
+      <div class="overlay-container">
+        <div class="overlay">
+          <div class="overlay-panel overlay-left">
+            <h1>Selamat Datang Kembali!</h1>
+            <p>Jika kamu sudah memiliki akun, silahkan login dan kamu dapat mulai belajar!</p>
+            <button class="ghost" id="signIn">Masuk</button>
+          </div>
+          <div class="overlay-panel overlay-right">
+            <h1>Halo!</h1>
+            <p>Jika kamu belum memiliki akun, silahkan buat terlebih dahulu</p>
+            <button class="ghost" id="signUp">Buat Akun</button>
+          </div>
         </div>
       </div>
     </div>
+
   </div>
 
   <!-- Javascript file -->

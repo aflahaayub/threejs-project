@@ -124,6 +124,18 @@ export default class Lab
               }else{
                 point.element.classList.add('visible')
               }
+
+              if(this.pointClicked){
+                point.element.classList.remove('visible')
+                document.querySelector(`.text-1`).style.display = 'none'
+            document.querySelector(`.text-2`).style.display = 'none'
+            document.querySelector(`.text-3`).style.display = 'none'
+               
+              }
+              else{
+                point.element.classList.add('visible')
+                
+              }
       
               // console.log(this.intersectDistance, this.pointDistance)
             }
@@ -165,8 +177,11 @@ export default class Lab
       for(let i = 0; i < this.points.length; i++){
         document.querySelector(`.point-${i}`).onclick = ()=>{
           document.querySelector('.back').classList.add('visible')
+
           if(`point-${i}` === 'point-0'){
             console.log('this is 3')
+            this.pointClicked = true
+            // document.querySelector(`.point-2`).classList.remove('visible')
             gsap.to(this.camera.instance.position, {duration: 3,
               x: 0.5,
               y: 3.5,
@@ -185,23 +200,26 @@ export default class Lab
             }
 
             setSliderUp(title[2], pOne[2], pTwo[2])
+
             //change scene
             this.nextBtn = 0
-            document.querySelector(`.next-scene`).onclick =()=>{
-              document.querySelector(`.point-${i}`).classList.remove('visible')
-              document.querySelector('.text').classList.add('no-disp')
-              document.querySelector('.back').classList.remove('visible')
-              document.querySelector('.next-scene').classList.remove('visible')
-              //remove class
-              this.showPoints = false
-              this.sea = new Sea()
-              this.renderer.setSeaScene()
-              this.scene.remove(this.room.model)
-              this.room.material.dispose()
-              this.audioElement.src = '/sounds/materiOne/audioTwo.mp3'
-            }
+            // document.querySelector(`.next-scene`).onclick =()=>{
+            //   document.querySelector(`.point`).classList.add('no-disp')
+            //   document.querySelector(`.point-${i}`).classList.remove('visible')
+            //   document.querySelector('.text').classList.add('no-disp')
+            //   document.querySelector('.back').classList.remove('visible')
+            //   document.querySelector('.next-scene').classList.remove('visible')
+            //   //remove class
+            //   this.showPoints = false
+            //   this.sea = new Sea()
+            //   this.renderer.setSeaScene()
+            //   this.scene.remove(this.room.model)
+            //   this.room.material.dispose()
+            //   this.audioElement.src = '/sounds/materiOne/audioTwo.mp3'
+            // }
           }
           else if(`point-${i}` === 'point-1'){
+            this.pointClicked = true
             document.querySelector('.point-2').classList.remove('noClick')
             document.querySelector('.back').classList.add('visible')
             
@@ -225,6 +243,7 @@ export default class Lab
             setSliderUp(title[0], pOne[0], pTwo[0])
           }
           else if(`point-${i}` === 'point-2'){
+            this.pointClicked = true
             document.querySelector('.point-0').classList.remove('noClick')
             document.querySelector('.back').classList.add('visible')
 
@@ -279,8 +298,28 @@ export default class Lab
         }
       }
 
+
+      // Tombol Next
+      document.querySelector(`.next-scene`).onclick =()=>{
+        document.querySelector(`.text-1`).style.display = 'none'
+        document.querySelector(`.text-2`).style.display = 'none'
+        document.querySelector(`.text-2`).style.display = 'none'
+        document.querySelector(`.point-${i}`).classList.remove('visible')
+        document.querySelector('.text').classList.add('no-disp')
+        document.querySelector('.back').classList.remove('visible')
+        document.querySelector('.next-scene').classList.remove('visible')
+        //remove class
+        this.showPoints = false
+        this.sea = new Sea()
+        this.renderer.setSeaScene()
+        this.scene.remove(this.room.model)
+        this.room.material.dispose()
+        this.audioElement.src = '/sounds/materiOne/audioTwo.mp3'
+      }
+
       // Tombol Kembali
       document.querySelector(`.back`).onclick = ()=>{
+        this.pointClicked = false
         console.log('kembali')
         for(let animation of this.animationAct){
           animation.stop()
@@ -290,7 +329,10 @@ export default class Lab
           y: 8,
           z: 9
         })
-
+        document.querySelector('.next-scene').classList.remove('visible')
+        document.querySelector(`.text-1`).style.display = 'inline-block'
+        document.querySelector(`.text-2`).style.display = 'inline-block'
+        document.querySelector(`.text-3`).style.display = 'inline-block'
         document.querySelector('.back').classList.remove('visible')
         document.querySelector('.slide').classList.remove('visible')
       }

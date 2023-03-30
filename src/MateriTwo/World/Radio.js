@@ -136,26 +136,7 @@ export default class Radio{
     this.playBtn = document.querySelector('.control')
     this.text = document.querySelector('.play')
 
-    this.playBtn.addEventListener('click', ()=>{
-      if(this.playBtn.dataset.playing === 'false'){
-        this.playBtn.dataset.playing = 'true'
-        this.playBtn.innerHTML = '<i class="bi bi-pause-fill"></i>'
-        this.text.innerHTML = 'Pause Audio'
-        this.audioElement.play()
-      }else if(this.playBtn.dataset.playing === 'true'){
-        this.playBtn.dataset.playing = 'false'
-        this.playBtn.innerHTML = '<i class="bi bi-play-fill"></i>'
-        this.text.innerHTML = 'Play Audio'
-        this.audioElement.pause()
-      }
-    })
-
-    // this.playBtn.addEventListener('ended', ()=>{
-    //   this.playBtn.dataset.playing = 'false'
-    //   this.playBtn.innerHTML = '<i class="bi bi-play-fill"></i>'
-    //   this.text.innerHTML = 'Audio Ended'
-    // }, false)
-
+    // console.log(this.playBtn)
     document.querySelector('.point-0').onclick=()=>{
       this.clicked++
       if(this.clicked !== 0){
@@ -166,22 +147,26 @@ export default class Radio{
     if(this.clicked === 0){
       this.display.texture = this.resources.items.displayTexture
     }else if(this.clicked === 1){
+      console.log(this.isClicked)
       this.isClicked = true
       this.display.texture = this.resources.items.displayTexture2
-      this.audioElement.src = '/sounds/materiTwo/101.mp3'
-      this.audioElement.autoplay = true
+      this.audioElement.src = '/sounds/materiTwo/987.mp3'
+      // this.audioElement.autoplay = true
     }else if(this.clicked === 2){
+      console.log(this.isClicked)
       this.isClicked = true
       this.display.texture = this.resources.items.displayTexture3
-      this.audioElement.src = '/sounds/materiTwo/987.mp3'
-      this.audioElement.autoplay = true
+      this.audioElement.src = '/sounds/materiTwo/101.mp3'
+      // this.audioElement.autoplay = true
     }else{
+      console.log(this.isClicked)
       this.isClicked = true
       this.display.texture = this.resources.items.displayTexture
       this.audioElement.src = '/sounds/materiTwo/audioOne.mp3'
       this.clicked = 0
       this.audioElement.autoplay = true
     }
+
     this.display.texture.encoding = THREE.sRGBEncoding
     this.display.texture.flipY = false
 
@@ -197,6 +182,29 @@ export default class Radio{
       this.display.model.rotateY(80)
     this.display.model.position.y = -5
     }
+
+    this.playBtn.onclick = ()=>{
+      if(this.playBtn.dataset.playing === 'true'){
+        this.buttonControl(true)
+        this.playBtn.dataset.playing = 'false';
+      }else{
+        this.buttonControl(false)
+        this.playBtn.dataset.playing = 'true';
+      }
+    }
+    this.buttonControl = ((value)=>{
+      if(value){
+        console.log(this.playBtn)
+        this.playBtn.innerHTML = '<i class="bi bi-pause-fill"></i>'
+        this.text.innerHTML = 'Pause Audio'
+        this.audioElement.play()
+      }else{
+        console.log(this.playBtn)
+        this.playBtn.innerHTML = '<i class="bi bi-play-fill"></i>'
+        this.text.innerHTML = 'Play Audio'
+        this.audioElement.pause()
+      }
+    })
     
     this.scene.add(this.display.model)
 

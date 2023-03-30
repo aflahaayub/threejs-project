@@ -6,7 +6,9 @@
 "use strict";
 
 const { create: createResolver } = require("enhanced-resolve");
+const nodeModule = require("module");
 const asyncLib = require("neo-async");
+const { isAbsolute } = require("path");
 const AsyncQueue = require("./util/AsyncQueue");
 const StackedCacheMap = require("./util/StackedCacheMap");
 const createHash = require("./util/createHash");
@@ -21,6 +23,8 @@ const processAsyncTree = require("./util/processAsyncTree");
 /** @typedef {import("./util/fs").InputFileSystem} InputFileSystem */
 
 const supportsEsm = +process.versions.modules >= 83;
+
+const builtinModules = new Set(nodeModule.builtinModules);
 
 let FS_ACCURACY = 2000;
 
@@ -204,6 +208,12 @@ class SnapshotIterable {
 class Snapshot {
 	constructor() {
 		this._flags = 0;
+		/** @type {Iterable<string> | undefined} */
+		this._cachedFileIterable = undefined;
+		/** @type {Iterable<string> | undefined} */
+		this._cachedContextIterable = undefined;
+		/** @type {Iterable<string> | undefined} */
+		this._cachedMissingIterable = undefined;
 		/** @type {number | undefined} */
 		this.startTime = undefined;
 		/** @type {Map<string, FileSystemInfoEntry | null> | undefined} */
@@ -414,31 +424,43 @@ class Snapshot {
 	 * @returns {Iterable<string>} iterable
 	 */
 	getFileIterable() {
-		return this._createIterable(s => [
-			s.fileTimestamps,
-			s.fileHashes,
-			s.fileTshs,
-			s.managedFiles
-		]);
+		if (this._cachedFileIterable === undefined) {
+			this._cachedFileIterable = this._createIterable(s => [
+				s.fileTimestamps,
+				s.fileHashes,
+				s.fileTshs,
+				s.managedFiles
+			]);
+		}
+		return this._cachedFileIterable;
 	}
 
 	/**
 	 * @returns {Iterable<string>} iterable
 	 */
 	getContextIterable() {
-		return this._createIterable(s => [
-			s.contextTimestamps,
-			s.contextHashes,
-			s.contextTshs,
-			s.managedContexts
-		]);
+		if (this._cachedContextIterable === undefined) {
+			this._cachedContextIterable = this._createIterable(s => [
+				s.contextTimestamps,
+				s.contextHashes,
+				s.contextTshs,
+				s.managedContexts
+			]);
+		}
+		return this._cachedContextIterable;
 	}
 
 	/**
 	 * @returns {Iterable<string>} iterable
 	 */
 	getMissingIterable() {
-		return this._createIterable(s => [s.missingExistence, s.managedMissing]);
+		if (this._cachedMissingIterable === undefined) {
+			this._cachedMissingIterable = this._createIterable(s => [
+				s.missingExistence,
+				s.managedMissing
+			]);
+		}
+		return this._cachedMissingIterable;
 	}
 }
 
@@ -691,6 +713,11 @@ class SnapshotOptimization {
 		this._statItemsShared += capturedFilesSize - unshared;
 	}
 }
+
+const parseString = str => {
+	if (str[0] === "'") str = `"${str.slice(1, -1).replace(/"/g, '\\"')}"`;
+	return JSON.parse(str);
+};
 
 /* istanbul ignore next */
 /**
@@ -1180,7 +1207,7 @@ class FileSystemInfo {
 
 	/**
 	 * @param {string} path file path
-	 * @param {function(WebpackError=, (FileSystemInfoEntry | "ignore" | null)=): void} callback callback function
+	 * @param {function((WebpackError | null)=, (FileSystemInfoEntry | "ignore" | null)=): void} callback callback function
 	 * @returns {void}
 	 */
 	getFileTimestamp(path, callback) {
@@ -1191,7 +1218,7 @@ class FileSystemInfo {
 
 	/**
 	 * @param {string} path context path
-	 * @param {function(WebpackError=, (ResolvedContextFileSystemInfoEntry | "ignore" | null)=): void} callback callback function
+	 * @param {function((WebpackError | null)=, (ResolvedContextFileSystemInfoEntry | "ignore" | null)=): void} callback callback function
 	 * @returns {void}
 	 */
 	getContextTimestamp(path, callback) {
@@ -1212,7 +1239,7 @@ class FileSystemInfo {
 
 	/**
 	 * @param {string} path context path
-	 * @param {function(WebpackError=, (ContextFileSystemInfoEntry | "ignore" | null)=): void} callback callback function
+	 * @param {function((WebpackError | null)=, (ContextFileSystemInfoEntry | "ignore" | null)=): void} callback callback function
 	 * @returns {void}
 	 */
 	_getUnresolvedContextTimestamp(path, callback) {
@@ -1223,7 +1250,7 @@ class FileSystemInfo {
 
 	/**
 	 * @param {string} path file path
-	 * @param {function(WebpackError=, string=): void} callback callback function
+	 * @param {function((WebpackError | null)=, string=): void} callback callback function
 	 * @returns {void}
 	 */
 	getFileHash(path, callback) {
@@ -1234,7 +1261,7 @@ class FileSystemInfo {
 
 	/**
 	 * @param {string} path context path
-	 * @param {function(WebpackError=, string=): void} callback callback function
+	 * @param {function((WebpackError | null)=, string=): void} callback callback function
 	 * @returns {void}
 	 */
 	getContextHash(path, callback) {
@@ -1254,7 +1281,7 @@ class FileSystemInfo {
 
 	/**
 	 * @param {string} path context path
-	 * @param {function(WebpackError=, ContextHash=): void} callback callback function
+	 * @param {function((WebpackError | null)=, ContextHash=): void} callback callback function
 	 * @returns {void}
 	 */
 	_getUnresolvedContextHash(path, callback) {
@@ -1265,7 +1292,7 @@ class FileSystemInfo {
 
 	/**
 	 * @param {string} path context path
-	 * @param {function(WebpackError=, ResolvedContextTimestampAndHash=): void} callback callback function
+	 * @param {function((WebpackError | null)=, ResolvedContextTimestampAndHash=): void} callback callback function
 	 * @returns {void}
 	 */
 	getContextTsh(path, callback) {
@@ -1285,7 +1312,7 @@ class FileSystemInfo {
 
 	/**
 	 * @param {string} path context path
-	 * @param {function(WebpackError=, ContextTimestampAndHash=): void} callback callback function
+	 * @param {function((WebpackError | null)=, ContextTimestampAndHash=): void} callback callback function
 	 * @returns {void}
 	 */
 	_getUnresolvedContextTsh(path, callback) {
@@ -1325,7 +1352,7 @@ class FileSystemInfo {
 	/**
 	 * @param {string} context context directory
 	 * @param {Iterable<string>} deps dependencies
-	 * @param {function(Error=, ResolveBuildDependenciesResult=): void} callback callback function
+	 * @param {function((Error | null)=, ResolveBuildDependenciesResult=): void} callback callback function
 	 * @returns {void}
 	 */
 	resolveBuildDependencies(context, deps, callback) {
@@ -1625,7 +1652,9 @@ class FileSystemInfo {
 									let request = relative(this.fs, context, childPath);
 									if (request.endsWith(".js")) request = request.slice(0, -3);
 									request = request.replace(/\\/g, "/");
-									if (!request.startsWith("../")) request = `./${request}`;
+									if (!request.startsWith("../") && !isAbsolute(request)) {
+										request = `./${request}`;
+									}
 									push({
 										type: RBDT_RESOLVE_CJS_FILE,
 										context,
@@ -1657,21 +1686,22 @@ class FileSystemInfo {
 												let dependency;
 												if (imp.d === -1) {
 													// import ... from "..."
-													dependency = JSON.parse(
+													dependency = parseString(
 														source.substring(imp.s - 1, imp.e + 1)
 													);
 												} else if (imp.d > -1) {
 													// import()
 													let expr = source.substring(imp.s, imp.e).trim();
-													if (expr[0] === "'")
-														expr = `"${expr
-															.slice(1, -1)
-															.replace(/"/g, '\\"')}"`;
-													dependency = JSON.parse(expr);
+													dependency = parseString(expr);
 												} else {
 													// e.g. import.meta
 													continue;
 												}
+
+												// we should not track Node.js build dependencies
+												if (dependency.startsWith("node:")) continue;
+												if (builtinModules.has(dependency)) continue;
+
 												push({
 													type: RBDT_RESOLVE_ESM_FILE,
 													context,
@@ -1797,7 +1827,7 @@ class FileSystemInfo {
 
 	/**
 	 * @param {Map<string, string | false>} resolveResults results from resolving
-	 * @param {function(Error=, boolean=): void} callback callback with true when resolveResults resolve the same way
+	 * @param {function((Error | null)=, boolean=): void} callback callback with true when resolveResults resolve the same way
 	 * @returns {void}
 	 */
 	checkResolveResultsValid(resolveResults, callback) {
@@ -1879,7 +1909,7 @@ class FileSystemInfo {
 	 * @param {Object} options options object (for future extensions)
 	 * @param {boolean=} options.hash should use hash to snapshot
 	 * @param {boolean=} options.timestamp should use timestamp to snapshot
-	 * @param {function(WebpackError=, Snapshot=): void} callback callback function
+	 * @param {function((WebpackError | null)=, (Snapshot | null)=): void} callback callback function
 	 * @returns {void}
 	 */
 	createSnapshot(startTime, files, directories, missing, options, callback) {
@@ -2015,8 +2045,7 @@ class FileSystemInfo {
 			}
 			return capturedItems;
 		};
-		if (files) {
-			const capturedFiles = captureNonManaged(files, managedFiles);
+		const processCapturedFiles = capturedFiles => {
 			switch (mode) {
 				case 3:
 					this._fileTshsOptimization.optimize(snapshot, capturedFiles);
@@ -2093,12 +2122,11 @@ class FileSystemInfo {
 					}
 					break;
 			}
+		};
+		if (files) {
+			processCapturedFiles(captureNonManaged(files, managedFiles));
 		}
-		if (directories) {
-			const capturedDirectories = captureNonManaged(
-				directories,
-				managedContexts
-			);
+		const processCapturedDirectories = capturedDirectories => {
 			switch (mode) {
 				case 3:
 					this._contextTshsOptimization.optimize(snapshot, capturedDirectories);
@@ -2218,9 +2246,13 @@ class FileSystemInfo {
 					}
 					break;
 			}
+		};
+		if (directories) {
+			processCapturedDirectories(
+				captureNonManaged(directories, managedContexts)
+			);
 		}
-		if (missing) {
-			const capturedMissing = captureNonManaged(missing, managedMissing);
+		const processCapturedMissing = capturedMissing => {
 			this._missingExistenceOptimization.optimize(snapshot, capturedMissing);
 			for (const path of capturedMissing) {
 				const cache = this._fileTimestamps.get(path);
@@ -2245,11 +2277,19 @@ class FileSystemInfo {
 					});
 				}
 			}
+		};
+		if (missing) {
+			processCapturedMissing(captureNonManaged(missing, managedMissing));
 		}
 		this._managedItemInfoOptimization.optimize(snapshot, managedItems);
 		for (const path of managedItems) {
 			const cache = this._managedItems.get(path);
 			if (cache !== undefined) {
+				if (!cache.startsWith("*")) {
+					managedFiles.add(join(this.fs, path, "package.json"));
+				} else if (cache === "*nested") {
+					managedMissing.add(join(this.fs, path, "package.json"));
+				}
 				managedItemInfo.set(path, cache);
 			} else {
 				jobs++;
@@ -2261,8 +2301,27 @@ class FileSystemInfo {
 							);
 						}
 						jobError();
-					} else {
+					} else if (entry) {
+						if (!entry.startsWith("*")) {
+							managedFiles.add(join(this.fs, path, "package.json"));
+						} else if (cache === "*nested") {
+							managedMissing.add(join(this.fs, path, "package.json"));
+						}
 						managedItemInfo.set(path, entry);
+						jobDone();
+					} else {
+						// Fallback to normal snapshotting
+						const process = (set, fn) => {
+							if (set.size === 0) return;
+							const captured = new Set();
+							for (const file of set) {
+								if (file.startsWith(path)) captured.add(file);
+							}
+							if (captured.size > 0) fn(captured);
+						};
+						process(managedFiles, processCapturedFiles);
+						process(managedContexts, processCapturedDirectories);
+						process(managedMissing, processCapturedMissing);
 						jobDone();
 					}
 				});
@@ -2349,7 +2408,7 @@ class FileSystemInfo {
 
 	/**
 	 * @param {Snapshot} snapshot the snapshot made
-	 * @param {function(WebpackError=, boolean=): void} callback callback function
+	 * @param {function((WebpackError | null)=, boolean=): void} callback callback function
 	 * @returns {void}
 	 */
 	checkSnapshotValid(snapshot, callback) {
@@ -2369,7 +2428,7 @@ class FileSystemInfo {
 
 	/**
 	 * @param {Snapshot} snapshot the snapshot made
-	 * @param {function(WebpackError=, boolean=): void} callback callback function
+	 * @param {function((WebpackError | null)=, boolean=): void} callback callback function
 	 * @returns {void}
 	 */
 	_checkSnapshotValidNoCache(snapshot, callback) {
@@ -2918,7 +2977,7 @@ class FileSystemInfo {
 	 * @param {function(string, IStats, function(Error=, ItemType=): void): void} options.fromFile called when context item is a file
 	 * @param {function(string, IStats, function(Error=, ItemType=): void): void} options.fromDirectory called when context item is a directory
 	 * @param {function(string[], ItemType[]): T} options.reduce called from all context items
-	 * @param {function(Error=, (T)=): void} callback callback
+	 * @param {function((Error | null)=, (T)=): void} callback callback
 	 */
 	_readContext(
 		{
@@ -3101,7 +3160,7 @@ class FileSystemInfo {
 
 	/**
 	 * @param {ContextFileSystemInfoEntry} entry entry
-	 * @param {function(Error=, ResolvedContextFileSystemInfoEntry=): void} callback callback
+	 * @param {function((Error | null)=, ResolvedContextFileSystemInfoEntry=): void} callback callback
 	 * @returns {void}
 	 */
 	_resolveContextTimestamp(entry, callback) {
@@ -3209,7 +3268,7 @@ class FileSystemInfo {
 
 	/**
 	 * @param {ContextHash} entry context hash
-	 * @param {function(Error=, string=): void} callback callback
+	 * @param {function((Error | null)=, string=): void} callback callback
 	 * @returns {void}
 	 */
 	_resolveContextHash(entry, callback) {
@@ -3365,7 +3424,7 @@ class FileSystemInfo {
 
 	/**
 	 * @param {ContextTimestampAndHash} entry entry
-	 * @param {function(Error=, ResolvedContextTimestampAndHash=): void} callback callback
+	 * @param {function((Error | null)=, ResolvedContextTimestampAndHash=): void} callback callback
 	 * @returns {void}
 	 */
 	_resolveContextTsh(entry, callback) {
@@ -3445,8 +3504,8 @@ class FileSystemInfo {
 			}
 			if (!elements.has(path)) {
 				// file or directory doesn't exist
-				this._managedItems.set(path, "missing");
-				return callback(null, "missing");
+				this._managedItems.set(path, "*missing");
+				return callback(null, "*missing");
 			}
 			// something exists
 			// it may be a file or directory
@@ -3455,8 +3514,8 @@ class FileSystemInfo {
 				(path.endsWith("/node_modules") || path.endsWith("\\node_modules"))
 			) {
 				// we are only interested in existence of this special directory
-				this._managedItems.set(path, "exists");
-				return callback(null, "exists");
+				this._managedItems.set(path, "*node_modules");
+				return callback(null, "*node_modules");
 			}
 
 			// we assume it's a directory, as files shouldn't occur in managed paths
@@ -3473,12 +3532,13 @@ class FileSystemInfo {
 							) {
 								// This is only a grouping folder e. g. used by yarn
 								// we are only interested in existence of this special directory
-								this._managedItems.set(path, "nested");
-								return callback(null, "nested");
+								this._managedItems.set(path, "*nested");
+								return callback(null, "*nested");
 							}
-							const problem = `Managed item ${path} isn't a directory or doesn't contain a package.json`;
-							this.logger.warn(problem);
-							return callback(new Error(problem));
+							this.logger.warn(
+								`Managed item ${path} isn't a directory or doesn't contain a package.json (see snapshot.managedPaths option)`
+							);
+							return callback();
 						});
 						return;
 					}
@@ -3489,6 +3549,12 @@ class FileSystemInfo {
 					data = JSON.parse(content.toString("utf-8"));
 				} catch (e) {
 					return callback(e);
+				}
+				if (!data.name) {
+					this.logger.warn(
+						`${packageJsonPath} doesn't contain a "name" property (see snapshot.managedPaths option)`
+					);
+					return callback();
 				}
 				const info = `${data.name || ""}@${data.version || ""}`;
 				this._managedItems.set(path, info);

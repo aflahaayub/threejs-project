@@ -12,7 +12,6 @@ module.exports = {
         materiThreeApp: path.resolve(__dirname, '../src/materiThree.js'),
         quizApp: path.resolve(__dirname, '../src/quiz/quiz.js'),
         loadApp: path.resolve(__dirname, '../src/load/load.js') 
-        // questionsApp: path.resolve(__dirname, '../src/questions.js')
     },
     output:
     {
@@ -41,30 +40,6 @@ module.exports = {
             chunks: ['mainApp'],
             minify: true
         }),
-        // new HtmlWebpackPlugin({
-        //     filename: 'login.html',
-        //     template: path.resolve(__dirname, '../src/login/login.html'),
-        //     chunks: ['loginApp'],
-        //     minify: true
-        // }),
-        // new HtmlWebpackPlugin({
-        //     filename: 'quiz.html',
-        //     template: path.resolve(__dirname, '../src/quiz/quiz.html'),
-        //     chunks: ['quizApp'],
-        //     minify: true
-        // }),
-        // new HtmlWebpackPlugin({
-        //     filename: 'quizTwo.html',
-        //     template: path.resolve(__dirname, '../src/quiz/quizTwo.html'),
-        //     chunks: ['quizApp'],
-        //     minify: true
-        // }),
-        // new HtmlWebpackPlugin({
-        //     filename: 'quizThree.html',
-        //     template: path.resolve(__dirname, '../src/quiz/quizThree.html'),
-        //     chunks: ['quizApp'],
-        //     minify: true
-        // }),
         new HtmlWebpackPlugin({
             filename: 'materiOne.html',
             template: path.resolve(__dirname, '../src/materiOne.html'),

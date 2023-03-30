@@ -212,11 +212,14 @@ section:nth-child(odd)
 
 /* Telusuri Page */
 
+
+
 /* Petunjuk */
 .content{
     position: absolute;
-    height: 100%;
+    height: 40%;
     width: 100%;
+    bottom: 0;
     padding: 2rem;
     background-color: #b36935f0;
     color: white;
@@ -249,10 +252,13 @@ section:nth-child(odd)
     font-weight: 700;
     display: block;
     text-align: center;
-    padding: 2rem 0;
+    /* padding: 2rem 0; */
     padding-bottom: 2rem;
     letter-spacing: 5px;
     text-decoration: underline;
+}
+.cap-content .title-content, .history-content .title-content, .materi-content .title-content{
+    padding: 2rem 0;
 }
 
 .content .pages, .content .study{
@@ -301,13 +307,16 @@ section:nth-child(odd)
 }
 
 .content .up, .cap-content .up, .history-content .up, .materi-content .up{
-    padding: 1rem;
+    /* padding: 1rem; */
     padding-right: 2.5rem;
     /* border: 1px solid white; */
     display: flex;
     justify-content: flex-end;
 }
 
+.cap-content .up, .history-content .up, .materi-content .up{
+    padding: 1rem;
+}
 .content .btn-up, .cap-content .btn-up, .history-content .btn-up, .materi-content .btn-up{
     text-align: center;
     width: 10px;
@@ -318,6 +327,35 @@ section:nth-child(odd)
     color: white;
     cursor: pointer;
 }
+
+.content .siswa-pages .materi.dis-none, .content .siswa-pages .cp.dis-none, .content .siswa-pages .penggunaan-2.dis-none, .content .siswa-pages .penggunaan-3.dis-none, .content .siswa-pages .penggunaan-4.dis-none{
+    display: none;
+}
+
+.notShow{
+    opacity: 0;
+}
+
+/* Btn Pick Petunjuk */
+.btn-petunjuk{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+  }
+  
+.btn-p{
+    padding: 0.5rem 1rem;
+    margin: 0 1rem;
+    background-color: white;
+    color: black;
+    font-weight: bold;
+    cursor: pointer;
+  }
+
+  .btn-p.up-petunjuk{
+    margin-top: 2.5rem;
+  }
 
 /* Capaian Pembelajaran */
 .cap-content
@@ -359,6 +397,10 @@ section:nth-child(odd)
 .cap-content .isi-cap p{
     padding: 0.5rem;
     font-size: 20px;
+}
+
+.cap-content .title-sub{
+    text-align: center;
 }
 
 .cap-content .sub{
