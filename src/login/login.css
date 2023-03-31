@@ -1,7 +1,9 @@
 
 @import url('https://fonts.googleapis.com/css?family=Montserrat:400,800');
 
-* {
+*, body {
+	margin: 0;
+	padding: 0;
 	box-sizing: border-box;
 }
 
@@ -73,34 +75,17 @@ input {
 	width: 100%;
 }
 
-.pop-up{
-	background: black;
-  opacity: 70%;
-  z-index: 2;
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  display: flex;
-}
-
-.pop-up .modal{
-	background: #eddddd;
-  width: 50%;
-  height: 20%;
-  z-index: 3;
-  position: absolute;
-  border-radius: 15px;
-}
 
 .container{
 	background: #f6f5f7;
+	min-width: 100vw;
+	min-height: 100vh;
 	display: flex;
+	position: relative;
 	justify-content: center;
 	align-items: center;
 	flex-direction: column;
 	font-family: 'Montserrat', sans-serif;
-	height: 100vh;
-	margin: -20px 0 50px;
 }
 
 .form{
@@ -148,7 +133,7 @@ input {
 }
 
 .form.right-panel-active .sign-up-container {
-	transform: translateX(100%);
+	transform: translateX(0);
 	opacity: 1;
 	z-index: 5;
 	animation: show 0.6s;
@@ -260,19 +245,11 @@ span {
 
   .sign-in-container, .sign-up-container{
     width: 100%;
-    /* transform: rotateY(180deg); */
   }
 
-  /* form{
-    padding: 0 20px;
-  } */
   form-container{
     padding: 0 20px;
   }
-
-	/* .form-container {
-		transition: none;
-	} */
   .responsive button {
     border-radius: 20px;
     border: 1px solid #2b5eff;

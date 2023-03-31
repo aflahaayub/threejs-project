@@ -16,8 +16,7 @@ const requireLogin = (req,res,next)=>{ //set middleware
 
 //GET DATA
 router.get('/account', (req, res)=>{
-  let alert =''
-  res.render('account', alert)
+  res.render('account')
 })
 
 router.get('/home', requireLogin, (req,res)=>{
@@ -82,16 +81,17 @@ router.get('/materi', requireLogin, async(req,res)=>{
 
 //POST DATA
 router.post('/account', async(req,res)=>{
-  let alert = ''
+  let errors = []
   if('signup' === req.body.formType){
     const {password, username} = req.body;
-
     if(username === '' || password === ''){
-      res.redirect('/account', {alert: 'Silahkan isi username atau password dengan benar!'})
+      errors.push({msg: 'Silahkan lengkapi data dengan benar'});
+      res.render('account', {errors})
     }else{
       const userFind = await User.findOne({username});
+      errors.push({msg: 'Username sudah terdaftar, silahkan gunakan username lain!'});
       if(userFind){
-        res.redirect('/account', {alert: 'Username sudah terdaftar, silahkan gunakan username lain!'})
+        res.render('account', {errors})
       }else{
       const user = new User({username,password})
       await user.save().then().catch(err=>console.error(err))
@@ -109,17 +109,26 @@ router.post('/account', async(req,res)=>{
     const {password, username} = req.body;
     const user = await User.findOne({username});
     const foundUser = await User.findAndValidate(username, password)
-    if(user){
-      if(foundUser){
+    if(username === ''){
+      errors.push({msg: 'Silahkan lengkapi data dengan benar'});
+      res.render('account', {errors})
+    }else{
+      if(user){
+        if(foundUser){
         req.session.user_id = user._id;
         req.session.username = user.username;
         res.redirect("/home.html" )
+        }else{
+        errors.push({msg: 'Username atau password salah, silahkan isi kembali!'});
+        res.render('account', {errors})
+        }
       }else{
-        res.redirect('/account', {alert: 'Username atau password salah, silahkan isi kembali!'})
-      }
-    }else{
-      res.redirect('/account', {alert: 'Username belum pernah terdaftar!'})
+        errors.push({msg: 'Username belum pernah terdaftar!'});
+        console.log(errors)
+        res.render('account', {errors})
+        }
     }
+    
   }
 })
 

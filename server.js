@@ -26,12 +26,21 @@ app.use(session({secret: 'notagoodsecret'}))
 
 //CALL ROUTE
 app.use('/', indexRouter);
-app.use('/', usersRouter)
+app.use(usersRouter)
 
 // ERROR 404
 app.use((req, res, next)=>{
   res.status(404).send('Resource is not found!');
 });
+
+//middleware error 500
+const errorHandling = (err, req, res, next)=>{
+  console.error(err.stack);
+  res.status(500).send('Terjadi kesalahan / internal server error')
+};
+
+app.use(errorHandling);
+
 
 app.listen(43650, ()=>{
   console.log('serving app...')
