@@ -1,6 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+SC:wght@400;500&display=swap');
-
-@import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,300;0,400;1,400;1,700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap');
 
 *
 {
@@ -12,53 +10,78 @@ html,
 body
 {
     overflow: hidden;
-    font-family: Helvetica, Arial, sans-serif;
-    background-color: rgb(13, 13, 40);
+    font-family: 'Poppins', sans-serif;
+    background-color: #0a0a18;
     
+}
+
+h1{
+  padding: 10px 0 20px 0;
 }
 
 .load-container{
 	position: absolute;
-	width: 100%;
-	height: 100%;
 	color: white;
-	font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif
+  min-width: 100vw;
+	min-height: 100vh;
+	display: flex;
+	position: relative;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
 }
 
-.scndTitle{ 
-	display: block;
-	margin: 3rem;
-	padding-top: 1rem;
-	letter-spacing: 0.3rem;
-	font-size: 2.2rem;
-	text-align: center;
+.title{
+  padding: 5px;
+  margin-top: 1rem;
+  text-align: center;
+  overflow: hidden;
 }
 
-.load-title{
-	display: block;
-	text-align: center;
-	letter-spacing: 0.5rem;
-	text-transform: uppercase;
-	margin: 1rem;
-	padding-top: 10rem;
-	font-size: 1.5rem;
-	font-weight: 300;
-	
+.title .text{
+  position: relative;
+  font-size: 30px;
+  font-weight: 600;
+}
+
+.title .text.sec-text{
+ color: #c9dcf9;
+}
+
+.title .text.sec-text::before{
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background-color: #0a0a18;
+  border-left: 2px solid #6a7b95;
+  animation: animate 4s steps(12) infinite;
+}
+@keyframes animate{
+  40%, 60%{
+    left: 100%;
+  }
+
+  100%{
+    left: 0%;
+  }
 }
 
 .btn{
   margin-top: 90px;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
 }
 
 .btn-log{
 	background-color: white;
   color: black;
-  font-weight: 500;
+  font-weight: 600;
   padding: 15px 30px;
-  font-size: 20px;
+  /* font-size: 20px; */
   border-radius: 10px;
   cursor: not-allowed;
   text-decoration: none;
@@ -68,14 +91,13 @@ body
 
 #myProgress {
   width: 100%;
-  background-color: #ddd;
 }
 
 #myBar {
   margin-top: 10%;
   width: 1%;
-  height: 10px;
-  background-color: #04AA6D;
+  height: 5px;
+  background-color: #4d7265;
 }
 
 .ended{

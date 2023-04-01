@@ -20,7 +20,7 @@ const formSize = ()=>{
   resSignIn.classList.add('notVisible')
 }else{
   resSignUp.classList.remove('notVisible')
-  console.log(resSignUp)
+  console.log(resSignUp.children)
   resSignUp.onclick= ()=>{
     form[0].classList.add("right-panel-active");
   }

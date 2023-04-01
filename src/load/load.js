@@ -1,5 +1,21 @@
 import './load.css'
-var i = 0;
+const text = document.querySelector('.sec-text')
+const textLoad = ()=>{
+  setTimeout(()=>{
+    text.textContent = "Experience"
+  },0)
+  setTimeout(()=>{
+    text.textContent = "Knowledge"
+  },4000)
+  setTimeout(()=>{
+    text.textContent = "Addiction"
+  },8000)
+}
+textLoad()
+setInterval(textLoad, 12000)
+
+const loadingBar = ()=>{
+  var i = 0;
   if (i == 0) {
     i = 1;
     var elem = document.getElementById("myBar");
@@ -19,3 +35,6 @@ var i = 0;
       }
     }
   }
+}
+
+loadingBar()

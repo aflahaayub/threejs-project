@@ -8,6 +8,7 @@
 }
 
 h1 {
+	font-size: 30px;
 	font-weight: bold;
 	margin: 0;
   padding-bottom: 25px;
@@ -22,7 +23,7 @@ p {
 	font-weight: 100;
 	line-height: 20px;
 	letter-spacing: 0.5px;
-	margin: 20px 0 30px;
+	margin: 20px 0 10px;
 }
 
 span {
@@ -38,12 +39,12 @@ a {
 
 button {
 	border-radius: 20px;
-	border: 1px solid #FF4B2B;
-	background-color: #FF4B2B;
+	border: 1px solid #2b5eff;
+  background-color: #2b5eff;
 	color: #FFFFFF;
 	font-size: 12px;
 	font-weight: bold;
-	padding: 12px 45px;
+	padding: 12px 30px;
 	letter-spacing: 1px;
 	text-transform: uppercase;
   margin: 10px;
@@ -167,9 +168,9 @@ input {
 }
 
 .overlay {
-	background: #FF416C;
-	background: -webkit-linear-gradient(to right, #FF4B2B, #FF416C);
-	background: linear-gradient(to right, #FF4B2B, #FF416C);
+	background: #3b5fe0;
+	background: -webkit-linear-gradient(to right, #2bff64, #3b5fe0);
+	background: linear-gradient(to right, #2bff64, #3b5fe0);
 	background-repeat: no-repeat;
 	background-size: cover;
 	background-position: 0 0;
@@ -252,12 +253,11 @@ span {
   }
   .responsive button {
     border-radius: 20px;
-    border: 1px solid #2b5eff;
-    background-color: #2b5eff;
+    border: 1px solid #3989b5;
+	  background-color: #3989b5;
     color: #FFFFFF;
     font-size: 12px;
     font-weight: bold;
-    padding: 12px 45px;
     letter-spacing: 1px;
     text-transform: uppercase;
     transition: transform 80ms ease-in;
